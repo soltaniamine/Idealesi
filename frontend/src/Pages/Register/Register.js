@@ -7,7 +7,7 @@ const Register = () => {
         <div className={showSignup ? styles["container"] : `${styles["container"]} ${styles["right-panel-active"]}`}>
             <div className={styles["form-container"] + " " + styles["sign-up-container"]}>
                 <form action="#">
-                    <div className="border-b-2 mb-20">
+                    <div className="border-b-2 mb-16">
                         <h1 className="text-4xl ">Log In</h1>
                     </div>
                     <div className=" w-[100%] mb-5 flex justify-start items-center border-b-2 ">
@@ -16,11 +16,14 @@ const Register = () => {
                         </svg>
                         <input className="focus:outline-none" type="email" placeholder="Email" />  
                     </div>
-                    <div className=" w-[100%] mb-12 flex justify-start items-center border-b-2 ">
+                    <div className=" w-[100%] flex justify-start items-center border-b-2 mb-2 ">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
                         </svg>
                         <input className="focus:outline-none" type="password" placeholder="Password" />
+                    </div>
+                    <div className=" ml-80 mb-10">
+                        <a href ="" className=" text-xs text-gray-400">Forgot Password?</a>
                     </div>
                     <button className={styles.hovering}>Log In</button>
                     <div className=" mt-5 flex items-center">
