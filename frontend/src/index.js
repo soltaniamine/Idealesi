@@ -1,14 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import Verifyemail from './Pages/Verifyemail/Verify';
-
+// import Verifyemail from './Pages/Verifyemail/Verify';
+// import Register from './Pages/Register/Register';
+import Forgotpassword from './Pages/ForgotPassword/Forgotpassword';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     {/* <App /> */}
     {/* <Register/> */}
-    <Verifyemail/>
+    {/* <Verifyemail/> */}
+    <Forgotpassword/>
   </React.StrictMode>
 );
 
