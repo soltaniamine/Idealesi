@@ -2,6 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 
 function App() {
+<<<<<<< Updated upstream
   return (
     <div className="App">
       <header className="App-header">
@@ -20,6 +21,12 @@ function App() {
       </header>
     </div>
   );
+=======
+    
+    return ( 
+        <div></div>
+     );
+>>>>>>> Stashed changes
 }
-
+ 
 export default App;
