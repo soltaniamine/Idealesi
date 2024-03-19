@@ -1,7 +1,42 @@
 import { useState } from "react";
 import styles from './Register.module.css';
+import axios from "axios";
+import { useNavigate } from 'react-router-dom';
+
+
+
 
 const Register = () => {
+    const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('');
+  const [message, setMessage] = useState('');
+  const navigate = useNavigate();
+
+  const registerUser = async () => {
+    try {
+      const requestData = { email, password, username };
+      console.log('Request data:', requestData);
+     {/* const response = await axios.post('http://localhost:5000/register', requestData); // Update the URL
+    setMessage(response.data.message);*/}
+    navigate("/Verifyemail");
+
+    } catch (error) {
+      console.error('Error:', error);
+      setMessage('Error: ' + (error.response ? error.response.data.message : error.message));
+    }
+  };
+  
+  
+
+  const loginUser = async () => {
+    try {
+      const response = await axios.post('http://localhost:5000/login', { email, password });
+      setMessage(response.data.message);
+    } catch (error) {
+      setMessage('Error: ' + error.response.data.message);
+    }
+  };
     const [showSignup, setShowSignup] = useState(false);
     return ( 
         <div className={showSignup ? styles["container"] : `${styles["container"]} ${styles["right-panel-active"]}`}>
