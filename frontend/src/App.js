@@ -1,11 +1,12 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
 
 function App() {
-    
-    return ( 
-        <div></div>
-     );
+  const [showSignup, setShowSignup] = useState(false);
+  return (
+    <div className={showSignup?"":""}>
+      <button>Register</button>
+    </div>
+  );
 }
  
 export default App;
