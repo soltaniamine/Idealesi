@@ -4,7 +4,10 @@ import './index.css';
 // import Verifyemail from './Pages/Verifyemail/Verify';
 // import Register from './Pages/Register/Register';
 // import Forgotpassword from './Pages/ForgotPassword/Forgotpassword';
-import Newpassword from './Pages/NewPassword/Newpassword';
+// import Newpassword from './Pages/NewPassword/Newpassword';
+// import Sidebar from './Pages/Accueil/Home/Sidebar';
+import Home from './Pages/Accueil/Home/Home';
+// import Homepage from './Pages/Accueil/Home/Homepage';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
@@ -12,7 +15,10 @@ root.render(
     {/* <Register/> */}
     {/* <Verifyemail/> */}
     {/* <Forgotpassword/> */}
-    <Newpassword/>
+    {/* <Newpassword/> */}
+    {/* <Sidebar/> */}
+    <Home/>
+    {/* <Homepage/> */}
   </React.StrictMode>
 );
 

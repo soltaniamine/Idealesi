@@ -1,0 +1,39 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+.poss{
+    position: relative;
+}
+.poss .sousligne{
+    position: absolute;
+    bottom: 0%;
+    right: 42%;
+}
+.poss .line{
+    position: absolute;
+    bottom: 6%;
+    right: 55%;
+}
+.pos{
+    position: relative;
+}
+.pos .sousligne1{
+    position: absolute;
+    bottom: 0%;
+    right: 9%;
+}
+.pos .line1{
+    position: absolute;
+    bottom: 0%;
+    right: 30%;
+}
+
+  
+  
