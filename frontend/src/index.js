@@ -6,8 +6,9 @@ import './index.css';
 // import Forgotpassword from './Pages/ForgotPassword/Forgotpassword';
 // import Newpassword from './Pages/NewPassword/Newpassword';
 // import Sidebar from './Pages/Accueil/Home/Sidebar';
-import Home from './Pages/Accueil/Home/Home';
+// import Home from './Pages/Accueil/Home/Home';
 // import Homepage from './Pages/Accueil/Home/Homepage';
+import Favorite from './Pages/Accueil/Favorite/Favorite';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
@@ -17,8 +18,9 @@ root.render(
     {/* <Forgotpassword/> */}
     {/* <Newpassword/> */}
     {/* <Sidebar/> */}
-    <Home/>
+    {/* <Home/> */}
     {/* <Homepage/> */}
+    <Favorite/>
   </React.StrictMode>
 );
 

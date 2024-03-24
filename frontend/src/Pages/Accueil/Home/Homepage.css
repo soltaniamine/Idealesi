@@ -34,6 +34,18 @@
     bottom: 0%;
     right: 30%;
 }
-
+.posss{
+    position: relative;
+}
+.posss .sousligne2{
+    position: absolute;
+    bottom: 0%;
+    right: 33%;
+}
+.posss .line2{
+    position: absolute;
+    bottom: 6%;
+    right: 50%;
+}
   
   
