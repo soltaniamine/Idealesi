@@ -1,6 +1,7 @@
 import Sidebar from "./Sidebar";
 import { useState} from "react";
 import Homepage from "./Homepage";
+import Allprojects from "./Allprojects";
 const Home = () => {
         const [isClicked, setIsClicked] = useState(false);
         const [ownerClicked, setOwnerClicked] = useState(false);
@@ -8,7 +9,11 @@ const Home = () => {
         const [moduleClicked, setModuleClicked] = useState(false);
         const [clubClicked, setClubClicked] = useState(false);
         const [levelClicked, setLevelClicked] = useState(false);
-        
+        const [showAllProjects, setShowAllProjects] = useState(true);
+
+        const handleToggleClick = () => {
+            setShowAllProjects(!showAllProjects);
+        };
     return ( 
         <div className="grid grid-cols-6 bg-mypurple">
             <Sidebar className="col-span-1"></Sidebar>
@@ -147,7 +152,12 @@ const Home = () => {
                             </div>
                         </div>
                     </div>
-                    <Homepage/>
+                    {showAllProjects ? (
+                        <Homepage handleToggleClick={handleToggleClick} />
+                        
+                    ) : (
+                        <Allprojects handleToggleClick={handleToggleClick} />
+                    )}
                 </div>
             </div>
         </div>
