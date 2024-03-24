@@ -1,11 +1,12 @@
 import './Homepage.css'
 import Projectcard from './Projectcard';
 import Templatescard from './Templatescard';
-const Homepage = () => {
+const Homepage = ({handleToggleClick}) => {
+    
     return ( 
         <div className=" recent w-[96,5%] h-[90%] ml-8">
             <div className="poss flex mb-4 w-96">
-                <h1 className=" text-2xl mt-7">Recent Projects</h1>
+                <h1 className="z-10 text-2xl mt-7">Recent Projects</h1>
                 <img className="line w-36" src={require("../../../assets/Acceuil/Home/Rectangle 4271.svg").default} alt="" />
                 <img className="sousligne w-24" src={require("../../../assets/Acceuil/Home/Group.svg").default} alt="" />
             </div>
@@ -32,14 +33,14 @@ const Homepage = () => {
                     </div>
                 </div>
                 <div className=' h-[12%] flex justify-end mr-4'>
-                    <button className='flex items-center text-xs'>
+                    <button onClick={handleToggleClick} className='flex items-center text-xs'>
                         <img className="size-4" src={require("../../../assets/Acceuil/Home/boutonplus.svg").default} alt="" />
                         <p className='ml-1'>All projects</p>
                     </button>
                 </div>
             </div>
             <div className="pos flex mb-4 w-96">
-                <h1 className=" text-2xl mt-7">Recommended templates</h1>
+                <h1 className="z-10 text-2xl mt-7">Recommended templates</h1>
                 <img className="line1 w-60" src={require("../../../assets/Acceuil/Home/Rectangle 4323.svg").default} alt="" />
                 <img className="sousligne1 w-24" src={require("../../../assets/Acceuil/Home/Group.svg").default} alt="" />
             </div>
