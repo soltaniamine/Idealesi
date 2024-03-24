@@ -9,7 +9,8 @@ import './index.css';
 // import Home from './Pages/Accueil/Home/Home';
 // import Homepage from './Pages/Accueil/Home/Homepage';
 // import Favorite from './Pages/Accueil/Favorite/Favorite';
-import Shared from './Pages/Accueil/Sharedwithme/Sharedwithme';
+// import Shared from './Pages/Accueil/Sharedwithme/Sharedwithme';
+import Templates from './Pages/Accueil/Templates/Template';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
@@ -22,7 +23,8 @@ root.render(
     {/* <Home/> */}
     {/* <Homepage/> */}
     {/* <Favorite/> */}
-    <Shared/>
+    {/* <Shared/> */}
+    <Templates/>
   </React.StrictMode>
 );
 
