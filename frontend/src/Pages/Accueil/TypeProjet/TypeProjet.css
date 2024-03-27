@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+.poss{
+    position: relative;
+}
+.poss .sousligne{
+    position: absolute;
+    bottom: 0%;
+    right: 42%;
+}
+.poss .line{
+    position: absolute;
+    bottom: 10%;
+    right: 13%;
+}
+.pos{
+    position: relative;
+}
+.pos .sousligne1{
+    position: absolute;
+    bottom: 0%;
+    right: 9%;
+}
+.pos .line1{
+    position: absolute;
+    bottom: 0%;
+    right: 30%;
+}
