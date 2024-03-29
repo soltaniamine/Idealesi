@@ -1,0 +1,111 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+
+* {
+	box-sizing: border-box;
+}
+
+.boddy {
+	background-image: url('../../assets/Register/background.png');
+	background-size: auto;
+	background-position: 0 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	height: 100vh;
+	padding-top: 50px;
+	margin-bottom: 0px;
+}
+
+.texto {
+	font-weight: bold;
+	color: #646FD4;
+	margin: 0;
+	padding-bottom: 10px;
+}
+
+.para {
+	font-size: 14px;
+	font-weight: 100;
+	line-height: 20px;
+	letter-spacing: 0.5px;
+	margin: 20px 0 30px;
+}
+
+.end .aa {
+	color: #333;
+	font-size: 14px;
+	text-decoration: none;
+	margin: 15px 0;
+}
+
+.here {
+	border-radius: 20px;
+	border: 1px solid #646FD4;
+	background-color: #646FD4;
+	color: #FFFFFF;
+	font-size: 12px;
+	font-weight: bold;
+	padding: 12px 45px;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	transition: transform 80ms ease-in;
+    cursor: pointer;
+}
+
+.here button:active {
+	transform: scale(0.95);
+}
+
+.here button:focus {
+	outline: none;
+}
+
+.here button.ghost {
+	background-color: transparent;
+	border-color: #FFFFFF;
+    position: absolute;
+    margin-top: 250px;
+    }
+
+.for {
+	background-color: #FFFFFF;
+	display: flex;
+	position: relative;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	padding: 0 50px;
+	height: 100%;
+	text-align: center;
+}
+
+.inpu {
+	background-color: #ffffff;
+	border: none;
+	padding: 12px 15px;
+	margin: 8px 0;
+	width: 100%;
+    height: 20px;
+}
+.for .end{
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+}
+
+.form-containerr {
+	position: absolute;
+	top: 11%;
+    right: 27%;
+	height: 80%;
+	transition: all 0.6s ease-in-out;
+    width: 45%;
+}
+
+
+.here #hovering {
+    background-color: #FFE250 ;
+}
+
