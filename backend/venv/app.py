@@ -228,6 +228,41 @@ def search_projects():
     print(formatted_projects)
     return jsonify({'message': 'List of projects returned successfully', 'projects': formatted_projects}), 200
 
+@app.route('/liste_club',methods=['GET'])
+def liste_club():
+    # data = request.get_json()
+    # user_id=data.get('user_id')
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT Club_ID,Nom FROM Club ")
+    clubs= cur.fetchall()
+    liste_clubs=[]
+    for club in clubs:
+        club_id,nom=club
+        liste_clubs.append({
+            'club_id': club_id,
+            'nom': nom
+        })
+    
+    return jsonify({'message': 'List of Clubs returned successfully', 'projects': liste_clubs}), 200
+
+@app.route('/liste_module',methods=['GET'])
+def liste_module():
+    # data = request.get_json()
+    # user_id=data.get('user_id')
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT Module_ID,Nom_module, Niveau_ID, Nom_niveau FROM Module ORDER BY Niveau_ID ")
+    modules= cur.fetchall()
+    liste_modules=[]
+    for module in modules:
+        module_id,nom_module,niveau_id,nom_niveau=module
+        liste_modules.append({
+            'module_id': module_id,
+            'nom_module': nom_module,
+            'niveau_id':niveau_id,
+            'nom_niveau':nom_niveau
+        })
+    
+    return jsonify({'message': 'List of modules returned successfully', 'modules':liste_modules}), 200
 
 
 
