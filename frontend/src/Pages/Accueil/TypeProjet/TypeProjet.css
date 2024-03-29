@@ -7,29 +7,24 @@
 	padding: 0;
 }
 
-.poss{
+.posss{
     position: relative;
 }
-.poss .sousligne{
+.posss .sousligne{
     position: absolute;
     bottom: 0%;
     right: 42%;
 }
-.poss .line{
+.posss .line{
     position: absolute;
     bottom: 10%;
     right: 13%;
 }
-.pos{
+.posssss{
     position: relative;
 }
-.pos .sousligne1{
+.posss .sou{
     position: absolute;
     bottom: 0%;
-    right: 9%;
-}
-.pos .line1{
-    position: absolute;
-    bottom: 0%;
-    right: 30%;
+    right: 4%;
 }
