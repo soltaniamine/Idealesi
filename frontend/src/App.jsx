@@ -11,6 +11,8 @@ import Register from './Pages/Register/Register.jsx';
 import Firstpage from './Pages/FirstPage/Firstpage.jsx';
 import TypeProjet from './Pages/Accueil/TypeProjet/TypeProjet.jsx';
 import ChoixTechnique from './Pages/Accueil/choixTechnique/choixTechnique.jsx';
+import Choix from './Pages/Accueil/choixNiveau/choix.jsx';
+
 function App() {
   return (
     <div>
@@ -28,6 +30,7 @@ function App() {
           <Route path="/newpassword" element={<Newpassword />} />
           <Route path="/register" element={<Register />} />
           <Route path="*" element={<p>Not Found oops</p>} />
+          <Route path="/Niveau" element={<Choix buttonColor="white2" />} />
         </Routes>
       </Router>
     </div>

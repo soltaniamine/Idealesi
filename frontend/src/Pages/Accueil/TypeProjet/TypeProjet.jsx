@@ -43,7 +43,7 @@ const TypeProjet = ({buttonColor}) => {
      </div>
 
      <div className="flex justify-around mt-10 h-[78%] w-[100%] group">
-        <Link onMouseEnter={()=> {changeBlur1(true); changeBlur2(false)}} onMouseLeave={()=> {changeBlur1(true); changeBlur2(true)}} className={`h-[100%] w-[40%] hover:border-blue-800  duration-500  col-span-1  rounded-lg border-4  border-blue-500 ${stIsHovered ? "" : "blur-sm scale-[0.85]"}`}  to="/choixtechnique"> 
+        <Link onMouseEnter={()=> {changeBlur1(true); changeBlur2(false)}} onMouseLeave={()=> {changeBlur1(true); changeBlur2(true)}} className={`h-[100%] w-[40%] hover:border-blue-800  duration-500  col-span-1  rounded-lg border-4  border-blue-500 ${stIsHovered ? "" : "blur-sm scale-[0.85]"}`}  to="/Niveau"> 
             <stchoice className="h-[100%] cursor-pointer " >
               <img className="mb-6 " src={cercle} />
               <div className=" posss flex flex-col items-center " >
