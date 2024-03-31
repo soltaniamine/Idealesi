@@ -11,6 +11,7 @@ import Register from './Pages/Register/Register.jsx';
 import Firstpage from './Pages/FirstPage/Firstpage.jsx';
 import TypeProjet from './Pages/Accueil/TypeProjet/TypeProjet.jsx';
 import ChoixTechnique from './Pages/Accueil/choixTechnique/choixTechnique.jsx';
+import ChoixClub from './Pages/Accueil/clubs/choixclub.jsx';
 function App() {
   return (
     <div>
@@ -20,13 +21,14 @@ function App() {
           <Route path="/home" element={<Home buttonColor="white1" />} />
           <Route path="/typeprojet" element={<TypeProjet buttonColor="white2" />} />
           <Route path="/favorite" element={<Favorite buttonColor="white3" />} />
-          <Route path="/choixtechnique" element={<ChoixTechnique buttonColor="white2"/>} />
+          <Route path="/choixtechnique" element={<ChoixTechnique buttonColor="white2" />} />
           <Route path="/sharedwithme" element={<Shared buttonColor="white4" />} />
           <Route path="/templates" element={<Templates buttonColor="white5" />} />
           <Route path="/verifyemail" element={<Verify />} />
           <Route path="/forgotpassword" element={<Forgotpassword />} />
           <Route path="/newpassword" element={<Newpassword />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/clubs" element={<ChoixClub buttonColor="white2"/>} />
           <Route path="*" element={<p>Not Found oops</p>} />
         </Routes>
       </Router>
