@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Slider from "react-slick";
 
 import Sidebar from "../Home/Sidebar";
 import Profile from "../../../assets/Acceuil/TypeProjet/profile.png"
