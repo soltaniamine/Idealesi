@@ -12,6 +12,8 @@ import Firstpage from './Pages/FirstPage/Firstpage.jsx';
 import TypeProjet from './Pages/Accueil/TypeProjet/TypeProjet.jsx';
 import ChoixTechnique from './Pages/Accueil/choixTechnique/choixTechnique.jsx';
 import ChoixClub from './Pages/Accueil/clubs/choixclub.jsx';
+import Choix from './Pages/Accueil/choixNiveau/choix.jsx';
+
 function App() {
   return (
     <div>
@@ -30,6 +32,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/clubs" element={<ChoixClub buttonColor="white2"/>} />
           <Route path="*" element={<p>Not Found oops</p>} />
+          <Route path="/Niveau" element={<Choix buttonColor="white2" />} />
         </Routes>
       </Router>
     </div>

@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+.rima{
+    position: relative;
+	
+}
+.rima .sousligne{
+    position: absolute;
+    bottom: 0%;
+    right: 42%;
+}
+.rima .line{
+    position: absolute;
+    bottom: 2%;
+}
+.pos{
+    position: relative;
+}
+.pos .sousligne1{
+    position: absolute;
+    bottom: 0%;
+    right: 9%;
+}
+.pos .line1{
+    position: absolute;
+    bottom: 0%;
+    right: 30%;
+}
+
