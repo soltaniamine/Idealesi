@@ -12,6 +12,7 @@ import Firstpage from './Pages/FirstPage/Firstpage.jsx';
 import TypeProjet from './Pages/Accueil/TypeProjet/TypeProjet.jsx';
 import ChoixTechnique from './Pages/Accueil/choixTechnique/choixTechnique.jsx';
 import ChoixClub from './Pages/Accueil/clubs/choixclub.jsx';
+import Events from './Pages/Accueil/events/events.jsx';
 function App() {
   return (
     <div>
@@ -29,6 +30,7 @@ function App() {
           <Route path="/newpassword" element={<Newpassword />} />
           <Route path="/register" element={<Register />} />
           <Route path="/clubs" element={<ChoixClub buttonColor="white2"/>} />
+          <Route path="/events" element={<Events buttonColor="white2"/>} />
           <Route path="*" element={<p>Not Found oops</p>} />
         </Routes>
       </Router>

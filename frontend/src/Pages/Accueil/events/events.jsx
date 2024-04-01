@@ -1,58 +1,46 @@
 import React, { useState } from 'react';
 import Sidebar from "../Home/Sidebar";
+import photo from "../../../assets/Acceuil/TypeProjet/profile.png";
 import cercle1 from '../../../assets/Acceuil/clubs/cercle1.svg';
 import triangle from '../../../assets/Acceuil/clubs/triangle.svg';
 import cercle2 from '../../../assets/Acceuil/clubs/cercle2.svg';
-import highlightClubName from '../../../assets/Acceuil/clubs/highlight.svg';
-import iconproject from '../../../assets/Acceuil/clubs/ideeicon.svg';
+import iconevents from '../../../assets/Acceuil/events/iconevents.svg';
 import threelines from '../../../assets/Acceuil/clubs/threelines.svg';
-import photo from "../../../assets/Acceuil/TypeProjet/profile.png";
-import GDGlogo from '../../../assets/Acceuil/clubs/clublogos/gdg.svg';
-import './choixclub.css'
-const ChoixClub = ({ buttonColor }) => {
+import gdgbar from '../../../assets/Acceuil/events/gdgbar.svg';
+import eventpic from '../../../assets/Acceuil/events/eventpic.svg';
+import line from '../../../assets/Acceuil/events/line.svg'
+import './events.css'
 
-    const club1 = {
-        "name": "Google Developer Groups",
-        "logo": GDGlogo,
-        "Type": "Club",
+
+const Events = ({ buttonColor }) => {
+    const event1 = {
+        "name": "Google I/O Extended",
+        "logo": eventpic,
+        "eventclub": gdgbar,
         "Poster": "N/A",
     }
 
-    const [clubs, setClubs] = useState([]);
-     
-    // const getClubs = async () => {
+    const [Events, setEvents] = useState([]);
+    // const getEvents = async () => {
     //     const response = await fetch("https://api.");
     //     const FinalData = await response.json();
-    //     setClubs(FinalData)
+    //     setEvents(FinalData)
     // }
 
-    
+
 
     // useEffect(() => {
-    //     getClubs();
+    //     getEevnts();
     // }, [])
- 
 
-    const ClubCard = ({ club }) => {
+    const EventsElement = ({ event }) => {
         return (
-            <div className="club1 mb-8 flex flex-col items-center w-56 h-52 border-2 border-yellow-400 rounded-[38px]  ">
-
-                <div className="roundclublogo mt-2 ">
-                    <img src={club.logo !== 'N/A' ? club.logo : club.logo = 'https://via.placeholder.com/100'} alt={club.name} />
-                </div>
-
-                <div className="clubname mt-6 relative flex flex-col items-center">
-                    <h1 className="relative z-10 whitespace-nowrap " style={{ fontSize: '23.17px', fontFamily: 'Product Sans' }}>{club.name}</h1>
-                    <img className="absolute inset-0 z-0" style={{ marginTop: 'auto' }} src={highlightClubName} alt="highlighter" />
-                </div>
-
-
-
+            <div className="element  mb-4 ml-9 mb w-[91%] h-[35%] w bg-gray-300 rounded-lg drop-shadow-md">
+                <img className="eventpic pt-1 w-[10.25%] ml-6 top-1 " src={event.logo} alt="eventpic" />
+                <h1 className='eventname absolute top-0 mt-8 ml-36 text-[22px] ' style={{ fontFamily: 'Product Sans' }} >{event.name}</h1>
             </div>
         )
     }
-
-
 
 
     return (
@@ -81,7 +69,7 @@ const ChoixClub = ({ buttonColor }) => {
 
                     </div> {/* hada howa div t3k lina */}
 
-                    <div className="clubchoice w-[96,5%] h-[90%] ml-3 mr-3 mt-3">
+                    <div className="eventslist w-[96,5%] h-[90%] ml-3 mr-3 mt-3">
 
                         <div className="header flex items-start relative">
 
@@ -89,7 +77,7 @@ const ChoixClub = ({ buttonColor }) => {
 
                             <div className=" mt-5 ml-6   w-full  h-24 border bg-white mx-2 rounded-lg" style={{ borderTopLeftRadius: '20px', borderTopRightRadius: '20px', borderBottomRightRadius: '20px', borderBottomLeftRadius: '20px', borderWidth: '3.25px', borderColor: '#8C95EB' }}>
 
-                                <img src={iconproject} className="absolute top-1/2 right-0 transform -translate-y-1/2 mt-3 h-[60%] mr-6 " alt="Icon" />
+                                <img src={iconevents} className="absolute top-1/2 right-0 transform -translate-y-1/2 mt-2 h-[60%] mr-7 " alt="Icon" />
 
                                 <div className="title flex flex-col items-start absolute left-16 top-1/4 bottom-0 mb-2 ml-2">
                                     <h1 className="z-10 text-3xl font-semibold" style={{ fontFamily: 'Product Sans' }}>Club Project</h1>
@@ -101,36 +89,37 @@ const ChoixClub = ({ buttonColor }) => {
                                 <img src={triangle} className="absolute top-6  left-96 w-10 h-20 ml-96 " alt="smalltriangle2" />
 
                             </div>
+                        </div> {/* hna tbda khdmatk 2eme lina */}
+                        <div className=" relative  pl-10 pt-2  ml-12 mt-7 mr-12 h-[70%] w-[90%] bg-gray-100 rounded-[37px] drop-shadow-md">
+                            <div className="topbar absolute top-0 left-0 w-full h-[15%] rounded-t-[37px] drop-shadow-md ">
+                                <img src={event1.eventclub} className="w-full h-full object-cover rounded-t-[37px]" alt="gdgtopbar" />
+                                <h1 className="absolute inset-0 flex justify-center items-center text-[25px]   text-black " style={{ fontFamily: 'Product Sans' }}>Google Developer Groups Events</h1>
+                            </div>
+
+                            <div className=" eventlist bg-red absolute left-0  right-0 mt-14 h-[84%] rounded-b-3xl">
+                                <div className="selected relative  hover:drop-shadow-md">
+                                    <h1 className="text-left ml-12 mt-2 " style={{ fontFamily: 'Product Sans' }} >Events List</h1>
+                                    <img className='ml-8 ' src={line} alt="blueline " />
+
+                                </div>
+                                <div className="elementslist overflow-auto  h-[82%] rounded-b-3xl mt-5">
+                                    {/* this is the div of one element of the elementlist div */}
+
+                                    <EventsElement event={event1} />
+                                    <EventsElement event={event1} />
+                                    <EventsElement event={event1} />
+                                    <EventsElement event={event1} />
+                                </div>
+                            </div>
                         </div>
 
-
-                        <div className="clublist  pl-10 pt-2 grid grid-cols-3  overflow-auto ml-10 mt-6 mr-12 h-[70%] w-[98%] ">
-                            
-                              <ClubCard club={club1} />  
-                              <ClubCard club={club1} /> 
-                              <ClubCard club={club1} /> 
-                              <ClubCard club={club1} /> 
-                              <ClubCard club={club1} /> 
-                              <ClubCard club={club1} /> 
-                              
-                             {/* {clubs.map((club) => {
-                              <ClubCard club={club} />  
-                            })
-                            }  */}
-                             
-
-                        </div>
-                        
                     </div>
                 </div>
             </div>
-
         </div >
-
-
     );
-
 }
 
 
-export default ChoixClub;
+
+export default Events
