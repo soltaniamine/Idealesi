@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.title {
+    position: relative;
+}
+
+.element:hover .eventname {
+    text-decoration: underline;
+
+
+}
+
+.element:hover {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transform: scale(1.05);
+}
+
+.element {
+    transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
