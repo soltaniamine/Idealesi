@@ -8,6 +8,7 @@ import triangle from '../../../assets/Acceuil/TypeProjet/triangle.svg';
 import cercle from '../../../assets/Acceuil/TypeProjet/cercle.svg';
 import './choixTechnique.css'
 import photo from "../../../assets/Acceuil/TypeProjet/profile.png";
+import {Link} from "react-router-dom";
 
 const ChoixTechnique = ({buttonColor}) => {
     const [stIsHovered, changeBlur1] = useState(true);
@@ -42,7 +43,8 @@ const ChoixTechnique = ({buttonColor}) => {
      </div>
 
      <div className="flex justify-around mt-10 h-[78%] w-[100%] group">
-        <stchoice onMouseEnter={()=> {changeBlur1(true); changeBlur2(false)}} onMouseLeave={()=> {changeBlur1(true); changeBlur2(true)}} className={`h-[100%] w-[40%] hover:border-blue-800  duration-500  col-span-1  rounded-lg border-4  border-blue-500 ${stIsHovered ? "" : "blur-sm scale-[0.85]"}`} >
+        <Link onMouseEnter={()=> {changeBlur1(true); changeBlur2(false)}} onMouseLeave={()=> {changeBlur1(true); changeBlur2(true)}} className={`h-[100%] w-[40%] hover:border-blue-800  duration-500  col-span-1  rounded-lg border-4  border-blue-500 ${stIsHovered ? "" : "blur-sm scale-[0.85]"}`}  to="/typeprojet">
+        <stchoice >
         <img className="mb-6 " src={cercle} />
              <div className=" possss flex flex-col items-center " >
               <h1 className=" place-self-center z-10 text-3xl font-semibold ">Brainstorming</h1>
@@ -54,8 +56,9 @@ const ChoixTechnique = ({buttonColor}) => {
          <img src={cercle} />
          <img className="object-none object-right-top w-40 h-14 " src={triangle} />
          </stchoice>
-
-        <ndchoice onMouseEnter={()=> {changeBlur1(false); changeBlur2(true)}} onMouseLeave={()=> {changeBlur1(true); changeBlur2(true)}} className={`h-[100%] w-[40%] hover:border-blue-800  duration-500  col-span-1  rounded-lg border-4  border-blue-500 ${ndIsHovered ? "" : "blur-sm scale-[0.85]"}`} >
+         </Link>
+         <Link onMouseEnter={()=> {changeBlur1(false); changeBlur2(true)}} onMouseLeave={()=> {changeBlur1(true); changeBlur2(true)}} className={`h-[100%] w-[40%] hover:border-blue-800  duration-500  col-span-1  rounded-lg border-4  border-blue-500 ${ndIsHovered ? "" : "blur-sm scale-[0.85]"}`} to="/typeprojet">
+        <ndchoice  >
         <img className="mb-6 " src={cercle} />
 
           <div className=" possss flex flex-col items-center  " >
@@ -73,7 +76,7 @@ const ChoixTechnique = ({buttonColor}) => {
 
 
         </ndchoice>
-
+        </Link>
 
     
      

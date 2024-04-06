@@ -8,7 +8,8 @@ import iconproject from '../../../assets/Acceuil/clubs/ideeicon.svg';
 import threelines from '../../../assets/Acceuil/clubs/threelines.svg';
 import photo from "../../../assets/Acceuil/TypeProjet/profile.png";
 import GDGlogo from '../../../assets/Acceuil/clubs/clublogos/gdg.svg';
-import './choixclub.css'
+import './choixclub.css';
+import { Link } from 'react-router-dom';
 const ChoixClub = ({ buttonColor }) => {
 
     const club1 = {
@@ -105,13 +106,24 @@ const ChoixClub = ({ buttonColor }) => {
 
 
                         <div className="clublist  pl-10 pt-2 grid grid-cols-3  overflow-auto ml-10 mt-6 mr-12 h-[70%] w-[98%] ">
-                            
+                              <Link to="/events">
                               <ClubCard club={club1} />  
-                              <ClubCard club={club1} /> 
-                              <ClubCard club={club1} /> 
-                              <ClubCard club={club1} /> 
-                              <ClubCard club={club1} /> 
-                              <ClubCard club={club1} /> 
+                              </Link>
+                              <Link to="/events">
+                              <ClubCard club={club1} />  
+                              </Link>
+                              <Link to="/events">
+                              <ClubCard club={club1} />  
+                              </Link>
+                              <Link to="/events">
+                              <ClubCard club={club1} />  
+                              </Link>
+                              <Link to="/events">
+                              <ClubCard club={club1} />  
+                              </Link>
+                              <Link to="/events">
+                              <ClubCard club={club1} />  
+                              </Link>
                               
                              {/* {clubs.map((club) => {
                               <ClubCard club={club} />  

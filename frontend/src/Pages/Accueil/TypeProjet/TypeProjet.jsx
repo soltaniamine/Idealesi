@@ -57,7 +57,7 @@ const TypeProjet = ({ buttonColor }) => {
                   <img className=" object-none object-right-top w-40 h-14 " src={triangle} />
                 </stchoice>
               </Link>
-              <Link onMouseEnter={() => { changeBlur1(false); changeBlur2(true) }} onMouseLeave={() => { changeBlur1(true); changeBlur2(true) }} className={`h-[100%] w-[40%] hover:border-blue-800  duration-500  col-span-1  rounded-lg border-4  border-blue-500 ${ndIsHovered ? "" : "blur-sm scale-[0.85]"}`} to="/choixtechnique">
+              <Link onMouseEnter={() => { changeBlur1(false); changeBlur2(true) }} onMouseLeave={() => { changeBlur1(true); changeBlur2(true) }} className={`h-[100%] w-[40%] hover:border-blue-800  duration-500  col-span-1  rounded-lg border-4  border-blue-500 ${ndIsHovered ? "" : "blur-sm scale-[0.85]"}`} to="/clubs">
                 <ndchoice className=" " >
                   <img className="mb-6 " src={cercle} />
 
