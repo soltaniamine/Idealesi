@@ -14,6 +14,7 @@ import ChoixTechnique from './Pages/Accueil/choixTechnique/choixTechnique.jsx';
 import ChoixClub from './Pages/Accueil/clubs/choixclub.jsx';
 import Events from './Pages/Accueil/events/events.jsx';
 import Choix from './Pages/Accueil/choixNiveau/choix.jsx';
+import BoardId from './Pages/Board/BoardId.jsx';
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
           <Route path="/events" element={<Events buttonColor="white2"/>} />
           <Route path="*" element={<p>Not Found oops</p>} />
           <Route path="/Niveau" element={<Choix buttonColor="white2" />} />
+          <Route path="/Board" element={<BoardId />} />
         </Routes>
       </Router>
     </div>

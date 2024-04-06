@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 import Sidebar from "../Home/Sidebar";
 import Profile from "../../../assets/Acceuil/TypeProjet/profile.png"
 import education from '../../../assets/Acceuil/TypeProjet/image 23.svg';

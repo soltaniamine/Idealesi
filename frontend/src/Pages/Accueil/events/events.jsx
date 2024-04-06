@@ -10,7 +10,7 @@ import gdgbar from '../../../assets/Acceuil/events/gdgbar.svg';
 import eventpic from '../../../assets/Acceuil/events/eventpic.svg';
 import line from '../../../assets/Acceuil/events/line.svg'
 import './events.css'
-
+import { Link } from 'react-router-dom';
 
 const Events = ({ buttonColor }) => {
     const event1 = {
@@ -104,11 +104,21 @@ const Events = ({ buttonColor }) => {
                                 </div>
                                 <div className="elementslist overflow-auto  h-[82%] rounded-b-3xl mt-5">
                                     {/* this is the div of one element of the elementlist div */}
-
+                                    <Link to="/Board">
                                     <EventsElement event={event1} />
+                                    </Link>
+                                    <Link to="/Board">
                                     <EventsElement event={event1} />
+                                    </Link>
+                                    <Link to="/Board">
                                     <EventsElement event={event1} />
+                                    </Link>
+                                    <Link to="/Board">
                                     <EventsElement event={event1} />
+                                    </Link>
+                                    <Link to="/Board">
+                                    <EventsElement event={event1} />
+                                    </Link>
                                 </div>
                             </div>
                         </div>
