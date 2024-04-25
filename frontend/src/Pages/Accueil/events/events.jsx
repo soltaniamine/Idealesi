@@ -13,6 +13,7 @@ import './events.css'
 import { Link } from 'react-router-dom';
 
 const Events = ({ buttonColor }) => {
+    
     const event1 = {
         "name": "Google I/O Extended",
         "logo": eventpic,
