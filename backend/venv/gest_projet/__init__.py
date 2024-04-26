@@ -103,13 +103,6 @@ def update_project_favori():
 
 
 
-
-
-
-
-
-
-
 @gest_projet.route('/update_project_name', methods=['PUT'])
 def update_project_name():
     data = request.get_json()
@@ -223,23 +216,28 @@ def search_projects():
         })
     print(formatted_projects)
     return jsonify({'message': 'List of projects returned successfully', 'projects': formatted_projects}), 200
-
+import base64
 @gest_projet.route('/liste_club',methods=['GET'])
 def liste_club():
-    # data = request.get_json()
-    # user_id=data.get('user_id')
     cur = mysql.connection.cursor()
-    cur.execute("SELECT Club_ID,Nom FROM Club ")
-    clubs= cur.fetchall()
-    liste_clubs=[]
+    cur.execute("SELECT Club_ID, Nom, photo FROM Club")
+    clubs = cur.fetchall()
+    liste_clubs = []
     for club in clubs:
-        club_id,nom=club
-        liste_clubs.append({
-            'club_id': club_id,
-            'nom': nom
-        })
+        club_id, nom, photo_data, = club
+        if not photo_data:
+            print('Message: Photo', nom, 'not found')
+        else:
+            # Convertir les données binaires en base64
+            photo_base64 = base64.b64encode(photo_data).decode('utf-8')
+
+            liste_clubs.append({
+                'club_id': club_id,
+                'nom': nom,
+                'photo': photo_base64
+            })
     
-    return jsonify({'message': 'List of Clubs returned successfully', 'projects': liste_clubs}), 200
+    return jsonify({'message': 'List of Clubs returned successfully', 'clubs': liste_clubs}), 200
 
 @gest_projet.route('/liste_module',methods=['GET'])
 def liste_module():
