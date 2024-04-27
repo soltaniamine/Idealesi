@@ -8,6 +8,8 @@ import iconproject from '../../../assets/Acceuil/clubs/ideeicon.svg';
 import threelines from '../../../assets/Acceuil/clubs/threelines.svg';
 import photo from "../../../assets/Acceuil/TypeProjet/profile.png";
 import GDGlogo from '../../../assets/Acceuil/clubs/clublogos/gdg.svg';
+import rectangleclaire from '../../../assets/Acceuil/TypeProjet/rectangleclaire.svg';
+
 import './choixclub.css';
 import { Link } from 'react-router-dom';
 const ChoixClub = ({ buttonColor }) => {
@@ -20,19 +22,19 @@ const ChoixClub = ({ buttonColor }) => {
     }
 
     const [clubs, setClubs] = useState([]);
-     
+
     // const getClubs = async () => {
     //     const response = await fetch("https://api.");
     //     const FinalData = await response.json();
     //     setClubs(FinalData)
     // }
 
-    
+
 
     // useEffect(() => {
     //     getClubs();
     // }, [])
- 
+
 
     const ClubCard = ({ club }) => {
         return (
@@ -92,8 +94,9 @@ const ChoixClub = ({ buttonColor }) => {
 
                                 <img src={iconproject} className="absolute top-1/2 right-0 transform -translate-y-1/2 mt-3 h-[60%] mr-6 " alt="Icon" />
 
-                                <div className="title flex flex-col items-start absolute left-16 top-1/4 bottom-0 mb-2 ml-2">
-                                    <h1 className="z-10 text-3xl font-semibold" style={{ fontFamily: 'Product Sans' }}>Club Project</h1>
+                                <div className="  title mt-4 flex flex-col items-start absolute left-16 top-1/4 bottom-0 mb-2 ml-2">
+                                    <h1 className="absolute ml-6 z-10 text-3xl font-medium " style={{ fontFamily: 'Product Sans' }}>Club Project</h1>
+                                    <img className='relative opacity-80 mt-3 w-60 ' src={rectangleclaire} alt="rectangle" />
                                 </div>
 
                                 <img src={cercle1} className="absolute top-20 ml-28 mt-0 left-96 w-10 h-10" alt="smallcircle1" />
@@ -106,33 +109,33 @@ const ChoixClub = ({ buttonColor }) => {
 
 
                         <div className="clublist  pl-10 pt-2 grid grid-cols-3  overflow-auto ml-10 mt-6 mr-12 h-[70%] w-[98%] ">
-                              <Link to="/events">
-                              <ClubCard club={club1} />  
-                              </Link>
-                              <Link to="/events">
-                              <ClubCard club={club1} />  
-                              </Link>
-                              <Link to="/events">
-                              <ClubCard club={club1} />  
-                              </Link>
-                              <Link to="/events">
-                              <ClubCard club={club1} />  
-                              </Link>
-                              <Link to="/events">
-                              <ClubCard club={club1} />  
-                              </Link>
-                              <Link to="/events">
-                              <ClubCard club={club1} />  
-                              </Link>
-                              
-                             {/* {clubs.map((club) => {
+                            <Link to="/events">
+                                <ClubCard club={club1} />
+                            </Link>
+                            <Link to="/events">
+                                <ClubCard club={club1} />
+                            </Link>
+                            <Link to="/events">
+                                <ClubCard club={club1} />
+                            </Link>
+                            <Link to="/events">
+                                <ClubCard club={club1} />
+                            </Link>
+                            <Link to="/events">
+                                <ClubCard club={club1} />
+                            </Link>
+                            <Link to="/events">
+                                <ClubCard club={club1} />
+                            </Link>
+
+                            {/* {clubs.map((club) => {
                               <ClubCard club={club} />  
                             })
                             }  */}
-                             
+
 
                         </div>
-                        
+
                     </div>
                 </div>
             </div>

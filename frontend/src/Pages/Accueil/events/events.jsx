@@ -30,7 +30,7 @@ const Events = ({ buttonColor }) => {
 
 
     // useEffect(() => {
-    //     getEevnts();
+    //     getEvents();
     // }, [])
 
     const EventsElement = ({ event }) => {
@@ -79,8 +79,9 @@ const Events = ({ buttonColor }) => {
 
                                 <img src={iconevents} className="absolute top-1/2 right-0 transform -translate-y-1/2 mt-2 h-[60%] mr-7 " alt="Icon" />
 
-                                <div className="title flex flex-col items-start absolute left-16 top-1/4 bottom-0 mb-2 ml-2">
-                                    <h1 className="z-10 text-3xl font-semibold" style={{ fontFamily: 'Product Sans' }}>Club Project</h1>
+                                <div className="  title mt-4 flex flex-col items-start absolute left-16 top-1/4 bottom-0 mb-2 ml-2">
+                                    <h1 className="absolute ml-6 z-10 text-3xl font-medium " style={{ fontFamily: 'Product Sans' }}>Club Project</h1>
+                                    <img className='relative opacity-80 mt-3 w-60 ' src={rectangleclaire} alt="rectangle" />
                                 </div>
 
                                 <img src={cercle1} className="absolute top-20 ml-28 mt-0 left-96 w-10 h-10" alt="smallcircle1" />
@@ -105,19 +106,19 @@ const Events = ({ buttonColor }) => {
                                 <div className="elementslist overflow-auto  h-[82%] rounded-b-3xl mt-5">
                                     {/* this is the div of one element of the elementlist div */}
                                     <Link to="/Board">
-                                    <EventsElement event={event1} />
+                                        <EventsElement event={event1} />
                                     </Link>
                                     <Link to="/Board">
-                                    <EventsElement event={event1} />
+                                        <EventsElement event={event1} />
                                     </Link>
                                     <Link to="/Board">
-                                    <EventsElement event={event1} />
+                                        <EventsElement event={event1} />
                                     </Link>
                                     <Link to="/Board">
-                                    <EventsElement event={event1} />
+                                        <EventsElement event={event1} />
                                     </Link>
                                     <Link to="/Board">
-                                    <EventsElement event={event1} />
+                                        <EventsElement event={event1} />
                                     </Link>
                                 </div>
                             </div>
