@@ -7,7 +7,7 @@ import { Rectangle } from '@/components/ui/Rectangle'
 
 
 
-const IdeasRectTitle = ({camera,id,scale, insertCombin}) => {
+const IdeasRectTitleMoscow = ({camera,id,scale, insertCombin}) => {
 
     const layer = useStorage((root) => root.layers.get(id))
 
@@ -16,14 +16,14 @@ const IdeasRectTitle = ({camera,id,scale, insertCombin}) => {
       const layerIds = storage.get('layerIds')
       for(const id of layerIds){
         const layer = liveLayers.get(id)
-        if(layer && layer.get("type") == 16 ){
+        if(layer && layer.get("type") == 21 ){
           return id
         }
       }
     }, [])
 
-    const id16= getId()
-    const layerRaff = document.getElementById(`${id16}`)
+    const id21= getId()
+    const layerRaff = document.getElementById(`${id21}`)
     const boundaries = () => {
       if(layerRaff){
         return layerRaff.getBoundingClientRect()
@@ -41,7 +41,7 @@ const IdeasRectTitle = ({camera,id,scale, insertCombin}) => {
 
 
     return (
-        (layer.type == 16 || layer.type == 19 || layer.type==21) ? (
+        (layer.type == 21) ? (
           <div
             className="absolute p-3 rounded-xl shadow-sm border flex select-none"
             style={{
@@ -51,7 +51,7 @@ const IdeasRectTitle = ({camera,id,scale, insertCombin}) => {
                   ? `${x +  90}px - 50%` 
                   : scale < 1
                       ? (
-                          scaleRound === 0.9 ? `${bounds.left +80}px - 50%` :
+                          scaleRound === 0.9 ? `${bounds.left+40 }px - 50%` :
                           scaleRound === 0.8 ? `${bounds.left + 37}px - 50%` :
                           scaleRound == 0.7 ? `${bounds.left+32}px - 50%` :  // Assuming all conditions <= 0.7 have the same output
                           scaleRound == 0.6 ? `${bounds.left+28}px - 50%`:
@@ -113,4 +113,4 @@ const IdeasRectTitle = ({camera,id,scale, insertCombin}) => {
       
 }
 
-export default IdeasRectTitle
+export default IdeasRectTitleMoscow

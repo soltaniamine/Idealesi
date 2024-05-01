@@ -24,7 +24,7 @@ import { useEffect } from 'react'
 import { useRef } from 'react'
 
 import AddShapeCombin from './AddShapeCombin'
-import IdeasRectTitle from './IdeasRectTitle'
+import IdeasRectTitleRaffin from './IdeasRectTitleRaffin'
 import CombinaisonTheme from './CombinaisonTheme'
 import  RaffinementTable  from './RaffinementTable'
 import AddShapeRaffin from './AddShapeRaffin'
@@ -36,6 +36,9 @@ import MoscowDevrait from './MoscowDoit'
 import MoscowPourrait from './MoscowPourrait'
 import MoscowDevraitPas from './MoscowDevraitPas'
 import MoscowTitre from './MoscowTitre'
+import IdeesCombinees from './IdeesCombinee'
+import IdeasRectTitleCombin from './IdeasRectTitleCombin'
+import IdeasRectTitleMoscow from './IdeasRectTitleMoscow'
 
 const MAX_LAYERS = 100
 
@@ -996,6 +999,7 @@ const insertCombin= useMutation(({storage}) =>{
           id={layerId} 
           camera={camera} 
           insertCombin={insertCombin}
+          scale={scale}
           />
 
         ))}
@@ -1016,11 +1020,37 @@ const insertCombin= useMutation(({storage}) =>{
           key={layerId} 
           id={layerId} 
           camera={camera}
+          scale={scale}
+          />
+        ))}
+        {layerIds.map((layerId)=>(
+          <IdeesCombinees
+          key={layerId} 
+          id={layerId} 
+          camera={camera}
+          scale={scale}
           />
         ))}
 
+
         {layerIds.map((layerId)=>(
-          <IdeasRectTitle
+          <IdeasRectTitleRaffin
+          key={layerId} 
+          id={layerId} 
+          camera={camera} 
+          scale={scale}
+          />
+        ))}
+        {layerIds.map((layerId)=>(
+          <IdeasRectTitleCombin
+          key={layerId} 
+          id={layerId} 
+          camera={camera} 
+          scale={scale}
+          />
+        ))}
+        {layerIds.map((layerId)=>(
+          <IdeasRectTitleMoscow
           key={layerId} 
           id={layerId} 
           camera={camera} 
@@ -1043,6 +1073,7 @@ const insertCombin= useMutation(({storage}) =>{
           key={layerId} 
           id={layerId} 
           camera={camera}
+          scale={scale}
           />
         ))}
         {layerIds.map((layerId)=>(
@@ -1050,6 +1081,7 @@ const insertCombin= useMutation(({storage}) =>{
           key={layerId} 
           id={layerId} 
           camera={camera}
+          scale={scale}
           />
         ))}
         {layerIds.map((layerId)=>(
@@ -1057,6 +1089,7 @@ const insertCombin= useMutation(({storage}) =>{
           key={layerId} 
           id={layerId} 
           camera={camera}
+          scale={scale}
           />
         ))}
         {layerIds.map((layerId)=>(
@@ -1064,6 +1097,7 @@ const insertCombin= useMutation(({storage}) =>{
           key={layerId} 
           id={layerId} 
           camera={camera}
+          scale={scale}
           />
         ))}
         {layerIds.map((layerId)=>(
@@ -1071,6 +1105,7 @@ const insertCombin= useMutation(({storage}) =>{
           key={layerId} 
           id={layerId} 
           camera={camera}
+          scale={scale}
           />
         ))}
         <Advancedbar 

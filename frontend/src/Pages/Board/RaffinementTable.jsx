@@ -65,7 +65,7 @@ const RaffinementTable = ({camera,id, insertCombin,scale}) => {
                         scaleRound === 1.1 ? `${bounds.left+bounds.width/2+50}px - 50%` :
                         scaleRound == 1.2 ? `${bounds.left+ bounds.width/2+50}px - 50%` :  // Assuming all conditions from 1.2 to 1.8 have the same output
                         scaleRound==1.3 ? `${bounds.left+bounds.width/2+60}px - 50%`:
-                        `${bounds.top-330}px - 50%`
+                        `${bounds.left+bounds.width/2+65}px - 50%`
                     )
             }),
               calc(${

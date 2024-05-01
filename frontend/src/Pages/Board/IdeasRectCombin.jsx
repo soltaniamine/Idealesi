@@ -49,6 +49,7 @@ export const IdeasRectCombin = ({layer, onPointerDown, id, selectionColor}) => {
         backgroundColor: fill ? colorToCss(fill) : "#000",
         overflow: 'visible' 
       }}
+      id={`${id}`}
       className="shadow-md drop-shadow-xl"
     >
     </foreignObject>

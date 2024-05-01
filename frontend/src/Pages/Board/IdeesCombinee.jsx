@@ -6,7 +6,7 @@ import plus_combin from '../../assets/plus_combin.svg'
 
 
 
-const CombinaisonTheme = ({camera,scale,id}) => {
+const IdeesCombinees = ({camera,scale,id}) => {
 
     const layer = useStorage((root) => root.layers.get(id))
 
@@ -22,16 +22,15 @@ const CombinaisonTheme = ({camera,scale,id}) => {
             style={{
               transform: `translate(
                 calc(${x + width/2}px - 50%),
-                calc(${y +20}px - 50%)
+                calc(${y +2*height/3+29}px - 50%)
                 ) scale(${scale})`,
 
               backgroundColor: 'transparent', // Ensuring no background color
               border: 'none', // Remove border if not required
               zIndex: 0 // Setting a negative z-index to send it to the back
             }}
-            
           >
-          <span>Combinaison </span>
+          <span>Reduction </span>
           </div>
         ) : <></>
       )
@@ -39,4 +38,4 @@ const CombinaisonTheme = ({camera,scale,id}) => {
       
 }
 
-export default CombinaisonTheme
+export default IdeesCombinees

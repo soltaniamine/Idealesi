@@ -21,7 +21,7 @@ const calculateFontSize = (width, height) => {
 }
 
 
-export const PriorityMoscow = ({layer, onPointerDown, id, selectionColor}) => {
+export const PriorityMoscow = ({layer, onPointerDown, id,scale, selectionColor}) => {
   const { x, y, width, height , fill, value } = layer;
 
   const updateValue = useMutation(({ storage }, newValue) => {
@@ -46,6 +46,7 @@ export const PriorityMoscow = ({layer, onPointerDown, id, selectionColor}) => {
         backgroundColor: fill ? colorToCss(fill) : "#000",
         overflow: 'visible' // Ensure inner SVG content is visible outside the bounds
       }}
+      id={`${id}`}
       className="shadow-md drop-shadow-xl"
     >
       <svg width={'100%'} height={'100%'}>
