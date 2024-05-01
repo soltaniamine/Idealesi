@@ -19,7 +19,7 @@ const calculateFontSize = (width, height) => {
 }
 
 
-export const Rectangle = ({layer, onPointerDown, id, selectionColor}) => {
+export const Square = ({layer, onPointerDown, id, selectionColor}) => {
   const { x, y, width, height, fill, value } = layer;
 
   const updateValue = useMutation(({ storage }, newValue) => {
@@ -40,6 +40,7 @@ export const Rectangle = ({layer, onPointerDown, id, selectionColor}) => {
       height={height}
       onPointerDown={(e) => onPointerDown(e, id)}
       style={{
+        borderRadius: '2rem',
         outline: selectionColor ? `1px solid ${selectionColor}` : "none",
         backgroundColor: fill ? colorToCss(fill) : "#000",
       }}

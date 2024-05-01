@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import react from '../assets/react.svg'
 //import { buttonVariants } from "@/components/ui/button"
-import { Button } from "@/components/ui/button"
+import { Button } from './ui/button'
 import { Link } from 'react-router-dom'
 
 const Navbar = () => {

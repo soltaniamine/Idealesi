@@ -19,7 +19,7 @@ const calculateFontSize = (width, height) => {
 }
 
 
-export const Rectangle = ({layer, onPointerDown, id, selectionColor}) => {
+export const Triangle = ({layer, onPointerDown, id, selectionColor}) => {
   const { x, y, width, height, fill, value } = layer;
 
   const updateValue = useMutation(({ storage }, newValue) => {
@@ -54,7 +54,9 @@ export const Rectangle = ({layer, onPointerDown, id, selectionColor}) => {
           fontSize: calculateFontSize(width, height),
           color: fill ? getContrastingTextColor(fill) : "#000",
           fontFamily: 'Kalam, cursive',
-          backgroundColor: fill ? colorToCss(fill) : "#000",
+          borderLeft: "50px solid transparent",
+          borderRight: "50px solid transparent",
+          borderBottom: "100px solid",
         }}
       />
     </foreignObject>

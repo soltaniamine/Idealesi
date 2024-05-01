@@ -23,4 +23,4 @@ const Circle = ({id, layer, onPointerDown, selectionColor,}) => {
   );
 };
 
-export default Circle
+export default Circle;

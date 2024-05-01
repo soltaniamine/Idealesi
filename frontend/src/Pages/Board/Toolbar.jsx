@@ -20,8 +20,8 @@ import prstand from '../../assets/prstand.svg'
 import trianglesarrow from '../../assets/trianglesarrow.svg'
 import linedarrow from '../../assets/linedarrow.svg'
 import dragcr from '../../assets/dragcr.svg'
-import { Button } from '../../components/ui/button'
-import { CanvasMode, LayerType, Shapes } from '../../types/canvas'
+import { Button } from '@/components/ui/button'
+import { CanvasMode, LayerType } from '../../types/canvas'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -36,11 +36,31 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { motion } from 'framer-motion'
 
 
-const Toolbar = ({ canvasState, setCanvasState }) => {
+const Toolbar = ({ canvasState, setCanvasState, focus }) => {
+
+  const experts = {
+    expert1:{
+      Photo: `${expert}`,
+      Nom: "Kemer Ayoub"
+    },
+    expert2:{
+      Photo: `${expert}`,
+      Nom: "BoudraaMahdi"
+    },
+    expert3:{
+      Photo: `${expert}`,
+      Nom: "Soltani Amine"
+    },
+  }
+
+  const donothing = () => {
+    console.log("expert")
+  }
   return (
-    <div className='fixed top-1/2 -translate-y-[50%] flex flex-col gap-y-4'>
+    <motion.div className='fixed top-1/2 z-10 -translate-y-[50%] flex flex-col gap-y-4'>
         <div className='bg-[#F2F2F2] w-12 rounded-lg p-2 flex gap-y-1 flex-col items-center shadow-md'>
             <div>
               <Button variant="board" className="p-2 hover:bg-tranparent bg-transparent" >
@@ -140,12 +160,12 @@ const Toolbar = ({ canvasState, setCanvasState }) => {
                       <Button 
                         variant={
                           canvasState.mode === CanvasMode.Inserting  &&
-                          canvasState.LayerType === Shapes.Rectangle
+                          canvasState.LayerType === LayerType.Rectangle
                           ? "boardActive" : "board"
                         } 
                         onClick={() => setCanvasState({ 
                           mode: CanvasMode.Inserting, 
-                          LayerType: Shapes.Rectangle,
+                          LayerType: LayerType.Rectangle,
                         })} 
                         className="p-2"
                       > 
@@ -156,12 +176,12 @@ const Toolbar = ({ canvasState, setCanvasState }) => {
                       <Button 
                         variant={
                           canvasState.mode === CanvasMode.Inserting  &&
-                          canvasState.LayerType === Shapes.Square
+                          canvasState.LayerType === LayerType.Square
                           ? "boardActive" : "board"
                         } 
                         onClick={() => setCanvasState({  
                           mode: CanvasMode.Inserting, 
-                          LayerType: Shapes.Square,
+                          LayerType: LayerType.Square,
                         })} 
                         className="p-2"
                       > 
@@ -172,12 +192,12 @@ const Toolbar = ({ canvasState, setCanvasState }) => {
                       <Button 
                         variant={
                           canvasState.mode === CanvasMode.Inserting  &&
-                          canvasState.LayerType === Shapes.Circle
+                          canvasState.LayerType === LayerType.Circle
                           ? "boardActive" : "board"
                         } 
                         onClick={() => setCanvasState({
                           mode: CanvasMode.Inserting,   
-                          LayerType: Shapes.Circle,
+                          LayerType: LayerType.Circle,
                         })} 
                         className="p-2"
                       > 
@@ -190,12 +210,12 @@ const Toolbar = ({ canvasState, setCanvasState }) => {
                       <Button 
                         variant={
                           canvasState.mode === CanvasMode.Inserting  &&
-                          canvasState.LayerType === Shapes.Sharpsquare
+                          canvasState.LayerType === LayerType.Sharpsquare
                           ? "boardActive" : "board"
                         } 
                         onClick={() => setCanvasState({
                           mode: CanvasMode.Inserting,   
-                          LayerType: Shapes.Sharpsquare,
+                          LayerType: LayerType.Sharpsquare,
                         })} 
                         className="p-2"
                       > 
@@ -206,12 +226,12 @@ const Toolbar = ({ canvasState, setCanvasState }) => {
                       <Button 
                         variant={
                           canvasState.mode === CanvasMode.Inserting  &&
-                          canvasState.LayerType === Shapes.Thinking
+                          canvasState.LayerType === LayerType.Thinking
                           ? "boardActive" : "board"
                         } 
                         onClick={() => setCanvasState({
                           mode: CanvasMode.Inserting,   
-                          LayerType: Shapes.Thinking,
+                          LayerType: LayerType.Thinking,
                         })} 
                         className="p-2"
                       > 
@@ -222,12 +242,12 @@ const Toolbar = ({ canvasState, setCanvasState }) => {
                       <Button 
                         variant={
                           canvasState.mode === CanvasMode.Inserting  &&
-                          canvasState.LayerType === Shapes.Triangle
+                          canvasState.LayerType === LayerType.Triangle
                           ? "boardActive" : "board"
                         } 
                         onClick={() => setCanvasState({
                           mode: CanvasMode.Inserting,   
-                          LayerType: Shapes.Triangle,
+                          LayerType: LayerType.Triangle,
                         })} 
                         className="p-2"
                       > 
@@ -241,12 +261,12 @@ const Toolbar = ({ canvasState, setCanvasState }) => {
                       <Button 
                         variant={
                           canvasState.mode === CanvasMode.Inserting  &&
-                          canvasState.LayerType === Shapes.Arrowleft
+                          canvasState.LayerType === LayerType.Arrowleft
                           ? "boardActive" : "board"
                         } 
                         onClick={() => setCanvasState({
                           mode: CanvasMode.Inserting,   
-                          LayerType: Shapes.Arrowleft,
+                          LayerType: LayerType.Arrowleft,
                         })} 
                         className="p-2"
                       > 
@@ -257,12 +277,12 @@ const Toolbar = ({ canvasState, setCanvasState }) => {
                       <Button 
                         variant={
                           canvasState.mode === CanvasMode.Inserting  &&
-                          canvasState.LayerType === Shapes.Arrowdown
+                          canvasState.LayerType === LayerType.Arrowdown
                           ? "boardActive" : "board"
                         } 
                         onClick={() => setCanvasState({
                           mode: CanvasMode.Inserting,   
-                          LayerType:  Shapes.Arrowdown,
+                          LayerType:  LayerType.Arrowdown,
                         })} 
                         className="p-2"
                       > 
@@ -273,12 +293,12 @@ const Toolbar = ({ canvasState, setCanvasState }) => {
                       <Button 
                         variant={
                           canvasState.mode === CanvasMode.Inserting  &&
-                          canvasState.LayerType === Shapes.Arrowright
+                          canvasState.LayerType === LayerType.Arrowright
                           ? "boardActive" : "board"
                         } 
                         onClick={() => setCanvasState({
                           mode: CanvasMode.Inserting,   
-                          LayerType: Shapes.Arrowright,
+                          LayerType: LayerType.Arrowright,
                         })} 
                         className="p-2"
                       > 
@@ -291,12 +311,12 @@ const Toolbar = ({ canvasState, setCanvasState }) => {
                       <Button 
                         variant={
                           canvasState.mode === CanvasMode.Inserting  &&
-                          canvasState.LayerType === Shapes.Standpr
+                          canvasState.LayerType === LayerType.Standpr
                           ? "boardActive" : "board"
                         } 
                         onClick={() => setCanvasState({
                           mode: CanvasMode.Inserting,   
-                          LayerType: Shapes.Standpr,
+                          LayerType: LayerType.Standpr,
                         })} 
                         className="p-2"
                       > 
@@ -307,12 +327,12 @@ const Toolbar = ({ canvasState, setCanvasState }) => {
                       <Button 
                         variant={
                           canvasState.mode === CanvasMode.Inserting  &&
-                          canvasState.LayerType === Shapes.Triangledarrow
+                          canvasState.LayerType === LayerType.Triangledarrow
                           ? "boardActive" : "board"
                         } 
                         onClick={() => setCanvasState({
                           mode: CanvasMode.Inserting,   
-                          LayerType: Shapes.Triangledarrow,
+                          LayerType: LayerType.Triangledarrow,
                         })} 
                         className="p-2"
                       > 
@@ -323,12 +343,12 @@ const Toolbar = ({ canvasState, setCanvasState }) => {
                       <Button 
                         variant={
                           canvasState.mode === CanvasMode.Inserting  &&
-                          canvasState.LayerType === Shapes.Linedarrow
+                          canvasState.LayerType === LayerType.Linedarrow
                           ? "boardActive" : "board"
                         } 
                         onClick={() => setCanvasState({
                           mode: CanvasMode.Inserting,   
-                          LayerType: Shapes.Linedarrow,
+                          LayerType: LayerType.Linedarrow,
                         })} 
                         className="p-2"
                       > 
@@ -357,15 +377,33 @@ const Toolbar = ({ canvasState, setCanvasState }) => {
             <div>
               <Button variant="board" className="p-2" >
                 <img src={dots3} alt="dots3" className='w-[20px] h-[20px]'/>
-              </Button>
+              </Button>    
             </div>
         </div>
         <div className='bg-[#DCE0FF] rounded-md w-12 h-12 p-2 translate-x-2 flex gap-y-1 flex-col items-center shadow-md'>
-          <Button variant="board" className="p-2" >
-            <img src={expert} alt="expert" className='w-[25px] h-[25px]'/>
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="board" className="p-2" >
+                <img src={expert} alt="expert" className='w-[25px] h-[25px]'/>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56" side={"right"} sideOffset={12}>
+              <DropdownMenuGroup  className="flex flex-col">
+              {Object.entries(experts).map(([key, value]) => (
+              <DropdownMenuGroup className="flex flex-row gap-x-0 items-center " key={key} onClick={donothing}>
+                <DropdownMenuItem className="hover:cursor-pointer">
+                  <img src={`${value.Photo}`} alt={`${value.Photo}`} />
+                </DropdownMenuItem>
+                <DropdownMenuItem className="hover:cursor-pointer">
+                  <h3>{value.Nom}</h3>
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
+              ))}
+              </DropdownMenuGroup>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
-    </div>
+    </motion.div>
   )
 }
 

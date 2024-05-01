@@ -3,6 +3,8 @@ import ContentEditable from "react-contenteditable";
 
 import { cn, colorToCss, getContrastingTextColor } from "../../constants/index";
 import { useMutation } from "../../../liveblocks.config";
+import { Button } from '@/components/ui/button';
+import { color } from 'framer-motion';
 
 
 const calculateFontSize = (width, height) => {
@@ -19,8 +21,8 @@ const calculateFontSize = (width, height) => {
 }
 
 
-export const Rectangle = ({layer, onPointerDown, id, selectionColor}) => {
-  const { x, y, width, height, fill, value } = layer;
+export const IdeasRectMoscow = ({layer, onPointerDown, id, selectionColor}) => {
+  const { x, y, width, height , fill, value } = layer;
 
   const updateValue = useMutation(({ storage }, newValue) => {
     const liveLayers = storage.get("layers");
@@ -31,32 +33,26 @@ export const Rectangle = ({layer, onPointerDown, id, selectionColor}) => {
   const handleContentChange = (e) => {
     updateValue(e.target.value);
   };
-
   return (
     <foreignObject
       x={x}
       y={y}
-      width={width}
-      height={height}
+      width={width} 
+      height={height} 
       onPointerDown={(e) => onPointerDown(e, id)}
       style={{
+        borderTopLeftRadius: '20px',
+        borderTopRightRadius: '20px',
+        borderBottomLeftRadius: '20px',
+        borderBottomRightRadius: '20px',
         outline: selectionColor ? `1px solid ${selectionColor}` : "none",
         backgroundColor: fill ? colorToCss(fill) : "#000",
+        overflow: 'visible' 
       }}
+      className="shadow-md drop-shadow-xl"
     >
-      <ContentEditable
-        html={value ? value : ""}
-        onChange={handleContentChange}
-        className={cn(
-          "h-full w-full flex items-center justify-center text-center outline-none",
-        )}
-        style={{
-          fontSize: calculateFontSize(width, height),
-          color: fill ? getContrastingTextColor(fill) : "#000",
-          fontFamily: 'Kalam, cursive',
-          backgroundColor: fill ? colorToCss(fill) : "#000",
-        }}
-      />
     </foreignObject>
   );
+
+  
 };

@@ -6,7 +6,7 @@ import { useMutation } from "../../../liveblocks.config"
 
 const calculateFontSize = (width, height) => {
   const maxFontSize = 96
-  const scaleFactor = 0.6
+  const scaleFactor = 0.2
   const fontSizeBasedOnHeight = height * scaleFactor
   const fontSizeBasedOnWidth = width * scaleFactor
 
@@ -17,7 +17,7 @@ const calculateFontSize = (width, height) => {
   )
 }
 
-const Text = ({layer, onPointerDown, id, selectionColor}) => {
+export const Text = ({layer, onPointerDown, id, selectionColor}) => {
   const { x, y, width, height, fill, value } = layer
 
   const updateValue = useMutation(({ storage }, newValue) => {
@@ -56,5 +56,3 @@ const Text = ({layer, onPointerDown, id, selectionColor}) => {
     </foreignObject>
   )
 }
-
-export default Text

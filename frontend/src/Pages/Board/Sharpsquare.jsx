@@ -19,7 +19,7 @@ const calculateFontSize = (width, height) => {
 }
 
 
-export const Rectangle = ({layer, onPointerDown, id, selectionColor}) => {
+export const Sharpsquare = ({layer, onPointerDown, id, selectionColor}) => {
   const { x, y, width, height, fill, value } = layer;
 
   const updateValue = useMutation(({ storage }, newValue) => {

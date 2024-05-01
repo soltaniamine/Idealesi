@@ -1,6 +1,6 @@
 import { Loader } from 'lucide-react'
 
-import { Skeleton } from "../../components/ui/skeleton"
+import { Skeleton } from '@/components/ui/skeleton'
 import { InfoSkeleton } from './Info'
 import { ParticipantsSkeleton } from './Participants'
 import { ToolbarSkeleton } from './Toolbar'
