@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import Projectcard from '../Home/Projectcard';
 import photo from '../../../assets/Acceuil/Home/Rectangle 4271.svg';
 import photoo from '../../../assets/Acceuil/Home/Group.svg';
+import Notification from "../notification-et-profile/notification";
+import Profilee from "../notification-et-profile/profile";
 const Allfavorites = () => {
     const [projectList, setProjectList] = useState([<Projectcard key={0} />]);
     const [isClicked1, setIsClicked1] = useState(true);

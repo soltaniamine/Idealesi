@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import Templatescard from '../Home/Templatescard';
 import photo from '../../../assets/Acceuil/Home/Rectangle 4271.svg';
 import photoo from '../../../assets/Acceuil/Home/Group.svg';
+import Notification from "../notification-et-profile/notification";
+import Profilee from "../notification-et-profile/profile";
 const Alltemplates = () => {
     const [projectList] = useState([<Templatescard key={0} />,<Templatescard key={0} />,<Templatescard key={0} />]);
 

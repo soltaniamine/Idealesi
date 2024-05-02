@@ -20,9 +20,9 @@ import Niveauu from './Pages/admine/niveau.jsx';
 import Modulee from './Pages/admine/module.jsx';
 import Expert from './Pages/admine/expert.jsx';
 import Event from './Pages/admine/event.jsx';
-
-
-
+import Notification from './Pages/Accueil/notification-et-profile/notification.jsx';
+import Profilee from './Pages/Accueil/notification-et-profile/profile.jsx';
+import Settings from './Pages/Accueil/setting/settings.jsx';
 
 
 function App() {
@@ -51,6 +51,8 @@ function App() {
           <Route path="/modulee" element={<Modulee buttonColor="white6"/>} />
           <Route path="/expert" element={<Expert buttonColor="white6"/>} />
           <Route path="/event" element={<Event buttonColor="white6"/>} />
+          <Route path="/notification" element={<Notification buttonColor="white1"/>} />
+          <Route path="/settings" element={<Settings buttonColor="white1"/>} />
 
 
           {/* <Route path="/manipulation" element={<Eishenhower />} /> */}

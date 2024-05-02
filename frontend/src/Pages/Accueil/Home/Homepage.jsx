@@ -8,9 +8,10 @@ import photooo from "../../../assets/Acceuil/Home/boutonplus.svg";
 import photoooo from "../../../assets/Acceuil/Home/Rectangle 4323.svg";
 import photooooo from "../../../assets/Acceuil/Home/Group.svg";
 import photoooooo from "../../../assets/Acceuil/Home/boutonplus.svg";
+import Notification from "../notification-et-profile/notification";
+import Profilee from "../notification-et-profile/profile";
 
 const Homepage = ({handleToggleClick}) => {
-    
     return ( 
         <div className=" recent w-[96,5%] h-[90%] ml-8">
             <div className="poss flex mb-4 w-96">
