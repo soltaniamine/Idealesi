@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useLocation } from 'react-router-dom';
 import Sidebar from "../Home/Sidebar";
 import education from '../../../assets/Acceuil/TypeProjet/image 23.svg';
 import club from '../../../assets/Acceuil/TypeProjet/idee-de-genie 1.svg';
@@ -13,10 +14,16 @@ import { Link } from 'react-router-dom';
 const TypeProjet = ({ buttonColor }) => {
   const [stIsHovered, changeBlur1] = useState(true);
   const [ndIsHovered, changeBlur2] = useState(true);
+  
+  // Récupérer les données de l'URL
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const uid = params.get('uid');
+  const technique = params.get('tech');
+
   return (
     <div className="grid grid-cols-6 bg-mypurple mt-[1,1%] ">
       <Sidebar className="col-span-1" buttonColor={buttonColor}></Sidebar>
-
 
       <div className=" bg-mypurple h-screen col-span-5  mt-[1,1%] ">
         <div className="bg-white h-[98.9%] mt-[1.1%] rounded-tl-2xl">
@@ -34,16 +41,14 @@ const TypeProjet = ({ buttonColor }) => {
             </div>
           </div>
 
-
           <div className=" recent w-[96,5%] h-[90%] ml-8 mr-8  ">
             <div className="posssss flex mb-4 w-100  ">
               <h1 className=" text-3xl mt-8 border-b-2 border-yellow-200 ">Selectionner le type de votre projet</h1>
               <img className=" sou w-16 h-16 mr-40" src={tkharbicha} />
-
             </div>
 
             <div className="flex justify-around mt-10 h-[78%] w-[100%] group">
-              <Link onMouseEnter={() => { changeBlur1(true); changeBlur2(false) }} onMouseLeave={() => { changeBlur1(true); changeBlur2(true) }} className={`h-[100%] w-[40%] hover:border-blue-800  duration-500  col-span-1  rounded-lg border-4  border-blue-500 ${stIsHovered ? "" : "blur-sm scale-[0.85]"}`} to="/Niveau">
+              <Link onMouseEnter={() => { changeBlur1(true); changeBlur2(false) }} onMouseLeave={() => { changeBlur1(true); changeBlur2(true) }} className={`h-[100%] w-[40%] hover:border-blue-800  duration-500  col-span-1  rounded-lg border-4  border-blue-500 ${stIsHovered ? "" : "blur-sm scale-[0.85]"}`} to={`/Niveau?uid=${uid}&tech=${technique}`}>
                 <stchoice className="h-[100%] cursor-pointer " >
                   <img className="mb-6 " src={cercle} />
                   <div className=" posss flex flex-col items-center " >
@@ -57,40 +62,25 @@ const TypeProjet = ({ buttonColor }) => {
                   <img className=" object-none object-right-top w-40 h-14 " src={triangle} />
                 </stchoice>
               </Link>
-              <Link onMouseEnter={() => { changeBlur1(false); changeBlur2(true) }} onMouseLeave={() => { changeBlur1(true); changeBlur2(true) }} className={`h-[100%] w-[40%] hover:border-blue-800  duration-500  col-span-1  rounded-lg border-4  border-blue-500 ${ndIsHovered ? "" : "blur-sm scale-[0.85]"}`} to="/choixtechnique">
+              <Link onMouseEnter={() => { changeBlur1(false); changeBlur2(true) }} onMouseLeave={() => { changeBlur1(true); changeBlur2(true) }} className={`h-[100%] w-[40%] hover:border-blue-800  duration-500  col-span-1  rounded-lg border-4  border-blue-500 ${ndIsHovered ? "" : "blur-sm scale-[0.85]"}`} to={`/clubs?uid=${uid}&tech=${technique}`}>
                 <ndchoice className=" " >
                   <img className="mb-6 " src={cercle} />
-
                   <div className=" posss flex flex-col items-center  " >
                     <h1 className=" place-self-center z-10 text-3xl  font-semibold ">Projet d'un club</h1>
                     <img className="z-0 line w-[75%] mt-2 ml-auto    " src={rectangleclaire} />
                   </div>
-
                   <div className=" mt-10 flex items-center justify-center">
                     <img className=" size-36" src={club} />
                   </div>
                   <img src={cercle} />
                   <img className="object-none object-right-top w-40 h-14 " src={triangle} />
-
-
-
-
                 </ndchoice>
               </Link>
-
-
-
-
-
             </div>
           </div>
         </div>
       </div>
-
-
     </div>
-
-
   );
 }
 

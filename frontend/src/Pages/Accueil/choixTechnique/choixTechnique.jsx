@@ -8,10 +8,14 @@ import triangle from '../../../assets/Acceuil/TypeProjet/triangle.svg';
 import cercle from '../../../assets/Acceuil/TypeProjet/cercle.svg';
 import './choixTechnique.css'
 import photo from "../../../assets/Acceuil/TypeProjet/profile.png";
-
+import {Link} from "react-router-dom";
+import { useLocation } from 'react-router-dom';
 const ChoixTechnique = ({buttonColor}) => {
     const [stIsHovered, changeBlur1] = useState(true);
     const [ndIsHovered, changeBlur2] = useState(true);
+    const location = useLocation();
+    const params = new URLSearchParams(location.search);
+    const uid = params.get('uid');
     return (
         <div className="grid grid-cols-6 bg-mypurple mt-[1,1%] ">
                           <Sidebar className="col-span-1" buttonColor = { buttonColor }></Sidebar>
@@ -39,10 +43,11 @@ const ChoixTechnique = ({buttonColor}) => {
        <h1 className=" text-3xl mt-8 border-b-2 border-yellow-200 ">Choisissez une technique</h1>
        <img className=" sou w-16 h-16 mr-40" src={tkharbicha} />
 
-     </div>
+     </div> 
 
      <div className="flex justify-around mt-10 h-[78%] w-[100%] group">
-        <stchoice onMouseEnter={()=> {changeBlur1(true); changeBlur2(false)}} onMouseLeave={()=> {changeBlur1(true); changeBlur2(true)}} className={`h-[100%] w-[40%] hover:border-blue-800  duration-500  col-span-1  rounded-lg border-4  border-blue-500 ${stIsHovered ? "" : "blur-sm scale-[0.85]"}`} >
+        <Link onMouseEnter={()=> {changeBlur1(true); changeBlur2(false)}} onMouseLeave={()=> {changeBlur1(true); changeBlur2(true)}} className={`h-[100%] w-[40%] hover:border-blue-800  duration-500  col-span-1  rounded-lg border-4  border-blue-500 ${stIsHovered ? "" : "blur-sm scale-[0.85]"}`}  to={`/typeprojet?uid=${uid}&tech=Brainstorming`}>
+        <stchoice >
         <img className="mb-6 " src={cercle} />
              <div className=" possss flex flex-col items-center " >
               <h1 className=" place-self-center z-10 text-3xl font-semibold ">Brainstorming</h1>
@@ -54,12 +59,13 @@ const ChoixTechnique = ({buttonColor}) => {
          <img src={cercle} />
          <img className="object-none object-right-top w-40 h-14 " src={triangle} />
          </stchoice>
-
-        <ndchoice onMouseEnter={()=> {changeBlur1(false); changeBlur2(true)}} onMouseLeave={()=> {changeBlur1(true); changeBlur2(true)}} className={`h-[100%] w-[40%] hover:border-blue-800  duration-500  col-span-1  rounded-lg border-4  border-blue-500 ${ndIsHovered ? "" : "blur-sm scale-[0.85]"}`} >
+         </Link>
+         <Link onMouseEnter={()=> {changeBlur1(false); changeBlur2(true)}} onMouseLeave={()=> {changeBlur1(true); changeBlur2(true)}} className={`h-[100%] w-[40%] hover:border-blue-800  duration-500  col-span-1  rounded-lg border-4  border-blue-500 ${ndIsHovered ? "" : "blur-sm scale-[0.85]"}`} to={`/typeprojet?uid=${uid}&tech=Brainwriting`}>
+        <ndchoice  >
         <img className="mb-6 " src={cercle} />
 
           <div className=" possss flex flex-col items-center  " >
-            <h1 className=" place-self-center z-10 text-3xl font-semibold ">Brain-writing</h1>
+            <h1 className=" place-self-center z-10 text-3xl font-semibold ">Brainwriting</h1>
             <img className="z-0 line w-[75%] mt-2 ml-auto    " src={rectangleclaire} />
           </div>
 
@@ -73,7 +79,7 @@ const ChoixTechnique = ({buttonColor}) => {
 
 
         </ndchoice>
-
+        </Link>
 
     
      

@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useLocation } from 'react-router-dom';
 import Sidebar from "../Home/Sidebar";
 import Profile from "../../../assets/Acceuil/TypeProjet/profile.png"
 import education from '../../../assets/Acceuil/TypeProjet/image 23.svg';
@@ -7,18 +8,44 @@ import rectangleclaire from '../../../assets/Acceuil/TypeProjet/rectangleclaire.
 import triangle from '../../../assets/Acceuil/TypeProjet/triangle.svg';
 import cercle from '../../../assets/Acceuil/TypeProjet/cercle.svg';
 import './onecp.css';
-import Onecp from './onecp.jsx';
-import Twocp from './twocp.jsx';
 import Onecs from './onecs.jsx';
-import Threecs from './threecs.jsx';
-import Twocs from "./twocs.jsx";
 
 
   
 const Choix = ({ buttonColor }) => {
- 
+   
+   const [items, setItems] = useState([]);
+   const location = useLocation();
+   const params = new URLSearchParams(location.search);
+   const uid = params.get('uid');
+   const technique = params.get('tech');
+   const [niveau, setNiveau] = useState([]);
+   useEffect(() => {
+      const fetchNiveau = async () => {
+         try {
+            const response = await axios.get('http://127.0.0.1:5000/liste_niveau');
+            setNiveau(response.data.niveau);
+            console.log(response.data.niveau);
+         } catch (error) {
+            console.log(error.response);
+         }
+      }
+      fetchNiveau(); 
+   }, []);
+
+   useEffect(() => {
+      if (niveau && niveau.length > 0) {
+         setItems(niveau.map((niv) => (
+            <Onecs uid={uid} technique={technique} key={niv.niveau_id} niveau_id={niv.niveau_id} nom_niveau={niv.nom_niveau} cycle={niv.cycle} />
+         )));
+      }
+   }, [niveau]);
+   
+   
+
+    
    const [activeIndex,setActiveIndex]=useState(0) ;
-   const items =[<Onecp/>,<Twocp/>,<Onecs/>,<Twocs/>,<Threecs/>];
+   
 
    const updateIndex = (newIndex) =>{
       if (newIndex<0){

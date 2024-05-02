@@ -1,8 +1,10 @@
 import Sidebar from "./Sidebar.jsx";
-import { useState} from "react";
+import { useState, useEffect} from "react";
 import Homepage from "./Homepage.jsx";
 import Allprojects from "./Allprojects.jsx";
 import profile from "../../../assets/Acceuil/Home/profile.png"
+import { useLocation } from "react-router-dom";
+import axios from "axios";
 const Home = ({ buttonColor }) => {
         const [isClicked, setIsClicked] = useState(false);
         const [ownerClicked, setOwnerClicked] = useState(false);
@@ -11,13 +13,30 @@ const Home = ({ buttonColor }) => {
         const [clubClicked, setClubClicked] = useState(false);
         const [levelClicked, setLevelClicked] = useState(false);
         const [showAllProjects, setShowAllProjects] = useState(true);
-
         const handleToggleClick = () => {
             setShowAllProjects(!showAllProjects);
         }; 
+        const [project, setProject] = useState([]);
+        const location = useLocation();
+        const params = new URLSearchParams(location.search);
+        const uid = params.get('uid');
+
+        useEffect(() => {
+            const fetchProject = async () => {
+                try {
+                    const response = await axios.post('http://127.0.0.1:5000/acceuil', {user_id: uid});
+                    setProject(response.data.projects);
+                    console.log(response.data);
+                } catch (error) {
+                    console.log(error.response);
+                }
+            }
+            fetchProject(); 
+        }, []);
+
     return ( 
         <div className="h-[100%] grid grid-cols-6 bg-mypurple">
-            <Sidebar className="col-span-1" buttonColor = { buttonColor }></Sidebar>
+            <Sidebar  className="col-span-1" buttonColor = { buttonColor }></Sidebar>
             <div className=" bg-mypurple h-screen col-span-5">
                 <div className="bg-white h-[98.9%] mt-[1.1%] rounded-tl-2xl"> 
                     <div className=" relative h-14 flex justify-between items-start border-b-2">
@@ -154,10 +173,10 @@ const Home = ({ buttonColor }) => {
                         </div>
                     </div>
                     {showAllProjects ? (
-                        <Homepage handleToggleClick={handleToggleClick} />
+                        <Homepage project={project} handleToggleClick={handleToggleClick} />
                         
                     ) : (
-                        <Allprojects handleToggleClick={handleToggleClick} />
+                        <Allprojects project={project} handleToggleClick={handleToggleClick} />
                     )}
                 </div>
             </div>

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import Sidebar from "../Home/Sidebar";
 import cercle1 from '../../../assets/Acceuil/clubs/cercle1.svg';
 import triangle from '../../../assets/Acceuil/clubs/triangle.svg';
@@ -8,41 +9,49 @@ import iconproject from '../../../assets/Acceuil/clubs/ideeicon.svg';
 import threelines from '../../../assets/Acceuil/clubs/threelines.svg';
 import photo from "../../../assets/Acceuil/TypeProjet/profile.png";
 import GDGlogo from '../../../assets/Acceuil/clubs/clublogos/gdg.svg';
-import './choixclub.css'
+import './choixclub.css';
+import { Link , useLocation} from 'react-router-dom';
 const ChoixClub = ({ buttonColor }) => {
-
-    const club1 = {
-        "name": "Google Developer Groups",
-        "logo": GDGlogo,
-        "Type": "Club",
-        "Poster": "N/A",
-    }
-
+    const location = useLocation();
+    const params = new URLSearchParams(location.search);
+    const user_id = params.get('uid');
+    const Tech_idiation = params.get('tech');
     const [clubs, setClubs] = useState([]);
-     
-    // const getClubs = async () => {
-    //     const response = await fetch("https://api.");
-    //     const FinalData = await response.json();
-    //     setClubs(FinalData)
-    // }
-
-    
-
-    // useEffect(() => {
-    //     getClubs();
-    // }, [])
+    const [items, setItems] = useState([]);
+    useEffect(() => {
+        const getClubs = async () => {
+          try {
+            const response = await axios.get('http://127.0.0.1:5000/liste_club');
+            setClubs(response.data.clubs);
+            console.log(response.data.projects);
+          } catch (error) {
+            console.log(error.response);
+          }
+        };
+      
+        getClubs();
+      }, []);
  
+      useEffect(() => {
+        if (clubs && clubs.length > 0) {
+           setItems(clubs.map((clb) => (
+                <Link to={`/events?uid=${user_id}&tech=${Tech_idiation}&cid=${clb.club_id}`}>
+                    <ClubCard photo={clb.photo} nom={clb.nom} />
+                </Link>
+           )));
+        }
+     }, [clubs]);
 
-    const ClubCard = ({ club }) => {
+    const ClubCard = ({ photo, nom }) => {
         return (
             <div className="club1 mb-8 flex flex-col items-center w-56 h-52 border-2 border-yellow-400 rounded-[38px]  ">
 
-                <div className="roundclublogo mt-2 ">
-                    <img src={club.logo !== 'N/A' ? club.logo : club.logo = 'https://via.placeholder.com/100'} alt={club.name} />
+                <div className="roundclublogo mt-8 ">
+                    <img className="h-20 w-20 rounded-full" src={photo !== null ? photo : photo = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'} alt={nom} />
                 </div>
 
-                <div className="clubname mt-6 relative flex flex-col items-center">
-                    <h1 className="relative z-10 whitespace-nowrap " style={{ fontSize: '23.17px', fontFamily: 'Product Sans' }}>{club.name}</h1>
+                <div className="clubname mt-4 relative flex flex-col items-center w-[130%]">
+                    <h1 className="relative z-10 whitespace-nowrap " style={{ fontSize: '23.17px', fontFamily: 'Product Sans' }}>{nom}</h1>
                     <img className="absolute inset-0 z-0" style={{ marginTop: 'auto' }} src={highlightClubName} alt="highlighter" />
                 </div>
 
@@ -105,20 +114,7 @@ const ChoixClub = ({ buttonColor }) => {
 
 
                         <div className="clublist  pl-10 pt-2 grid grid-cols-3  overflow-auto ml-10 mt-6 mr-12 h-[70%] w-[98%] ">
-                            
-                              <ClubCard club={club1} />  
-                              <ClubCard club={club1} /> 
-                              <ClubCard club={club1} /> 
-                              <ClubCard club={club1} /> 
-                              <ClubCard club={club1} /> 
-                              <ClubCard club={club1} /> 
-                              
-                             {/* {clubs.map((club) => {
-                              <ClubCard club={club} />  
-                            })
-                            }  */}
-                             
-
+                             {items}
                         </div>
                         
                     </div>

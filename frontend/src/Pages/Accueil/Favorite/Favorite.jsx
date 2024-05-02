@@ -1,7 +1,10 @@
 import Sidebar from "../Home/Sidebar";
-import { useState} from "react";
+import { useState, useEffect} from "react";
 import Allfavorites from "./Allfavorites";
 import photo1 from "../../../assets/Acceuil/Home/profile.png";
+import axios from "axios";
+import { useLocation } from "react-router-dom";
+useLocation
 const Favorite = ({ buttonColor }) => {
         const [isClicked, setIsClicked] = useState(false);
         const [ownerClicked, setOwnerClicked] = useState(false);
@@ -9,7 +12,23 @@ const Favorite = ({ buttonColor }) => {
         const [moduleClicked, setModuleClicked] = useState(false);
         const [clubClicked, setClubClicked] = useState(false);
         const [levelClicked, setLevelClicked] = useState(false);
-        
+        const [project, setProject] = useState([]);
+        const location = useLocation();
+        const params = new URLSearchParams(location.search);
+        const uid = params.get('uid');
+
+        useEffect(() => {
+            const fetchProject = async () => {
+                try {
+                    const response = await axios.post('http://127.0.0.1:5000/acceuil', {user_id: uid});
+                    setProject(response.data.projects);
+                    console.log(response.data);
+                } catch (error) {
+                    console.log(error.response);
+                }
+            }
+            fetchProject(); 
+        }, []);
     return ( 
         <div className="grid grid-cols-6 bg-mypurple">
             <Sidebar className="col-span-1" buttonColor = { buttonColor }></Sidebar>
@@ -148,7 +167,7 @@ const Favorite = ({ buttonColor }) => {
                             </div>
                         </div>
                     </div>
-                    <Allfavorites/>
+                    <Allfavorites project={project}/>
                 </div>
             </div>
         </div>

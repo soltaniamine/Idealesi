@@ -46,7 +46,7 @@ const Register = () => {
           const response = await axios.post('http://127.0.0.1:5000/login', { email, password });
           console.log(response.data);
           setLoggedIn(true);
-          navigate("/home");
+          navigate(`/home?uid=${response.data.user_id}`);
         } catch (error) {
             console.log(error.response);
             setLoggedIn(false);

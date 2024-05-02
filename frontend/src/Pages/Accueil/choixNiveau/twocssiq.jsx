@@ -1,8 +1,46 @@
-import React  from 'react';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import cp from '../../../assets/Acceuil/choixniveau/cp.svg'
 import './onecp.css';
 
 const Twocssiq = () => {
+   const [modules, setModules] = useState([]);
+   const [firstColumnModules, setFirstColumnModules] = useState([]);
+   const [secondColumnModules, setSecondColumnModules] = useState([]);
+
+   useEffect(() => {
+     const fetchModules = async () => {
+       try {
+         const response = await axios.get('http://127.0.0.1:5000/liste_module');
+         setModules(response.data.modules);
+       } catch (error) {
+         console.log(error.response);
+       }
+     };
+ 
+     fetchModules();
+   }, []);
+
+   useEffect(() => {
+     const filteredModules = modules.filter(module => module.niveau_id === 6);
+
+     if (filteredModules.length > filteredModules.length/2) {
+       setFirstColumnModules(filteredModules.slice(0, filteredModules.length/2));
+       setSecondColumnModules(filteredModules.slice(filteredModules.length/2));
+     } else {
+       setFirstColumnModules(filteredModules);
+       setSecondColumnModules([]);
+     }
+   }, [modules]);
+ 
+   const Module = ({ nom_module }) => {
+     return (
+       <li className="flex items-center font-semibold hover:transform hover:-translate-y-1 hover:scale-80">
+         <div className="w-3 h-3 rounded-full bg-blue-500 mr-3"></div>
+         {nom_module}
+       </li>
+     );
+   };
 
      
   return ( 
@@ -14,67 +52,18 @@ const Twocssiq = () => {
                     <div className=" grid grid-cols-2 gap-4 mt-[4.65%] ">
 
                      <div className="mt-[1%]">
-                        <ul className="space-y-4 py-4">
-                        <li className="flex items-center font-semibold">
-                           <div className="w-3 h-3 rounded-full bg-blue-500 mr-3"></div>
-                           ELECT - Electricité                           </li>
-                        <li className="flex items-center font-semibold">
-                           <div className="w-3 h-3 rounded-full bg-orange-500 mr-3"></div>
-                           BWEB - Bureautique et Web
-                        </li>
-                        <li className="flex items-center font-semibold">
-                           <div className="w-3 h-3 rounded-full bg-gray-500 mr-3"></div>
-                           ANG1 - Anglais 1                        </li>
-                        <li className="flex items-center font-semibold">
-                           <div className="w-3 h-3 rounded-full bg-pink-500 mr-3"></div>
-                           ANA1 - Analyse mathématique 1                        </li>
-                        <li className="flex items-center font-semibold">
-                           <div className="w-3 h-3 rounded-full bg-indigo-500 mr-3"></div>
-                           ALSDS - Algorithmique et Structures de Données Statiques                        </li>
-                        <li className="flex items-center font-semibold">
-                           <div className="w-3 h-3 rounded-full bg-green-500 mr-3"></div>
-                           ARCHI1 - Architecture de l_ordinateur 1                        </li>
-                        <li className="flex items-center font-semibold">
-                           <div className="w-3 h-3 rounded-full bg-purple-500 mr-3"></div>
-                           ALG1 - Algèbre 1                        </li>
-                        <li className="flex items-center font-semibold">
-                           <div className="w-3 h-3 rounded-full bg-yellow-500 mr-3"></div>
-                           SYST1 - Introduction au Système d_exploitation 1                        </li>
-                        <li className="flex items-center font-semibold">
-                           <div className="w-3 h-3 rounded-full bg-red-500 mr-3"></div>
-                           TEE - Techniques d_Expression Ecrite
-                        </li>
-                          </ul>
+                     <ul className="space-y-4 py-4">
+                           {firstColumnModules.map(module => (
+                           <Module key={module.module_id} nom_module={module.nom_module} />
+                           ))}
+                        </ul>
                 </div>
                 <div className="mt-[1%] ml-[0.5%]">
-                        <ul className="space-y-4 py-4">
-                        <li className="flex items-center font-semibold">
-                           <div className="w-3 h-3 rounded-full bg-blue-500 mr-3"></div>
-                           ALSDD - Algorithmique et Structures de Données Dynamiques                          </li>
-                        <li className="flex items-center font-semibold">
-                           <div className="w-3 h-3 rounded-full bg-orange-500 mr-3"></div>
-                           SYST2 - Introduction au Système d_exploitation 2
-                        </li>
-                        <li className="flex items-center font-semibold">
-                           <div className="w-3 h-3 rounded-full bg-gray-500 mr-3"></div>
-                           TEO - Techniques d_Expression Orale                        </li>
-                        <li className="flex items-center font-semibold">
-                           <div className="w-3 h-3 rounded-full bg-pink-500 mr-3"></div>
-                           ALG2 - Algèbre 2                        </li>
-                        <li className="flex items-center font-semibold">
-                           <div className="w-3 h-3 rounded-full bg-indigo-500 mr-3"></div>
-                           ANA2 - Analyse mathématique 2                        </li>
-                        <li className="flex items-center font-semibold">
-                           <div className="w-3 h-3 rounded-full bg-green-500 mr-3"></div>
-                           ELECF1 - Electronique Fondamentale 1                        </li>
-                        <li className="flex items-center font-semibold">
-                           <div className="w-3 h-3 rounded-full bg-purple-500 mr-3"></div>
-                           MECA - Mécanique du point                        </li>
-                        <li className="flex items-center font-semibold">
-                           <div className="w-3 h-3 rounded-full bg-yellow-500 mr-3"></div>
-                           ANG1 - Anglais 1                        </li>
-                       
-                          </ul>
+                <ul className="space-y-4 py-4">
+                           {secondColumnModules.map(module => (
+                           <Module key={module.module_id} nom_module={module.nom_module} />
+                           ))}
+                        </ul>
                       </div>
                       </div>
 

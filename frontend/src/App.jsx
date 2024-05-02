@@ -14,6 +14,13 @@ import ChoixTechnique from './Pages/Accueil/choixTechnique/choixTechnique.jsx';
 import ChoixClub from './Pages/Accueil/clubs/choixclub.jsx';
 import Events from './Pages/Accueil/events/events.jsx';
 import Choix from './Pages/Accueil/choixNiveau/choix.jsx';
+import BoardId from './Pages/Board/BoardId.jsx';
+import Admine from './Pages/admine/admine.jsx';
+import Niveauu from './Pages/admine/niveau.jsx';
+import Modulee from './Pages/admine/module.jsx';
+import Expert from './Pages/admine/expert.jsx';
+import Exper from './Pages/Accueil/Expert/Expert.jsx';
+import Event from './Pages/admine/event.jsx';
 
 function App() {
   return (
@@ -35,6 +42,13 @@ function App() {
           <Route path="/events" element={<Events buttonColor="white2"/>} />
           <Route path="*" element={<p>Not Found oops</p>} />
           <Route path="/Niveau" element={<Choix buttonColor="white2" />} />
+          <Route path="/Board" element={<BoardId />} />
+          <Route path="/admine" element={<Admine buttonColor="white6"/>} />
+          <Route path="/Niveauu" element={<Niveauu buttonColor="white6"/>} />
+          <Route path="/modulee" element={<Modulee buttonColor="white6"/>} />
+          <Route path="/expert" element={<Expert buttonColor="white6"/>} />
+          <Route path="/event" element={<Event buttonColor="white6"/>} />
+          <Route path="/prof" element={<Exper buttonColor="white7"/>} />
         </Routes>
       </Router>
     </div>
