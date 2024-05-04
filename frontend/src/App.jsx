@@ -17,12 +17,23 @@ import Choix from './Pages/Accueil/choixNiveau/choix.jsx';
 import BoardId from './Pages/Board/BoardId.jsx';
 import Expert from './Pages/Accueil/Expert/Expert.jsx';
 
+import LayoutWithNavbar from './components/LayoutWithNavbar.jsx';
+
+import Testtab from './Pages/Accueil/testtab/testtab.jsx';
+import Guide from './Pages/FirstPage/guide.jsx'
+
 function App() {
   return (
     <div>
       <Router>
         <Routes>
-          <Route path="/" element={<Firstpage />} />
+
+          <Route element={<LayoutWithNavbar />}>
+            <Route path="/" element={<Firstpage />} />
+            <Route path="/guide" element={<Guide />} />
+            // Add other routes that require Navbar under this layout
+          </Route>
+
           <Route path="/home" element={<Home buttonColor="white1" />} />
           <Route path="/typeprojet" element={<TypeProjet buttonColor="white2" />} />
           <Route path="/favorite" element={<Favorite buttonColor="white3" />} />
@@ -39,6 +50,9 @@ function App() {
           <Route path="/Niveau" element={<Choix buttonColor="white2" />} />
           <Route path="/Board" element={<BoardId />} />
           <Route path="/Expert" element={<Expert buttonColor="white6"/>} />
+
+          <Route path="/testtab" element={<Testtab />} />
+          
         </Routes>
       </Router>
     </div>

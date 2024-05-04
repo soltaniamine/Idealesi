@@ -64,17 +64,23 @@ const Reflexion = () => {
                 scale: imgIndex === 0 ? 0.95 : 0.85,
               }}
               transition={SPRING_OPTIONS}
-              className="aspect-video p-6 h-[65vh] w-[50vw] mx-auto shrink-0 rounded-xl bg-[#CDF5CE] object-cover"
-            >
-              <div className="flex flex-col">
+
+
+
+
+
+              className="aspect-video p-6 h-[65vh] w-[50vw] mx-auto shrink-0 rounded-xl bg-[#CDF5CE] object-cover"style={{ boxShadow: '0 10px 15px -3px rgba(0.1, 0.1, 0.2, 0.45)' }} >
+              <div className="flex flex-col ">
+
                 <div className="flex flex-row justify-between">
-                  <h3>Stimulez la créativité en<br/> utilisant des méthodes de<br/> brainstorming .Stimulez la<br/> créativité en utilisant des<br/> méthodes de brainstorming .</h3>
+                  <h3 className="text-xl text-semibold pt-5 pl-4" style={{fontFamily: `Product sans`}}>Stimulez la créativité en<br/> utilisant des méthodes de<br/> brainstorming .Stimulez la<br/> créativité en utilisant des<br/> méthodes de brainstorming .</h3>
                   <img src={Balance} alt="Balance"/>
                 </div>
+
                 <div className="flex flex-row justify-between">
-                  <div className="flex flex-col">
-                    <h6>Step 3</h6>
-                    <h1>Analyse de décision<br/> multicritère</h1>
+                  <div className="flex flex-col -mt-16 ">
+                    <h6 className="mb-2 ml-6 text-medium">Step 3</h6>
+                    <h1 className="text-[40px] leading-none text-bold " style={{fontFamily: `Product sans`,fontWeight:'bolder'}}>Analyse de décision<br/> multicritère</h1>
                   </div>
                   <div>
                     <button className="rounded-full px-6 py-2 font-medium bg-[#84D783] text-black w-fit transition-all shadow-[0px_3px_0px_black] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px]">
@@ -82,7 +88,13 @@ const Reflexion = () => {
                     </button>
                   </div>
                 </div>
+
               </div>
+
+
+
+
+
             </motion.div>
             <motion.div
               key={1}
@@ -90,25 +102,28 @@ const Reflexion = () => {
                 scale: imgIndex === 1 ? 0.95 : 0.85,
               }}
               transition={SPRING_OPTIONS}
-              className="aspect-video p-6 h-[65vh] w-[50vw] mx-auto shrink-0 rounded-xl bg-[#FEF4D4] object-cover"
-            >
+
+
+              className="aspect-video p-6 h-[65vh] w-[50vw] mx-auto shrink-0 rounded-xl bg-[#FEF4D4] object-cover"style={{ boxShadow: '0 10px 15px -3px rgba(0.1, 0.1, 0.2, 0.45)' }}  >
               <div className="flex flex-col">
                 <div className="flex flex-row justify-between">
-                  <h3>Stimulez la créativité en<br/> utilisant des méthodes de<br/> brainstorming .Stimulez la<br/> créativité en utilisant des<br/> méthodes de brainstorming .</h3>
+                  <h3 className="text-xl text-semibold pt-5 pl-4" style={{fontFamily: `Product sans`}}>Stimulez la créativité en<br/> utilisant des méthodes de<br/> brainstorming .Stimulez la<br/> créativité en utilisant des<br/> méthodes de brainstorming .</h3>
                   <img src={ChapeauJ} alt="Balance"/>
                 </div>
                 <div className="flex flex-row justify-between">
-                  <div className="flex flex-col">
-                    <h6>Step 1</h6>
-                    <h1>Six chapeaux</h1>
+                  <div className="flex flex-col ">
+                    <h6 className=" ml-6 text-medium">Step 1</h6>
+                    <h1 className="text-[40px] leading-none text-bold mt-5 " style={{fontFamily: `Product sans`,fontWeight:'bolder'}}>Six chapeaux</h1>
                   </div>
                   <div>
-                    <button className="rounded-full px-6 py-2 font-medium bg-[#F8CB2B] text-black w-fit transition-all shadow-[0px_3px_0px_black] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px]">
+                    <button className="rounded-full mt-9 px-6 py-2 font-medium bg-[#F8CB2B] text-black w-fit transition-all shadow-[0px_3px_0px_black] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px]">
                       Voir plus
                     </button>
                   </div>
                 </div>
               </div>
+
+
             </motion.div>
             <motion.div
               key={2}
@@ -116,17 +131,17 @@ const Reflexion = () => {
                 scale: imgIndex === 2 ? 0.95 : 0.85,
               }}
               transition={SPRING_OPTIONS}
-              className="aspect-video p-6 h-[65vh] w-[50vw] mx-auto shrink-0 rounded-xl bg-[#FFDBF8] object-cover"
-            >
+
+              className="aspect-video p-6 h-[65vh] w-[50vw] mx-auto shrink-0 rounded-xl bg-[#FFDBF8] object-cover"style={{ boxShadow: '0 10px 15px -3px rgba(0.1, 0.1, 0.2, 0.45)' }} >
               <div className="flex flex-col">
                 <div className="flex flex-row justify-between ">
-                  <h3>Stimulez la créativité en<br/> utilisant des méthodes de<br/> brainstorming .Stimulez la<br/> créativité en utilisant des<br/> méthodes de brainstorming .</h3>
+                  <h3 className="text-xl text-semibold pt-5 pl-4" style={{fontFamily: `Product sans`}}>Stimulez la créativité en<br/> utilisant des méthodes de<br/> brainstorming .Stimulez la<br/> créativité en utilisant des<br/> méthodes de brainstorming .</h3>
                   <img src={LampPuzzel} alt="LampPuzzel" className="h-[20rem]"/>
                 </div>
                 <div className="flex flex-row justify-between">
-                  <div className="flex flex-col">
-                    <h6>Step 2</h6>
-                    <h1>Analyse des problèmes<br/>et des solutions</h1>
+                  <div className="flex flex-col -mt-16 ">
+                    <h6 className="mb-2 ml-6 text-medium">Step 2</h6>
+                    <h1 className="text-[40px] leading-none text-bold " style={{fontFamily: `Product sans`,fontWeight:'bolder'}}>Analyse des problèmes<br/>et des solutions</h1>
                   </div>
                   <div>
                     <button className="rounded-full px-6 py-2 font-medium bg-[#F08ADD] text-black w-fit transition-all shadow-[0px_3px_0px_black] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px]">
@@ -148,8 +163,8 @@ const Reflexion = () => {
                 <button
                   key={idx}
                   onClick={() => setImgIndex(idx)}
-                  className={`h-3 w-3 rounded-full transition-colors ${
-                    idx === imgIndex ? "bg-neutral-50" : "bg-neutral-500"
+                  className={`h-3 w-32 mb-10 mt-9 rounded-full transition-colors ${
+                    idx === imgIndex ? "bg-neutral-400" : "bg-neutral-50"
                   }`}
                 />
               )
@@ -169,8 +184,8 @@ const Reflexion = () => {
       return (
         <>
         <div className="flex flex-col items-center justify-center">
-          <img src={MRefl} alt="MRefl" className="w-[70%]"/>
-          <p>Stimulez la créativité en utilisant des méthodes de brainstorming et de réflexion.<br/>
+          <img src={MRefl} alt="MRefl" className="w-[70%] -mt-16 " />
+          <p className="text-2xl text-medium mb-4" style={{fontFamily: `Product sans`}}>Stimulez la créativité en utilisant des méthodes de brainstorming et de réflexion.<br/>
             ts. Spécifiquement axée sur la phase cruciale d'idéation, Idealesi offre une interfa</p>
         </div>
         <div></div>
