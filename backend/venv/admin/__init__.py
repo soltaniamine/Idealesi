@@ -334,8 +334,6 @@ def add_expert():
 
     user_id = data.get('user_id')
     module_id = data.get('module_id')
-
-    print(module_id)
     cur = mysql.connection.cursor()
     cur.execute("SELECT Utilisateur.Type,Utilisateur.email,prof.prof_id FROM Utilisateur INNER JOIN Prof ON Utilisateur.email= Prof.email WHERE Utilisateur.user_id=%s", (user_id,))
     prof_info=cur.fetchone()
@@ -348,7 +346,6 @@ def add_expert():
     
     cur.execute("SELECT prof_ID FROM ListeProf WHERE prof_ID = %s and module_id=%s", (prof_id,module_id,))
     existing_prof=cur.fetchone()
-    print(existing_prof)
     if existing_prof:
         return jsonify({'message': 'Expert already exists'}), 402
     cur.execute("SELECT Module_ID FROM module WHERE module_id=%s", (module_id,))
@@ -364,21 +361,35 @@ def add_expert():
 
     return jsonify({'message': 'Expert Added successfully'}), 200
 
-@admin.route('/liste_module_expert', methods=['POST'])
-def liste_module_expert():
-    data = request.get_json()
-    user_id=data.get('user_id')
+@admin.route('/liste_expert', methods=['GET'])
+def liste_expert():
+    # Création d'un curseur pour exécuter les requêtes SQL
     cur = mysql.connection.cursor()
-    cur.execute("SELECT Module_ID FROM listeprof WHERE Prof_ID = %s",(user_id))
-    modules= cur.fetchall()
-    liste_modules=[]
-    for module in modules:
-        module_id = module
-        liste_modules.append({
-            'module_id': module_id,
+
+
+    # Requête pour récupérer les informations nécessaires
+    cur.execute("SELECT ListeProf.Prof_ID, ListeProf.Module_ID, Prof.Nom, Prof.email,utilisateur.photo \
+                FROM mydb.ListeProf \
+                JOIN mydb.Prof ON ListeProf.Prof_ID = Prof.Prof_ID\
+                JOIN mydb.utilisateur ON Prof.email=utilisateur.email")
+    results = cur.fetchall()
+
+
+    # Création de la liste de résultats
+    liste_resultats = []
+    for result in results:
+        liste_resultats.append({
+            'prof_id': result[0],
+            'module_id': result[1],
+            'nom_prof': result[2],
+            'email_prof': result[3],
+             'photo_prof': result[4]
         })
-    
-    return jsonify({'message': 'List of modules returned successfully', 'modules': liste_modules}), 200
+
+
+    # Fermeture du curseur
+    cur.close()
+    return jsonify({'message': 'liste returned successfully','Liste_expert':liste_resultats}), 200
 
 
 @admin.route('/delete_expert', methods=['POST'])
@@ -388,7 +399,6 @@ def delete_expert():
 
     user_id = data.get('user_id')
     module_id = data.get('module_id')
-
 
     cur = mysql.connection.cursor()
     cur.execute("SELECT Utilisateur.Type,Utilisateur.email,prof.prof_id FROM Utilisateur INNER JOIN Prof ON Utilisateur.email= Prof.email WHERE Utilisateur.user_id=%s", (user_id,))

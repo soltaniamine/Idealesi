@@ -8,9 +8,6 @@ export enum LayerType {
     Text,
     Note,
     Template,
-};
-
-export enum Shapes {
     Rectangle,
     Square,
     Circle,
@@ -22,8 +19,16 @@ export enum Shapes {
     Arrowright,
     Standpr,
     Triangledarrow,
-    Linedarrow
-}
+    Linedarrow,
+    Combin,
+    IdeasRectRaffin,
+    RaffinementColumns,
+    RoundedRect,
+    IdeasRectCombin,
+    PriorityMoscow,
+    IdeasRectMoscow
+};
+
 
 export enum Side {
     Top = 1,

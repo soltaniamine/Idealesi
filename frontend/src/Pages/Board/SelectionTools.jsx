@@ -1,10 +1,10 @@
 import useSelectionBounds from '@/hoooks/useSelectionBounds'
-import { useMutation, useSelf } from '../../../liveblocks.config'
+import { useMutation, useSelf, useStorage } from '../../../liveblocks.config'
 import React, { memo, useState } from 'react'
 import ColorPicker from './ColorPicker'
 import useDeleteLayers from '../../hoooks/useDeleteLayers'
 import Hint from './Hint'
-import { Button } from '../../components/ui/button'
+import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -57,6 +57,15 @@ function useColorState(defaultForeColor, defaultBackColor) {
   const [foreColor, setForeColor] = useState(defaultForeColor)
   const [backColor, setBackColor] = useState(defaultBackColor)
   const [copier, setCopier] = useState()
+  const selection = useSelf((me) => me.presence.selection)
+  const layer = document.getElementById(`${selection[0]}`)
+  const width = layer?.getAttribute('width')
+    const boundaries = () => {
+      if(layer){
+        return layer.getBoundingClientRect()
+      } else return
+    }
+    const bounds = boundaries()
 
   return {
     foreColor,
@@ -65,10 +74,12 @@ function useColorState(defaultForeColor, defaultBackColor) {
     setBackColor,
     copier,
     setCopier,
-  };
+    bounds,
+    width
+  }
 }
 
-const MyTools = memo(({ camera, setLastUsedColor, lastUsedColor, colorState }) => {
+const MyTools = memo(({ camera, setLastUsedColor, lastUsedColor, colorState, scale }) => {
 
   const selection = useSelf((me) => me.presence.selection)
 
@@ -147,7 +158,17 @@ const MyTools = memo(({ camera, setLastUsedColor, lastUsedColor, colorState }) =
   if(!selectionBounds) return null
   
   const x = selectionBounds.width / 2 + selectionBounds.x + camera.x
-  const y = selectionBounds.y + camera.y
+  const y = selectionBounds.y + camera.y 
+  
+  
+  // const zoomProblem = useMutation(({storage}) => {
+  //   const liveLayers = storage.get("layers")
+  //   const svgRect = liveLayers.get(selection[0]).getBoundingClinetRect()
+  //   console.log(svgRect)
+
+  //   return {x: 100, y: 100}
+  // }, [scale])
+  
 
   const boldText = () => {
     document.execCommand("bold", false, null)
@@ -184,13 +205,13 @@ const MyTools = memo(({ camera, setLastUsedColor, lastUsedColor, colorState }) =
 
   return (
     <div
-      className="absolute p-3 rounded-xl bg-[#F6F6F6] shadow-sm border flex select-none"
+      className="absolute z-10 rounded-xl bg-[#F6F6F6] shadow-sm border flex select-none"
       style={{
         transform: `translate(
-          calc(${x}px - 50%),
-          calc(${y - 16}px - 100%)
+          calc(${ scale == 1 ? `${x}px - 50%` : `${colorState.bounds?.left}px - 25%`}),
+          calc(${ scale == 1 ? `${y  - 16}px - 100%` : `${colorState.bounds?.top}px - 125%`})
         )`
-      }}
+      }} 
     >
       <img src={circle} alt="circle" className={`bg-${lastUsedColor}`}/>
       <DropdownMenu>
@@ -360,14 +381,13 @@ const MyTools = memo(({ camera, setLastUsedColor, lastUsedColor, colorState }) =
   )
 })
 
-const SelectionTools = ({camera, setLastUsedColor, lastUsedColor}) => {
+const SelectionTools = ({camera, setLastUsedColor, lastUsedColor, scale}) => {
   
 
   const colorState = useColorState('#000000', '#ffffff');
 
-  return <MyTools camera={camera} setLastUsedColor={setLastUsedColor} lastUsedColor={lastUsedColor} colorState={colorState}/>
+  return <MyTools camera={camera} setLastUsedColor={setLastUsedColor} lastUsedColor={lastUsedColor} colorState={colorState} scale={scale}/>
 }
 
 export default SelectionTools
 
-SelectionTools.displayName = "SelectionTools"

@@ -13,6 +13,7 @@ const ColorPicker = ({ onChange }) => {
       <ColorButton color={{ r: 252, g: 142, b: 42 }} onClick={onChange} />
       <ColorButton color={{ r: 0, g: 0, b: 0 }} onClick={onChange} />
       <ColorButton color={{ r: 255, g: 255, b: 255 }} onClick={onChange} />
+      <ColorButton color={{r: 255, g:192, b:203  }} onClick= {onChange}/>
     </div>
   )
 }

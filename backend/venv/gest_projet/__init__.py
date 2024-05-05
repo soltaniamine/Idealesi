@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify,Blueprint
 from flask_mysqldb import MySQL
 from datetime import datetime
 import base64
-
+from werkzeug.security import generate_password_hash, check_password_hash
 gest_projet = Blueprint("gest_projet", __name__)
 mysql = MySQL()
 
@@ -224,7 +224,7 @@ def search_projects():
     projects = cur.fetchall()
 
     # Récupérer les résultats de la requête et les formater pour la réponse JSON
-    formatted_projects = []
+    formatted_projects = [] 
     for project in projects:
         projet_id, nom, favori, access = project
         formatted_projects.append({
@@ -349,3 +349,94 @@ def upload_photo():
     cur.close()
 
     return jsonify({'message': 'Photo uploaded successfully'}), 200
+
+@gest_projet.route('/info', methods=['POST'])
+def get_user_info():
+    data = request.get_json()
+    user_id = data.get('user_id')
+    if user_id is None:
+        return jsonify({'error': 'user_id is required'}), 400
+
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT username, Photo, email FROM utilisateur WHERE User_ID = %s", (user_id,))
+    user_info = cur.fetchone()
+
+    if user_info is None:
+        return jsonify({'error': 'No user found with the given user_id'}), 404
+    
+    username, photo, email = user_info
+    user_data = {
+        'username': username,
+        'photo': photo,
+        'email': email
+    }
+    
+    return jsonify({'message': 'User information returned successfully', 'info': user_data}), 200
+
+@gest_projet.route('/update_nom', methods=['POST'])
+def update_nom():
+   
+    # Récupérer les données JSON de la requête
+    data = request.get_json()
+    user_id = data.get('user_id')
+    new_name = data.get('new_name')
+
+
+    # Vérifier si les champs obligatoires sont présents
+    if not user_id or not new_name:
+        return jsonify({'message': 'Missing required fields'}), 400
+
+
+    cur = mysql.connection.cursor()
+    # Vérifier si l'utilisateur existe
+    cur.execute("SELECT username FROM utilisateur WHERE user_id=%s", (user_id,))
+    existing_user = cur.fetchone()
+    if not existing_user:
+        cur.close()
+        return jsonify({'message': 'User does not exist'}), 404
+
+
+    # Mettre à jour le nom de l'utilisateur
+    cur.execute("UPDATE utilisateur SET username= %s WHERE user_id = %s", (new_name, user_id,))
+    mysql.connection.commit()
+    cur.close()
+    return jsonify({'message': 'Name updated successfully'}), 200
+
+@gest_projet.route('/update_password', methods=['POST'])
+def update_password():
+    # Récupérer les données JSON de la requête
+    data = request.get_json()
+    user_id = data.get('user_id')
+    old_password = data.get('old_password')
+    new_password = data.get('new_password')
+   
+    # Vérifier si les champs obligatoires sont présents
+    if not user_id or not old_password or not new_password:
+        return jsonify({'message': 'Missing required fields'}), 400
+
+
+    # Création d'un curseur pour exécuter les requêtes SQL
+    cur = mysql.connection.cursor()
+
+
+    # Vérifier si l'ancien mot de passe est correct
+    cur.execute("SELECT Password FROM Utilisateur WHERE User_ID = %s", (user_id,))
+    user_data = cur.fetchone()
+    if user_data:
+        if not check_password_hash(user_data[0], old_password):
+            return jsonify({'message': 'Incorrect old password'}), 400
+    else:
+        return jsonify({'message': 'User not found'}), 404
+
+
+    # Mettre à jour le mot de passe de l'utilisateur
+    hashed_new_password = generate_password_hash(new_password)
+    cur.execute("UPDATE Utilisateur SET Password = %s WHERE User_ID = %s", (hashed_new_password, user_id,))
+   
+    # Commit des changements dans la base de données
+    mysql.connection.commit()
+    # Fermeture du curseur
+    cur.close()
+
+
+    return jsonify({'message': 'Password updated successfully'}), 200

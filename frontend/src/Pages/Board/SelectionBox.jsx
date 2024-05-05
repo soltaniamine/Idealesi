@@ -197,4 +197,3 @@ const SelectionBox = memo(({onResizeHandlePointerDown}) => {
 
 export default SelectionBox
 
-SelectionBox.displayName = "SelectionBox"

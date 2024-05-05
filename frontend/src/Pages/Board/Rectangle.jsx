@@ -1,28 +1,62 @@
-import { colorToCss } from "@/constants"
+import '@fontsource/kalam'
+import ContentEditable from "react-contenteditable";
+
+import { cn, colorToCss, getContrastingTextColor } from "../../constants/index";
+import { useMutation } from "../../../liveblocks.config";
 
 
-export const Rectangle = ({
-  id,
-  layer,
-  onPointerDown,
-  selectionColor,
-}) => {
-  const { x, y, width, height, fill } = layer
+const calculateFontSize = (width, height) => {
+  const maxFontSize = 96;
+  const scaleFactor = 0.15;
+  const fontSizeBasedOnHeight = height * scaleFactor;
+  const fontSizeBasedOnWidth = width * scaleFactor;
+
+  return Math.min(
+    fontSizeBasedOnHeight, 
+    fontSizeBasedOnWidth, 
+    maxFontSize
+  );
+}
+
+
+export const Rectangle = ({layer, onPointerDown, id, selectionColor}) => {
+  const { x, y, width, height, fill, value } = layer;
+
+  const updateValue = useMutation(({ storage }, newValue) => {
+    const liveLayers = storage.get("layers");
+
+    liveLayers.get(id)?.set("value", newValue);
+  }, []);
+
+  const handleContentChange = (e) => {
+    updateValue(e.target.value);
+  };
 
   return (
-    <rect
-      className="drop-shadow-md"
-      onPointerDown={(e) => onPointerDown(e, id)}
-      style={{
-        transform: `translate(${x}px, ${y}px)`,
-      }}
-      x={0}
-      y={0}
+    <foreignObject
+      x={x}
+      y={y}
       width={width}
       height={height}
-      strokeWidth={1}
-      fill={fill ? colorToCss(fill) : "#000"}
-      stroke={selectionColor || "transparent"}
-    />
-  )
-}
+      onPointerDown={(e) => onPointerDown(e, id)}
+      style={{
+        outline: selectionColor ? `1px solid ${selectionColor}` : "none",
+        backgroundColor: fill ? colorToCss(fill) : "#000",
+      }}
+    >
+      <ContentEditable
+        html={value ? value : ""}
+        onChange={handleContentChange}
+        className={cn(
+          "h-full w-full flex items-center justify-center text-center outline-none",
+        )}
+        style={{
+          fontSize: calculateFontSize(width, height),
+          color: fill ? getContrastingTextColor(fill) : "#000",
+          fontFamily: 'Kalam, cursive',
+          backgroundColor: fill ? colorToCss(fill) : "#000",
+        }}
+      />
+    </foreignObject>
+  );
+};

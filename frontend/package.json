@@ -38,7 +38,16 @@
     "@fontsource/roboto": "^5.0.13",
     "@mui/material": "^5.15.15",
     "@mui/styled-engine-sc": "^6.0.0-alpha.18",
-    "styled-components": "^6.1.8"
+    "styled-components": "^6.1.8",
+    "@liveblocks/react-comments": "^1.11.2",
+    "@radix-ui/react-context-menu": "^2.1.5",
+    "@radix-ui/react-dialog": "^1.0.5",
+    "cmdk": "^1.0.0",
+    "d3": "^7.9.0",
+    "reactflow": "^11.11.2",
+    "@radix-ui/react-select": "^2.0.0",
+    "primereact": "^10.6.3",
+    "simplebar-react": "^3.2.4"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.2.1",
@@ -51,7 +60,12 @@
     "postcss": "^8.4.35",
     "postcss-nested": "^6.0.1",
     "tailwindcss": "^3.4.1",
-    "vite": "^5.1.4"
+    "vite": "^5.1.4",
+    "@types/node": "^20.11.30",
+    "@types/react": "^18.2.66",
+    "@types/react-dom": "^18.2.22",
+    "postcss-nesting": "^12.1.2",
+    "tailwind-scrollbar": "^3.1.0"
   },
   "scripts": {
     "dev": "vite",

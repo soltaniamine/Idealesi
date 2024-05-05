@@ -11,7 +11,9 @@ import line from '../../../assets/Acceuil/events/line.svg';
 import Button from '@mui/material/Button';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
-import './Expert.css';
+import '../events/events.css';
+import Notification from "../notification-et-profile/notification";
+import Profilee from "../notification-et-profile/profile";
 
 
 const Exper = ({ buttonColor }) => {
@@ -19,7 +21,6 @@ const Exper = ({ buttonColor }) => {
     const params = new URLSearchParams(location.search);
     const uid = params.get('uid');
     const [niveau, setNiveau] = useState([]);
-    useEffect(() => {
     const fetchNiveau = async () => {
         try {
         const response = await axios.get('http://127.0.0.1:5000/liste_niveau');
@@ -29,33 +30,36 @@ const Exper = ({ buttonColor }) => {
         console.log(error.response);
         }
     };
-    fetchNiveau();
+    useEffect(() => {
+        fetchNiveau();
     }, []);
 
     const [modules, setModules] = useState([]);
+    const fetchModules = async () => {
+        try {
+        const response = await axios.get('http://127.0.0.1:5000/liste_module');
+        setModules(response.data.modules);
+        } catch (error) {
+        console.log(error.response);
+        }
+    };
     useEffect(() => {
-        const fetchModules = async () => {
-            try {
-            const response = await axios.get('http://127.0.0.1:5000/liste_module');
-            setModules(response.data.modules);
-            } catch (error) {
-            console.log(error.response);
-            }
-        };
         fetchModules();
         }, []);
     const [modulesExp, setModulesExp] = useState('');
     // Fetch modules expertise data for all modules
-    useEffect(()=>{
-        const fetchModulesExpertise = async () => {
-    
-            try {
-                const response = await axios.post('http://127.0.0.1:5000/liste_module_expert', { user_id: uid});
-                setModulesExp(response.data.modules);
-            } catch (error) {
-                console.log(error.response);
+    const fetchModulesExpertise = async () => {
+        try {
+            const response = await axios.get('http://127.0.0.1:5000/liste_expert');
+            if (response.data) {
+                setModulesExp(response.data.Liste_expert);
             }
+        } catch (error) {
+            console.log(error.response);
         }
+    }
+    useEffect(()=>{
+        
         fetchModulesExpertise();
     },[])
 const [items, setItems] = useState([]);
@@ -63,24 +67,22 @@ const [items, setItems] = useState([]);
         if (niveau && niveau.length > 0 && modules && modules.length > 0) {
             setItems(
                 niveau.map((niv) => (
-                    <div className="year bg-white w-[85%] h-[80%] ml-16 mt-2 mb-4 rounded-[37px] selected relative hover:drop-shadow-md" key={niv.id}>
+                    <div className=" year bg-white w-[85%] h-[80%] ml-16 mt-2 mb-4 rounded-[37px] selected relative  hover:drop-shadow-md">
                         <div className='yearname mr-5 pt-1'>
-                            <h1 className="text-center ml-10 mt-2 font-bold text-2xl" style={{ fontFamily: 'Product Sans' }}>{niv.nom_niveau}</h1>
-                            <img className=' ml-[46%] ' src={line} alt="blueline" />
+                            <h1 className="text-center ml-10 mt-2 font-bold text-2xl " style={{ fontFamily: 'Product Sans' }}>{niv.nom_niveau}</h1>
+                            <img className=' ml-[46%] ' src={line} alt="blueline  " />
                         </div>
-                        <div className='yearmodules overflow-auto h-[70%] ml-1'>
+                        <div className=' yearmodules overflow-auto h-[75%] ml-1'>
                             {modules
                                 .filter(mod => mod.niveau_id === niv.niveau_id)
                                 .map((mo) => {
-                                    const moduleExpData = Array.isArray(modulesExp) ? modulesExp.find(data => data.moduleId === mo.module_id) : null;
+                                    const moduleExpData = Array.isArray(modulesExp) ? modulesExp.find(data => data.module_id === mo.module_id) : null;
                                     const but = moduleExpData ? 'added' : 'add'; 
-                                    console.log(moduleExpData);
                                     return (
                                         <ModuleElement
                                             module={mo.nom_module}
                                             module_id={mo.module_id}
                                             but={but}
-                                            key={mo.id}
                                         />
                                     );
                                 })
@@ -91,13 +93,25 @@ const [items, setItems] = useState([]);
             );
             
         }
-    }, [niveau, items ]);
+    }, [niveau, items, modulesExp ]);
 
     const ajoutExpert = async (mid) => {
         try {
             const response = await axios.post('http://127.0.0.1:5000/add_expert', { user_id: uid, module_id: mid});
-            console.log(mid);
-            console.log(response.data);
+            if (response.status === 200) {
+                fetchModulesExpertise();
+            }
+        } catch (error) {
+            console.log(error.response);
+        }
+    }
+    
+    const supExpert = async (mid) => {
+        try {
+            const response = await axios.post('http://127.0.0.1:5000/delete_expert', { user_id: uid, module_id: mid});
+            if (response.status === 200) {
+                fetchModulesExpertise();
+            }
         } catch (error) {
             console.log(error.response);
         }
@@ -105,12 +119,13 @@ const [items, setItems] = useState([]);
 
     const ModuleElement = ({ module, module_id, but }) => {
         return (
-        <div className={`flex items-center element ml-20 mt-2 w-[80%] h-[20%] ${but === 'added' ? 'bg-gray-100' : 'bg-gray-300' } rounded-lg drop-shadow-md`}>
+        <div className={`flex items-center  ml-20 mt-2 w-[80%] h-[20%] ${but === 'added' ? 'bg-gray-100' : 'bg-gray-300' } rounded-lg drop-shadow-md`}>
             <div className="absolute right-2  ml-[92%]">
             {
                 but === 'added' ? 
                 <Button 
                 size="small" 
+                onClick={()=> {supExpert(module_id); console.log(module_id)}}
                 variant="contained" 
                 style={{ backgroundColor: '#8589B3'  }}>
                 Added
@@ -131,6 +146,26 @@ const [items, setItems] = useState([]);
         );
     }
 
+    const [showNotification, setShowNotification] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
+
+
+  const handleButtonClick = () => {
+    setShowNotification(prevState => !prevState);
+  };
+  const handleProfileClick = () => {
+    setShowProfile(prevState => !prevState);
+  };
+
+  useEffect(() => {
+    fetchModulesExpertise();
+}, []) 
+
+useEffect(() => {
+    fetchNiveau();
+    fetchModules();
+}, []);
+
     return (
         <div className="grid grid-cols-6 bg-mypurple mt-[1,1%] ">
             <Sidebar className="col-span-1" buttonColor={buttonColor}></Sidebar>
@@ -142,20 +177,30 @@ const [items, setItems] = useState([]);
                         <div className=" w-32 flex  mt-2 items-center justify-around mr-5 mb-3 ">
 
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z" />
-                            </svg>
-
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
-                            </svg>
-
-                            <div className="w-10 h-10 overflow-hidden rounded-full ">
-                                <img src={photo} alt="" />
-                            </div>
-
-                        </div>
-
-                    </div> {/* your Expert div */}
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z" />
+              </svg>
+              <button onClick={handleButtonClick}>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
+                </svg>
+              </button>
+                 {showNotification && 
+                 <div className="absolute right-4 top-16 notification z-50 h-[20%] w-[40%] ">
+                  <Notification/>
+                  </div>
+                  }
+                <button onClick={handleProfileClick}>
+                    <div className="w-10 h-10 overflow-hidden rounded-full ">
+                      <img src={photo} alt="" />
+                    </div>
+                </button>
+                {showProfile && 
+                 <div className="absolute  ml-[76%] mt-[18%]  z-50 h-[20%] w-[100%] ">
+                  <Profilee/>
+                  </div>
+                }
+            </div>
+          </div> {/* your Expert div */}
 
                     <div className="ExpertChoice w-[96,5%] h-[90%] ml-3 mr-3 mt-3">
 
@@ -204,134 +249,3 @@ const [items, setItems] = useState([]);
 }
 
 export default Exper
-
-
-// const [mid, setIdModule] = useState('');
-// const location = useLocation();
-// const params = new URLSearchParams(location.search);
-// const uid = params.get('uid');
-
-// const [niveau, setNiveau] = useState([]);
-// useEffect(() => {
-//   const fetchNiveau = async () => {
-//     try {
-//       const response = await axios.get('http://127.0.0.1:5000/liste_niveau');
-//       setNiveau(response.data.niveau);
-//       console.log(response.data.niveau);
-//     } catch (error) {
-//       console.log(error.response);
-//     }
-//   };
-//   fetchNiveau();
-// }, []);
-
-
-// useEffect(() => {
-//     const fetchModules = async () => {
-//         try {
-//         const response = await axios.get('http://127.0.0.1:5000/liste_module');
-//         setModules(response.data.modules);
-//         } catch (error) {
-//         console.log(error.response);
-//         }
-//     };
-//     fetchModules();
-//     }, []);
-// const [modulesExp, setModulesExp] = useState([]);
-// const fetchModulesExpert = async (m) => {
-//     try {
-//       const response = await axios.get('http://127.0.0.1:5000/liste_module_expert', {user_id: uid, module_id: m});
-//       setModulesExp(response.data.modules);
-//     } catch (error) {
-//       console.log(error.response);
-//     }
-//   };
-// const [items, setItems] = useState([]);
-// useEffect(() => {
-//     if (niveau && niveau.length > 0) {
-//       setItems(
-//         niveau.map((niv) => (
-//           <div className=" year bg-white w-[85%] h-[80%] ml-16 mt-2 mb-4 rounded-[37px] selected relative  hover:drop-shadow-md" key={niv.id}>
-//             <div className='yearname mr-5 pt-1'>
-//               <h1 className="text-center ml-10 mt-2 font-bold text-2xl " style={{ fontFamily: 'Product Sans' }}>{niv.nom_niveau}</h1>
-//               <img className=' ml-[46%] ' src={line} alt="blueline" />
-//             </div>
-//             <div className=' yearmodules overflow-auto h-[70%] ml-1'>
-//             {modulesList && modulesList.length > 0 && (
-//                 modulesList
-//                     .filter(mod => mod.niveau_id === niv.niveau_id)
-//                     .map((mo) => {
-//                     fetchModulesExpert(mo.module_id);
-//                     const isExpertModule = modulesExp.some(modd => modd == mo.module_id)
-//                     return (
-//                         <ModuleElement
-//                         module={mo.nom_module}
-//                         module_id={mo.module_id}
-//                         addbotton={isExpertModule ? "added" : "add"}
-//                         key={mo.id}
-//                         />
-//                     );
-//                     })
-//                 )}
-
-
-//             </div>
-//           </div>
-//         ))
-//       );
-//     }
-//   }, [niveau, modulesList, modulesexpertList]);
-//   const ajoutExpert = async () => {
-//     try {
-//         const response = await axios.post('http://127.0.0.1:5000/add_expert', { user_id: uid, module_id: mid});
-//         console.log(response.data);
-//     } catch (error) {
-//         console.log(error.response);
-//     }
-//   }
-//   const deleteExpert = async () => {
-//     try {
-//         const response = await axios.post('http://127.0.0.1:5000/delete_expert', { user_id: uid, module_id: mid});
-//         console.log(response.data);
-//     } catch (error) {
-//         console.log(error.response);
-//     }
-//   }
-    
-
-
-//   const ModuleElement = ({ module, module_id, addbotton }) => {
-//     const [elementColor, setElementColor] = useState('bg-gray-300');
-//     const [buttonText, setButtonText] = useState(addbotton);
-  
-//     const handleClick = () => {
-        
-//         setIdModule(module_id);
-//         console.log(addbotton);
-//       if (buttonText === 'added') {
-//         setElementColor('bg-gray-100');
-//         setButtonText('added'); 
-//         ajoutExpert();
-//       } else {
-//         setElementColor('bg-gray-300');
-//         setButtonText('add');
-//         deleteExpert();
-//       }
-//     };
-  
-//     return (
-//       <div className={`flex items-center element ml-20 mt-2 w-[80%] h-[20%] ${elementColor} rounded-lg drop-shadow-md`}>
-//         <div className="absolute right-2  ml-[92%]">
-//           <Button 
-//             size="small" 
-//             variant="contained" 
-//             onClick={handleClick} 
-//             style={{ backgroundColor: buttonText === 'added' ? '#8589B3' : '#9398CF' }}>
-//             {buttonText}
-//           </Button>
-//         </div>
-//         <img className="w-8 ml-3 mt-1" src={iconprof} alt="les modules" />
-//         <h1 className="modulename absolute ml-14 text-[20px]" style={{ fontFamily: 'Product Sans' }}>{module}</h1>
-//       </div>
-//     );
-//   }

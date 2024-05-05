@@ -77,7 +77,7 @@ const lockTools = ({camera}) => {
 
   return (
     <div
-      className="absolute p-3 rounded-xl bg-[#F6F6F6] shadow-sm border flex select-none"
+      className="absolute p-3 rounded-xl z-10 bg-[#F6F6F6] shadow-sm border flex select-none"
       style={{
         transform: `translate(
           calc(${x}px - 50%),

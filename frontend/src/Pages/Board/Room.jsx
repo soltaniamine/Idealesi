@@ -9,7 +9,7 @@ const Room = ({user_id, module_id, niveau_id, club_id, Tech_idiation, children, 
     const newProject = async () => {
       try {
         const response = await axios.post('http://127.0.0.1:5000/new_project', {
-          nom: 'nouveau', 
+          nom: 'biskra', 
           niveau_id,
           module_id,
           club_id, 
