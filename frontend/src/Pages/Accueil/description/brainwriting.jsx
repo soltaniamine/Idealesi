@@ -1,7 +1,6 @@
 import React from "react";
 import { useState } from "react";
 import brainwriting from '../../../assets/brainwriting.svg' ;
-import tkharbicha from '../../../assets/Acceuil/TypeProjet/tkharbicha.svg';
 
 const Brainwriting = () => {
     const [showDescription, setShowDescription] = useState(true);
@@ -13,7 +12,7 @@ const Brainwriting = () => {
     return ( 
         <>
         {showDescription && (
-        <div className="border rounded-xl p-2 bg-gray-50 w-[45%]  ">
+        <div className="border rounded-xl p-2 bg-gray-50 w-full  ">
             <div className='flex justify-end items-end mb-2 mt-2'>
                 <div className="flex-grow text-center">
                     <h2 className="font-bold mb-2 text-2xl " style={{ fontFamily: 'Product Sans' }}>Brain-Writing</h2>
@@ -30,8 +29,7 @@ const Brainwriting = () => {
             <div className=" text-center">
                 <img src={brainwriting} alt="Brainstorming icon" className="mx-auto  size-[70%]  " />
             </div>
-            <div className=" relative mt-4 flex-grow text-center">
-                    <img className="absolute scale-x-[-1] w-6 h-6 ml-[36%]" src={tkharbicha} />
+            <div className="  mt-4 flex-grow text-center">
                     <h2 className="font-semiBold mb-3 text-2xl  " style={{ fontFamily: 'Product Sans' }}>Description :</h2>
 
             </div>

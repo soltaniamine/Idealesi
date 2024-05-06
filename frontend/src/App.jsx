@@ -26,6 +26,9 @@ import Settings from './Pages/Accueil/setting/settings.jsx';
 import Brainstorming from './Pages/Accueil/description/brainstorming.jsx';
 import Chapeaux from './Pages/Accueil/description/chapeaux.jsx';
 import Brainwriting from './Pages/Accueil/description/brainwriting.jsx';
+import Raffinement from './Pages/Accueil/guidUtilisateur/raffinement.jsx';
+import Moscow from './Pages/Accueil/guidUtilisateur/moscow.jsx';
+import Combainaison from './Pages/Accueil/guidUtilisateur/combainaison.jsx';
 // import { Brain } from 'lucide-react';
 
 function App() {
@@ -59,6 +62,12 @@ function App() {
           <Route path="/brainstorming" element={<Brainstorming buttonColor="white5"/>} />
           <Route path="/chapeaux" element={<Chapeaux buttonColor="white5"/>} />
           <Route path="/brainwriting" element={<Brainwriting buttonColor="white5"/>} />
+          <Route path="/raffinement" element={<Raffinement buttonColor="white5"/>} />
+          <Route path="/moscow" element={<Moscow buttonColor="white6"/>} />
+          <Route path="/combainaison" element={<Combainaison buttonColor="white6"/>} />
+
+
+
 
 
           {/* <Route path="/manipulation" element={<Eishenhower />} /> */}
