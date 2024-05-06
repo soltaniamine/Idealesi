@@ -3,7 +3,7 @@ import exp from '../assets/exp.svg'
 
 const Raffexp = () => {
     return (
-        <div className='flex flex-col md:flex-row w-full h-[130vh] items-center justify-center bg-gradient-to-b from-[#fcd3f5] to-[#5961B4] p-10 relative '>
+        <div className='flex flex-col md:flex-row w-full h-[130vh] items-center justify-center bg-gradient-to-b from-[#fcd3f5] to-[#8f96dd] p-10 relative '>
 
             <div className=" text-center w-full max-w-6xl ">
                 <div className='-translate-y-[9.5rem]'>

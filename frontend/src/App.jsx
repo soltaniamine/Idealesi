@@ -21,6 +21,7 @@ import LayoutWithNavbar from './components/LayoutWithNavbar.jsx';
 
 import Testtab from './Pages/Accueil/testtab/testtab.jsx';
 import Guide from './Pages/FirstPage/guide.jsx'
+import Propos from './Pages/FirstPage/propos.jsx'
 
 function App() {
   return (
@@ -31,6 +32,8 @@ function App() {
           <Route element={<LayoutWithNavbar />}>
             <Route path="/" element={<Firstpage />} />
             <Route path="/guide" element={<Guide />} />
+            <Route path="/propos" element={<Propos />} />
+
             // Add other routes that require Navbar under this layout
           </Route>
 

@@ -1,5 +1,6 @@
 import React from 'react'
 import brainwriting from '../assets/brainwriting.svg'
+import { Link } from 'react-router-dom'
 
 
 const Brainwriting = () => {
@@ -18,9 +19,13 @@ const Brainwriting = () => {
 
                 <p className="text-xl -translate-y-14" style={{ fontFamily: 'Product Sans' }}>
                     Explorez nos sessions de brainwriting à l'ESI, conçues pour stimuler créativité et collaboration. Cette méthode favorise la réflexion individuelle et anonyme, enrichissant les échanges sur des sujets innovants tout en s'intégrant facilement aux workflows académiques. L'anonymat encourage une participation diverse et authentique, essentielle à l'élaboration de solutions créatives.                </p>
+
+                <Link to='/register'>
                 <button className="bg-[#9846e0] border-2 border-[#6f4a8e] text-white px-4 py-2 rounded-full hover:bg-[#6f4a8e] -translate-y-20 transition -translate-x-16 duration-300" style={{ fontFamily: 'Product Sans' }}>
                     Brainwritez dès maintenant !
                 </button>
+               </Link>
+               
             </div>
         </div>
 

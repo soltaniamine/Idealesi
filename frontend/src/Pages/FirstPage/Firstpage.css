@@ -249,6 +249,24 @@
 section {
   height: 100vh;
 
+
+}
+
+.bg-image-container {
+  position: relative;
+  background-image: url('your-image-url'); /* Replace 'your-image-url' with your variable or direct link */
+  background-size: cover;
+}
+
+.bg-image-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(255, 255, 255, 0.5); /* White overlay with 50% opacity */
+  pointer-events: none; /* This prevents the overlay from affecting mouse events */
 }
 
 /* @keyframes backgroundColorChange {

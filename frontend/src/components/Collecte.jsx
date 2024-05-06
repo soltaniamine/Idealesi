@@ -4,6 +4,7 @@ import Lamp from '../assets/Lamp.svg'
 import PencilB from '../assets/PencilB.svg'
 import { Button } from './ui/button'
 import { ChevronRightIcon } from "@radix-ui/react-icons"
+import { Link } from 'react-router-dom'
 
 const Collecte = () => {
 
@@ -41,9 +42,12 @@ const Collecte = () => {
                         </div>
 
                         <div className='self-end pr-3 pb-5'>
+                            <Link to="/guide#brains" >
                             <button className="rounded-full px-6 py-2 font-medium bg-[#F8CB2B] text-black w-fit transition-all shadow-[0px_3px_0px_black] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px]">
                                 Voir plus
                             </button>
+                        
+                            </Link>
                         </div>
 
                     </div>

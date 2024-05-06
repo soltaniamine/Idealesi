@@ -6,10 +6,11 @@ import Combinaison from '@/components/Combinaison'
 import Prio from '@/components/Prio'
 import Footer from '@/components/Footer'
 
+
 const Guide = () => {
   return (
     <div className=''> 
-     <Brainstorming/>
+     <Brainstorming id='brains'/>
      <Brainwriting/>
       <Combinaison/>
       <Raffexp/>

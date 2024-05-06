@@ -5,12 +5,13 @@ import DrawedStar from '../assets/DrawedStar.svg'
 import DrawedStar2 from '../assets/DrawedStar2.svg'
 import CirclesArr from '../assets/CirclesArr.svg'
 import RectangleJPhman from '../assets/RectangleJPhman.svg'
+import tabmani from '../assets/tabmani.svg'
 
 const Manipulation = () => {
     return (
         <div className='flex flex-row bg-gradient-to-r from-[#646FD4] to-[#DBDFFD] w-[95vw] h-[40vw] translate-x-[5vw] radius relative ' style={{ boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.5)' }}>
 
-            <div className='flex flex-col mt-12 mb-20'>
+            <div className='flex flex-col mt-12 mb-20 '>
 
                 <div className='grid-container'>
                     <img src={CirclesArr} alt="CirclesArr" className='translate-y-[30%] mr-16 ' />
@@ -20,7 +21,7 @@ const Manipulation = () => {
                 </div>
 
                 <div className='grid grid-cols-[350px_140px] mt-5 ml-[4.5rem]'>
-                    <div className='z-50'>
+                    <div className='z-50 translate-x-6  '>
                         <h3 className='text-white text-4xl font-light ' style={{ fontFamily: `Product sans` }}>Stimulez la créativité en utilisant doffre une interfa</h3>
                     </div>
 
@@ -29,19 +30,22 @@ const Manipulation = () => {
                     </div>
                 </div>
 
-                <div className='w-[350px] text-center ml-16 mt-8'>
-                    <p className='text-white tracking-tight text-lg mt-6' style={{ fontFamily: `Product sans` }}>Stimulez la créativité en utilisant des méthodes de brainstorming et de réflexion.ts. Spécifiquement axée sur la phase cruciale d'idéation, Idealesi offre une interfa</p>
+                <div className='w-[400px] text-center ml-16 mt-8'>
+                    <p className='text-white tracking-tight text-xl mt-6' style={{ fontFamily: `Product sans` }}>Stimulez la créativité en utilisant des méthodes de brainstorming et de réflexion.ts. Spécifiquement axée sur la phase cruciale d'idéation, Idealesi offre une interfa</p>
                 </div>
 
             </div>
 
             <div className='flex flex-col justify-between my-8'>
 
-                <div className='self-end ml-28'>
-                    <img src={DrawedStar} alt="DrawedStar" className='w-[55px] h-[55px] translate-x-[30vw]' />
+                <div className='self-end '>
+                    <img src={DrawedStar} alt="DrawedStar" className='w-[55px] h-[55px] -translate-x-6 -translate-y-4' />
+                </div>
+                <div className="tabmani w-[90%] items-end ml-10 -mt-10">
+                    <img src={tabmani} alt="tabmnipulation" />
                 </div>
                 <div className='self-start'>
-                    <img src={DrawedStar2} alt="DrawedStar2" className='w-[55px] h-[55px] -translate-x-[10vw]' />
+                    <img src={DrawedStar2} alt="DrawedStar2" className='w-[55px] h-[55px] translate-x-[0.5vw] -translate-y-9' />
                 </div>
 
             </div>

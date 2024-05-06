@@ -7,9 +7,10 @@ import LinkedinIcon from '../assets/LinkedinIcon.svg'
 
 
 
+
 const Footer = () => {
   return (
-    <div className="bg-[#242F9B] text-white py-16 px-[5vw] relative ">
+    <div id="Footer" className=" bg-[#242F9B] text-white py-16 px-[5vw] relative ">
       <div className="flex justify-between items-start">
 
         <div className="space-y-6">
