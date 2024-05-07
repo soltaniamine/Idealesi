@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Sidebar from "../Home/Sidebar";
+import axios from 'axios';
 import photo from "../../../assets/Acceuil/TypeProjet/profile.png";
 import cercle1 from '../../../assets/Acceuil/clubs/cercle1.svg';
 import triangle from '../../../assets/Acceuil/clubs/triangle.svg';
@@ -10,34 +11,107 @@ import gdgbar from '../../../assets/Acceuil/events/gdgbar.svg';
 import eventpic from '../../../assets/Acceuil/events/eventpic.svg';
 import line from '../../../assets/Acceuil/events/line.svg'
 import './events.css'
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import Notification from "../notification-et-profile/notification";
+import Profilee from "../notification-et-profile/profile";
 
 const Events = ({ buttonColor }) => {
-    const event1 = {
-        "name": "Google I/O Extended",
-        "logo": eventpic,
-        "eventclub": gdgbar,
-        "Poster": "N/A",
-    }
 
-    const [Events, setEvents] = useState([]);
-    // const getEvents = async () => {
-    //     const response = await fetch("https://api.");
-    //     const FinalData = await response.json();
-    //     setEvents(FinalData)
-    // }
+    const location = useLocation();
+    const params = new URLSearchParams(location.search);
+    const club_id = params.get('cid');
+    const user_id = params.get('uid');
+    const Tech_idiation = params.get('tech');
+    const [showNotification, setShowNotification] = useState(false);
+    const [showProfile, setShowProfile] = useState(false);
+  
+  
+    const handleButtonClick = () => {
+      setShowNotification(prevState => !prevState);
+    };
+    const handleProfileClick = () => {
+      setShowProfile(prevState => !prevState);
+    };
+    const [events, setEvents] = useState([]);
+    const [clubs, setClubs] = useState([]);
+    const [items, setItems] = useState([]);
+    useEffect(() => {
+        const getEvents = async () => {
+          try {
+            const response = await axios.get('http://127.0.0.1:5000/liste_event');
+            setEvents(response.data.events);
+            console.log(response.data.events);
+          } catch (error) {
+            console.log(error.response);
+          }
+        };
+        const getClubs = async () => {
+            try {
+              const response = await axios.get('http://127.0.0.1:5000/liste_club');
+              setClubs(response.data.events);
+              console.log(response.data.events);
+            } catch (error) {
+              console.log(error.response);
+            }
+          };
+        getEvents();
+        getClubs();
+      }, []);
 
+      const [roomId, setRoomId] = useState('');
+   const [roomIdUpdated, setRoomIdUpdated] = useState(false);
+   const newProject = async () => {
+     try {
+       const response = await axios.post('http://127.0.0.1:5000/new_project', {
+         nom: 'club project', 
+         club_id: club_id,
+         Tech_idiation: Tech_idiation,
+         user_id: user_id
+       });
+       setRoomId(response.data.projet_id);
+       setRoomIdUpdated(true); 
+     } catch (error) {
+       console.error('Failed to create project or retrieve project ID:', error.response || error);
+     }
+   }
+   const handleClick = async () => {
+    await newProject();
+  };
+      useEffect(() => {
+        if (events && events.length > 0) {
+            setItems(events.map((eve) => (
+                eve.Club_ID == club_id ? (
+                  !roomIdUpdated ?
+                    
+                      <div  >
+                        <EventsElement onClick={handleClick} photo={eve.photo} nom={eve.nom} />
+                      </div>
+                    :
+                  
+                    <Link key={eve.evenement_ID} to={`/Board?uid=${user_id}&tech=${Tech_idiation}&cid=${eve.Club_ID}&pid=${roomId}`}>
+                        <EventsElement photo={eve.photo} nom={eve.nom} />
+                    </Link>
+                ) : null 
+            )));
+        }
+      }, [events]);
+      
+    const [pic, setPic] = useState('https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png');
 
-
-    // useEffect(() => {
-    //     getEevnts();
-    // }, [])
-
-    const EventsElement = ({ event }) => {
+    useEffect(() => {
+        if (clubs && clubs.length > 0) {
+            clubs.map((clb) => {
+                if (clb.Club_ID === club_id) {
+                    setPic(clb.photo);
+                }
+            });
+        }
+    }, [clubs]);
+    const EventsElement = ({photo, nom }) => {
         return (
             <div className="element  mb-4 ml-9 mb w-[91%] h-[35%] w bg-gray-300 rounded-lg drop-shadow-md">
-                <img className="eventpic pt-1 w-[10.25%] ml-6 top-1 " src={event.logo} alt="eventpic" />
-                <h1 className='eventname absolute top-0 mt-8 ml-36 text-[22px] ' style={{ fontFamily: 'Product Sans' }} >{event.name}</h1>
+                <img className="eventpic pt-1 w-[10.25%] ml-6 top-1 " src={photo !== null ? photo : photo = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'} alt="eventpic" />
+                <h1 className='eventname absolute top-0 mt-8 ml-36 text-[22px] ' style={{ fontFamily: 'Product Sans' }} >{nom}</h1>
             </div>
         )
     }
@@ -53,21 +127,31 @@ const Events = ({ buttonColor }) => {
                     <div className="relative w-full h-[9%] border-b-2 text-black  flex justify-end  items-center ">
                         <div className=" w-32 flex  mt-2 items-center justify-around mr-5 mb-3 ">
 
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z" />
-                            </svg>
-
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
-                            </svg>
-
-                            <div className="w-10 h-10 overflow-hidden rounded-full ">
-                                <img src={photo} alt="" />
-                            </div>
-
-                        </div>
-
-                    </div> {/* hada howa div t3k lina */}
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z" />
+              </svg>
+              <button onClick={handleButtonClick}>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
+                </svg>
+              </button>
+                 {showNotification && 
+                 <div className="absolute right-4 top-16 notification z-50 h-[20%] w-[40%] ">
+                  <Notification/>
+                  </div>
+                  }
+                <button onClick={handleProfileClick}>
+                    <div className="w-10 h-10 overflow-hidden rounded-full ">
+                      <img src={photo} alt="" />
+                    </div>
+                </button>
+                {showProfile && 
+                 <div className="absolute  ml-[76%] mt-[18%]  z-50 h-[20%] w-[100%] ">
+                  <Profilee/>
+                  </div>
+                }
+            </div>
+          </div> {/* hada howa div t3k lina */}
 
                     <div className="eventslist w-[96,5%] h-[90%] ml-3 mr-3 mt-3">
 
@@ -92,7 +176,7 @@ const Events = ({ buttonColor }) => {
                         </div> {/* hna tbda khdmatk 2eme lina */}
                         <div className=" relative  pl-10 pt-2  ml-12 mt-7 mr-12 h-[70%] w-[90%] bg-gray-100 rounded-[37px] drop-shadow-md">
                             <div className="topbar absolute top-0 left-0 w-full h-[15%] rounded-t-[37px] drop-shadow-md ">
-                                <img src={event1.eventclub} className="w-full h-full object-cover rounded-t-[37px]" alt="gdgtopbar" />
+                                <img src={pic} className="w-full h-full object-cover rounded-t-[37px]" alt="gdgtopbar" />
                                 <h1 className="absolute inset-0 flex justify-center items-center text-[25px]   text-black " style={{ fontFamily: 'Product Sans' }}>Google Developer Groups Events</h1>
                             </div>
 
@@ -103,22 +187,7 @@ const Events = ({ buttonColor }) => {
 
                                 </div>
                                 <div className="elementslist overflow-auto  h-[82%] rounded-b-3xl mt-5">
-                                    {/* this is the div of one element of the elementlist div */}
-                                    <Link to="/Board">
-                                    <EventsElement event={event1} />
-                                    </Link>
-                                    <Link to="/Board">
-                                    <EventsElement event={event1} />
-                                    </Link>
-                                    <Link to="/Board">
-                                    <EventsElement event={event1} />
-                                    </Link>
-                                    <Link to="/Board">
-                                    <EventsElement event={event1} />
-                                    </Link>
-                                    <Link to="/Board">
-                                    <EventsElement event={event1} />
-                                    </Link>
+                                    {items}
                                 </div>
                             </div>
                         </div>

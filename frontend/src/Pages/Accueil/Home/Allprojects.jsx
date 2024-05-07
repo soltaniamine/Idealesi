@@ -1,26 +1,45 @@
 import './Homepage.css'
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Projectcard from './Projectcard.jsx';
 import photo from '../../../assets/Acceuil/Home/Rectangle 4271.svg';
 import photoo from '../../../assets/Acceuil/Home/Group.svg';
-
-const Allprojects = ({ handleToggleClick }) => {
-    const [projectList, setProjectList] = useState([<Projectcard key={0} />]);
+import { Link, useLocation } from 'react-router-dom';
+const Allprojects = ({ project, handleToggleClick }) => {
     const [isClicked1, setIsClicked1] = useState(true);
     const [isClicked2, setIsClicked2] = useState(false);
+    const location = useLocation();
+    const params = new URLSearchParams(location.search);
+    const uid = params.get('uid');
+    const [item, setItem] = useState([]);
+    const [items, setItems] = useState([]);
+    useEffect(() => {
+        if (project && project.length > 0) {
+            setItems(project.map((prj) => (
+                <div key={prj.projet_id} className="mt-6 ml-6 w-36 h-44">
+                    <Link to={`/Board?uid=${uid}&mid=${prj.module_id}&pid=${prj.projet_id}`}>
+                        <Projectcard projectname={prj.nom} fav={prj.favori} pid={prj.projet_id} uid={uid} />
+                    </Link>
+                </div>
+            )));
+        }
+    }, [project]);
+    useEffect(() => {
+        if (project && project.length > 0) {
+            setItem(project.map((pr) => (
+                <div className='grid grid-cols-3 space-x-24 h-[40%] border-b-2 border-gray-300 mt-3'>
+                    <div className='flex ml-2'>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 18.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z" />
+                        </svg>
+                        <p className='ml-2'>{pr.nom}</p>
+                    </div>
+                    <p>{pr.admin_name}</p>
+                    <p className='mr-10'>{pr.date_creation}</p>
+                </div>
+            )));
+        }
+    }, [project]);
 
-    const handleNewProjectClick = () => {
-        const newProject = <Projectcard key={projectList.length} />;
-        setProjectList([...projectList, newProject]);
-    };
-
-    const renderProjectCards = () => {
-        return projectList.map((project, index) => (
-            <div key={index} className="mt-6 ml-6 w-36 h-44">
-                {project}
-            </div>
-        ));
-    };
         
     return ( 
         <div className="recent w-[96,5%] h-[90%]">
@@ -53,7 +72,7 @@ const Allprojects = ({ handleToggleClick }) => {
                 </div>
                 {isClicked1 ? 
                     <div className='grid grid-cols-5'>
-                        {renderProjectCards()}
+                        {items}
                     </div>
                     :
                     <div className='flex justify-center'>
@@ -63,26 +82,7 @@ const Allprojects = ({ handleToggleClick }) => {
                                 <p className=''>Owner</p>
                                 <p className='mr-10'>Creation date</p>
                             </div>
-                            <div className='grid grid-cols-3 space-x-24 h-[40%] border-b-2 border-gray-300 mt-5'>
-                                <div className='flex ml-2'>
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 18.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z" />
-                                    </svg>
-                                    <p className='ml-2'>SFSD's project</p>
-                                </div>
-                                <p>BOUALI Rima</p>
-                                <p className='mr-10'>08/03/2024</p>
-                            </div>
-                            <div className='grid grid-cols-3 space-x-24 h-[40%] border-b-2 border-gray-300 mt-2'>
-                                <div className='flex ml-2'>
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 18.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z" />
-                                    </svg>
-                                    <p className='ml-2'>Analyse</p>
-                                </div>
-                                <p>Soltani Mohamed Elamine</p>
-                                <p className='mr-10'>22/12/2023</p>
-                            </div>
+                            {item}
                         </div>
                     </div>
                 }

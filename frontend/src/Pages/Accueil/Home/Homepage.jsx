@@ -1,15 +1,37 @@
 import './Homepage.css'
 import Projectcard from './Projectcard.jsx';
 import Templatescard from './Templatescard.jsx';
-import {Link} from 'react-router-dom';
+import {Link, useLocation} from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import photo from "../../../assets/Acceuil/Home/Rectangle 4271.svg";
 import photoo from "../../../assets/Acceuil/Home/Group.svg";
 import photooo from "../../../assets/Acceuil/Home/boutonplus.svg";
 import photoooo from "../../../assets/Acceuil/Home/Rectangle 4323.svg";
 import photooooo from "../../../assets/Acceuil/Home/Group.svg";
 import photoooooo from "../../../assets/Acceuil/Home/boutonplus.svg";
+import axios from 'axios';
 
-const Homepage = ({handleToggleClick}) => {
+const Homepage = ({project, handleToggleClick,fetchProject}) => { 
+
+    
+    
+    const location = useLocation();
+    const params = new URLSearchParams(location.search);
+    const uid = params.get('uid');
+
+    const [items, setItems] = useState([]);
+    useEffect(() => {
+        if (project && project.length > 0) {
+            setItems(project.map((prj) => (
+                <div key={prj.projet_id} className='w-[15%] h-[90%]'>
+                    <Link to={`/Board?uid=${uid}&mid=${prj.module_id}&pid=${prj.projet_id}`}>
+                        <Projectcard projectname={prj.nom} fav={prj.favori} pid={prj.projet_id} uid={uid} fetchProject={fetchProject}/>
+                    </Link>
+                </div>
+            )));
+        }
+    }, [project]);
+    
     
     return ( 
         <div className=" recent w-[96,5%] h-[90%] ml-8">
@@ -30,15 +52,9 @@ const Homepage = ({handleToggleClick}) => {
                             <p className=' text-xs text-white'>New project</p>
                         </div>
                     </div>
-                    <div className='w-[15%] h-[90%]'>
-                        <Projectcard/>
-                    </div>
-                    <div className='w-[15%] h-[90%]'>
-                        <Projectcard/>
-                    </div>
-                    <div className='w-[15%] h-[90%]'>
-                        <Projectcard/>
-                    </div>
+                    {items.slice(-3).map((itm) => (
+                        itm
+                    ))}
                 </div>
                 <div className=' h-[12%] flex justify-end mr-4'>
                     <button onClick={handleToggleClick} className='flex items-center text-xs'>
