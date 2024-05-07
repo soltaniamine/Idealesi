@@ -1,7 +1,9 @@
 import React from 'react'
+import { useLocation } from 'react-router-dom'
 import vote from '../../assets/vote.svg'
 import timer from '../../assets/timer.svg'
 import share from '../../assets/share.svg'
+import Profilee from "../Accueil/notification-et-profile/profile";
 import presentation from '../../assets/presentation.svg'
 import participants from '../../assets/participants.svg'
 import chat from '../../assets/chat.svg'
@@ -42,41 +44,68 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { useRef } from 'react'
+import { useRef, useEffect } from 'react'
 import { Textarea } from "@/components/ui/textarea"
 import { useState } from 'react'
+import axios from 'axios'
 
 
-const Participants = ({ triggerVote, setTriggerVote }) => {
-
+const Participants = ({ triggerVote, setTriggerVote, boardId }) => {
+  
   //fetch user data (profile image)
-  const users = {
-    user1:{
-      Photo: `${timer}`,
-      Nom: "Ayoub"
-    },
-    user2:{
-      Photo: `${timer}`,
-      Nom: "Mahdi"
-    },
-    user3:{
-      Photo: `${timer}`,
-      Nom: "Amine"
-    }
-  }
+  
   const triggeredVote = () => {
     setTriggerVote(true)
   }
   const [inputValue, setInputValue] = useState('');
+  const [inputValuee, setInputValuee] = useState('');
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const pid = params.get('pid');
 
+  const [projectmembers, setProjectMembers] = useState([]);
+        const fetchProjectMembers = async () => {
+            try {
+                const response = await axios.post('http://127.0.0.1:5000/projet_members', {projet_id: pid});
+                setProjectMembers(response.data.liste_members);
+                console.log(response.data);
+            } catch (error) {
+                console.log(error.response);
+            }
+        }
+
+        useEffect(() => {
+            
+          fetchProjectMembers(); 
+      }, []);
+
+  const shareProject = async () => {
+    try {
+      const response = await axios.post('http://127.0.0.1:5000/share', {
+        projet_id: pid,
+        email: inputValue,
+        message: inputValuee
+      });
+      console.log(response.data);
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
   // Function to handle input change
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
   };
-  var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-
+  const handleInputChangee = (event) => {
+    setInputValuee(event.target.value);
+  };
   
-
+  var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  
+  
+  const [showProfile, setShowProfile] = useState(false);
+  const handleProfileClick = () => {
+    setShowProfile(prevState => !prevState);
+  };
   return (
     <div className='fixed h-12 top-2 z-10 right-2 bg-white rounded-md p-3 flex gap-10 justify-around items-center shadow-md'>
       <div className='flex flex-row gap-3 items-center justify-around'>
@@ -99,13 +128,13 @@ const Participants = ({ triggerVote, setTriggerVote }) => {
         </DropdownMenuTrigger>
         <DropdownMenuContent sideOffset={8}>
           <DropdownMenuGroup  className="flex flex-col">
-             {Object.entries(users).map(([key, value]) => (
+             {Object.entries(projectmembers).map(([key, value]) => (
               <DropdownMenuGroup className="flex flex-row justify-between items-center" key={key}>
                 <DropdownMenuItem>
-                  <img src={`${value.Photo}`} alt={`${value.Photo}`} />
+                  <img className="w-10 h-10" src={`${value.photo !== null ? value.photo : value.photo = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'}`} alt={`${value.photo}`} />
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <h3>{value.Nom}</h3>
+                  <h3>{value.nom}</h3>
                 </DropdownMenuItem>
               </DropdownMenuGroup>
               ))}
@@ -142,16 +171,21 @@ const Participants = ({ triggerVote, setTriggerVote }) => {
                 </SelectContent>
              </Select>
             </AlertDialogHeader>
-            <Textarea placeholder="Ajouter un message personalisé (facultatif)" />
+            <Textarea value={inputValuee} onChange={handleInputChangee} placeholder="Ajouter un message personalisé (facultatif)" />
             <AlertDialogFooter className="flex flex-row self-start">
-              <AlertDialogAction className={`${emailRegex.test(inputValue) ? "" : "bg-[#a9b8f3] hover:bg-[#a9b8f3] hover:cursor-default"}`}>Envoyer l'invitation</AlertDialogAction>
+              <AlertDialogAction onClick={shareProject} className={`${emailRegex.test(inputValue) ? "" : "bg-[#a9b8f3] hover:bg-[#a9b8f3] hover:cursor-default"}`}>Envoyer l'invitation</AlertDialogAction>
               <AlertDialogCancel>Annuler</AlertDialogCancel>
             </AlertDialogFooter>
           </AlertDialogContent>
        </AlertDialog>
-        <Button className="p-2 hover:bg-transparent bg-transparent">
-        <img src={user1} alt="user1" className='w-[40px] h-[40px]'/>  
+        <Button onClick={handleProfileClick}  className="p-2 hover:bg-transparent bg-transparent">
+          <img src={'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'} alt="user1" className=' w-[40px] h-[40px] rounded-full'/>  
         </Button>   
+        {showProfile && (
+            <div className="absolute  ml-[76%] mt-[18%]  z-50 h-[20%] w-[100%] ">
+            <Profilee/>
+            </div>
+        )}
       </div>
     </div>
   )

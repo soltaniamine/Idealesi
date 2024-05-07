@@ -20,8 +20,8 @@ CORS(app, support_credentials=True)
 
 app.config["MAIL_SERVER"] = "smtp.gmail.com"
 app.config["MAIL_PORT"] = 587
-app.config["MAIL_USERNAME"] = "lm_soltani@esi.dz"
-app.config["MAIL_PASSWORD"] = "knowledgeisthecure"
+app.config["MAIL_USERNAME"] = "idealesi@esi.dz"
+app.config["MAIL_PASSWORD"] = "Projet@2CP"
 app.config["MAIL_USE_TLS"] = True
 app.config["MAIL_USE_SSL"] = False
 

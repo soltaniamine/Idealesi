@@ -341,7 +341,7 @@ def add_expert():
          return jsonify({'message': 'prof does not exists'}), 400
     
     access,email,prof_id,=prof_info
-    if access!="Utilisateur":
+    if access!="Prof":
         return jsonify({'message': 'user is not a prof'}), 401
     
     cur.execute("SELECT prof_ID FROM ListeProf WHERE prof_ID = %s and module_id=%s", (prof_id,module_id,))
@@ -361,7 +361,7 @@ def add_expert():
 
     return jsonify({'message': 'Expert Added successfully'}), 200
 
-@admin.route('/liste_expert', methods=['GET'])
+@admin.route('/liste_expert', methods=['GET']) 
 def liste_expert():
     # Création d'un curseur pour exécuter les requêtes SQL
     cur = mysql.connection.cursor()
@@ -498,3 +498,36 @@ def delete_event():
     cur.close()
 
     return jsonify({'message': 'Event deleted successfully'}), 200
+
+
+@admin.route('/module_experts', methods=['POST']) 
+def module_experts():
+    data = request.get_json()
+    # Création d'un curseur pour exécuter les requêtes SQL
+    cur = mysql.connection.cursor()
+    module_id = data.get('module_id')
+
+    # Requête pour récupérer les informations nécessaires
+    cur.execute("SELECT ListeProf.Prof_ID, Prof.Nom, Prof.email,utilisateur.photo \
+                FROM mydb.ListeProf \
+                JOIN mydb.Prof ON ListeProf.Prof_ID = Prof.Prof_ID\
+                JOIN mydb.utilisateur ON Prof.email=utilisateur.email\
+                WHERE module_id=%s", (module_id,))
+    results = cur.fetchall()
+
+
+    # Création de la liste de résultats
+    liste_resultats = []
+    for result in results:
+        liste_resultats.append({
+            'prof_id': result[0],
+            'nom_prof': result[1],
+            'email_prof': result[2],
+             'photo_prof': result[3]
+        })
+
+
+    # Fermeture du curseur
+    cur.close()
+    return jsonify({'message': 'liste returned successfully','Liste_expert':liste_resultats}), 200
+

@@ -57,12 +57,38 @@ const Events = ({ buttonColor }) => {
         getEvents();
         getClubs();
       }, []);
- 
+
+      const [roomId, setRoomId] = useState('');
+   const [roomIdUpdated, setRoomIdUpdated] = useState(false);
+   const newProject = async () => {
+     try {
+       const response = await axios.post('http://127.0.0.1:5000/new_project', {
+         nom: 'club project', 
+         club_id: club_id,
+         Tech_idiation: Tech_idiation,
+         user_id: user_id
+       });
+       setRoomId(response.data.projet_id);
+       setRoomIdUpdated(true); 
+     } catch (error) {
+       console.error('Failed to create project or retrieve project ID:', error.response || error);
+     }
+   }
+   const handleClick = async () => {
+    await newProject();
+  };
       useEffect(() => {
         if (events && events.length > 0) {
             setItems(events.map((eve) => (
                 eve.Club_ID == club_id ? (
-                    <Link key={eve.evenement_ID} to={`/Board?uid=${user_id}&tech=${Tech_idiation}&cid=${eve.Club_ID}`}>
+                  !roomIdUpdated ?
+                    
+                      <div  >
+                        <EventsElement onClick={handleClick} photo={eve.photo} nom={eve.nom} />
+                      </div>
+                    :
+                  
+                    <Link key={eve.evenement_ID} to={`/Board?uid=${user_id}&tech=${Tech_idiation}&cid=${eve.Club_ID}&pid=${roomId}`}>
                         <EventsElement photo={eve.photo} nom={eve.nom} />
                     </Link>
                 ) : null 

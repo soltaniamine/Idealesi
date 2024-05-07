@@ -21,21 +21,30 @@ def register():
     email = data.get('email')
     password = data.get('password')
     username = data.get('username')
-
+    print(email)
     if not username:
         return jsonify({'message': 'reset username'}), 400
     if not email :
         return jsonify({'message': 'reset email'}), 401
     if not password :
         return jsonify({'message': 'reset password'}), 402
-    
+    #verified has a default value of False and changes to true in the verification function
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT prof_id FROM Prof WHERE email = %s", (email,))
+    is_prof = cur.fetchone()
+    if is_prof:
+        user_type="Prof"
+        cur.execute("UPDATE Prof SET nom = %s WHERE email = %s", ( username,email))
+   
+    else:
+        user_type="Utilisateur"
 
     hashed_password = generate_password_hash(password)
     message = generate_verification_code()
     send_mail(email,message)
-    #verified has a default value of False and changes to true in the verification function
-    cur = mysql.connection.cursor()
-    cur.execute("INSERT INTO utilisateur (email, password, username, verifycode) VALUES (%s, %s, %s, %s )", (email, hashed_password, username,message))
+    
+    cur.execute("INSERT INTO utilisateur (email, password, username, verifycode,type) VALUES (%s, %s, %s, %s,%s )", (email, hashed_password, username,message,user_type))
+    
     mysql.connection.commit()
     cur.close()
 
@@ -151,7 +160,7 @@ def send_mail(email, message):
     msg = EmailMessage(
         "IdealESI - Code de Verification",
         f"Le code d'activation de votre email est: {message}  Merci",
-        "lm_soltani@esi.dz",
+        "idealesi@esi.dz",
         [email]  
     )
     msg.send()

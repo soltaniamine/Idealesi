@@ -11,7 +11,7 @@ import photooooo from "../../../assets/Acceuil/Home/Group.svg";
 import photoooooo from "../../../assets/Acceuil/Home/boutonplus.svg";
 import axios from 'axios';
 
-const Homepage = ({project, handleToggleClick}) => { 
+const Homepage = ({project, handleToggleClick,fetchProject}) => { 
 
     
     
@@ -24,7 +24,7 @@ const Homepage = ({project, handleToggleClick}) => {
         if (project && project.length > 0) {
             setItems(project.map((prj) => (
                 <div key={prj.projet_id} className='w-[15%] h-[90%]'>
-                    <Projectcard projectname={prj.nom} fav={prj.favori} pid={prj.projet_id} uid={uid}/>
+                    <Projectcard projectname={prj.nom} fav={prj.favori} pid={prj.projet_id} uid={uid} fetchProject={fetchProject}/>
                 </div>
             )));
         }

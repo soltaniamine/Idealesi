@@ -28,22 +28,23 @@ const Home = ({ buttonColor }) => {
   const handleProfileClick = () => {
     setShowProfile(prevState => !prevState);
   };
-        const [project, setProject] = useState([]);
+        
         const location = useLocation();
         const params = new URLSearchParams(location.search);
         const uid = params.get('uid');
-
-        useEffect(() => {
-            const fetchProject = async () => {
-                try {
-                    const response = await axios.post('http://127.0.0.1:5000/acceuil', {user_id: uid});
-                    setProject(response.data.projects);
-                    console.log(response.data);
-                } catch (error) {
-                    console.log(error.response);
-                }
+        const [project, setProject] = useState([]);
+        const fetchProject = async () => {
+            try {
+                const response = await axios.post('http://127.0.0.1:5000/acceuil', {user_id: uid});
+                setProject(response.data.projects);
+                console.log(response.data);
+            } catch (error) {
+                console.log(error.response);
             }
-            fetchProject(); 
+        }
+        useEffect(() => {
+            
+            fetchProject();  
         }, []);
         const [search, setSearch] = useState([]);
         const [filter, setFilter] = useState('');
@@ -72,7 +73,6 @@ const Home = ({ buttonColor }) => {
                             </svg>
                             <p className="text-black ml-4">{eve.nom}</p>
                         </div>
-                        
                     </div>
                 )));
             }
@@ -228,7 +228,7 @@ const Home = ({ buttonColor }) => {
                         </div>
                     </div>
                     {showAllProjects ? (
-                        <Homepage project={project} handleToggleClick={handleToggleClick} />
+                        <Homepage project={project} handleToggleClick={handleToggleClick} fetchProject={fetchProject} />
                         
                     ) : (
                         <Allprojects project={project} handleToggleClick={handleToggleClick} />

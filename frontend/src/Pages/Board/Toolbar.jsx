@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import text from '../../assets/text.svg'
+import axios from 'axios'
+import { useLocation } from 'react-router-dom'
 import templates from '../../assets/templates.svg'
 import stickers from '../../assets/stickers.svg'
 import shapes from '../../assets/shapes.svg'
@@ -16,6 +18,7 @@ import triangle from '../../assets/triangle.svg'
 import arrowleft from '../../assets/arrowleft.svg'
 import arrowdown from '../../assets/arrowdown.svg'
 import arrowright from '../../assets/arrowright.svg'
+import MyComponent from './Mycomponent'
 import prstand from '../../assets/prstand.svg'
 import trianglesarrow from '../../assets/trianglesarrow.svg'
 import linedarrow from '../../assets/linedarrow.svg'
@@ -37,28 +40,81 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { motion } from 'framer-motion'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import { Input } from '@/components/ui/input'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import presentation from '../../assets/presentation.svg'
+import { Textarea } from "@/components/ui/textarea"
 
 
 const Toolbar = ({ canvasState, setCanvasState, focus }) => {
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const module_id = params.get('mid');
+  const pid = params.get('pid');
+  const [listexpert, setListExpert] = useState([]);
+  const fetchExpert = async () => {
+    try {
+      const response = await axios.post('http://127.0.0.1:5000/module_experts', {module_id: module_id});
+      setListExpert(response.data.Liste_expert);
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
 
-  const experts = {
-    expert1:{
-      Photo: `${expert}`,
-      Nom: "Kemer Ayoub"
-    },
-    expert2:{
-      Photo: `${expert}`,
-      Nom: "BoudraaMahdi"
-    },
-    expert3:{
-      Photo: `${expert}`,
-      Nom: "Soltani Amine"
-    },
-  }
-
-  const donothing = () => {
-    console.log("expert")
-  }
+  useEffect(() => {
+    fetchExpert();
+  }, []);
+  const [experts, setItem] = useState([]); 
+  useEffect(() => {
+    if (listexpert && listexpert.length > 0) {
+    
+      setItem(listexpert.map((mo) => (
+            <DropdownMenuGroup className="flex flex-row gap-x-1 items-center  " >
+              <DropdownMenuItem className="hover:cursor-pointer">
+                <img className="w-10 h-10 rounded-full" src={`${mo.photo_prof !== null ? mo.photo_prof : mo.photo_prof = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'}`} alt={`${mo.photo_prof}`} />
+              </DropdownMenuItem>
+              <DropdownMenuItem className="hover:cursor-pointer w-40">
+                <h3>{mo.nom_prof !== '' ? mo.nom_prof : mo.nom_prof = 'Pas de nom'}</h3>
+              </DropdownMenuItem>
+              <DropdownMenuItem className="hover:cursor-pointer ">
+                <button onClick={()=> {assistance(mo.email_prof)}} className=' bg-mypurple text-white pt-1 pb-1.5 px-3 rounded-lg'>assistance</button>
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+            
+            )));
+      }
+   }, [listexpert]); 
+  
+   const assistance = async (inputValue) => {
+    try {
+      const response = await axios.post('http://127.0.0.1:5000/assistance', {
+        projet_id: pid,
+        email: inputValue,
+        module_id: module_id,
+      });
+      console.log(response.data);
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
+  
   return (
     <motion.div className='fixed top-1/2 z-10 -translate-y-[50%] flex flex-col gap-y-4'>
         <div className='bg-[#F2F2F2] w-12 rounded-lg p-2 flex gap-y-1 flex-col items-center shadow-md'>
@@ -387,18 +443,9 @@ const Toolbar = ({ canvasState, setCanvasState, focus }) => {
                 <img src={expert} alt="expert" className='w-[25px] h-[25px]'/>
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56" side={"right"} sideOffset={12}>
+            <DropdownMenuContent className=" w-80" side={"right"} sideOffset={12}>
               <DropdownMenuGroup  className="flex flex-col">
-              {Object.entries(experts).map(([key, value]) => (
-              <DropdownMenuGroup className="flex flex-row gap-x-0 items-center " key={key} onClick={donothing}>
-                <DropdownMenuItem className="hover:cursor-pointer">
-                  <img src={`${value.Photo}`} alt={`${value.Photo}`} />
-                </DropdownMenuItem>
-                <DropdownMenuItem className="hover:cursor-pointer">
-                  <h3>{value.Nom}</h3>
-                </DropdownMenuItem>
-              </DropdownMenuGroup>
-              ))}
+              {experts}
               </DropdownMenuGroup>
             </DropdownMenuContent>
           </DropdownMenu>

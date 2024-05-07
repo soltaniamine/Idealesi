@@ -90,7 +90,7 @@ const Sidebar = ({ buttonColor }) => {
                         </Link>
                     </button>
                 }
-                {userType === 'Utilisateur' &&
+                {userType === 'Prof' &&
                     <button 
                         className={`flex py-2.5 px-4 ${buttonColor === 'white7' ? 'bg-white' : 'text-white'}`}
                     >

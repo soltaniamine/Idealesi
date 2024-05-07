@@ -239,7 +239,7 @@ const Settings = () => {
                                     </div>
                                 </div>
                             ) : (
-                                <div className="py-2 flex items-center grid grid-cols-2  mb-4">
+                                <div className="py-2  grid grid-cols-2  mb-4">
                                     <p className="font-semibold" style={{ fontFamily: 'Product Sans' }}>Mot de passe</p>
                                     <button
                                         className="px-2 py-2 text-[#646FD4] hover:text-[#525BAA] ml-[44%]"

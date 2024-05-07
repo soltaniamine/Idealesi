@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
 import exportIc from '../../assets/exportIc.svg'
+import axios from 'axios'
 import search from '../../assets/search.svg'
 import LogoIdealesi from '../../assets/LogoIdealesi.svg'
 import undoo from '../../assets/undo.svg'
@@ -78,7 +80,35 @@ const Info = ({ boardId , canRedo, canUndo, undo, redo, setCamera, camera }) => 
 
   /*Get boards Info (data)
   if(!data) return <InfoSkeketon />*/
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const user_id = params.get('uid');
+  const pid = params.get('pid');
+  const resetTitle = async () => {
+    try {
+        const response = await axios.post('http://127.0.0.1:5000/update_project_name', {new_name: title, projet_id: pid,user_id: user_id});
+        console.log(response.data);
+    } catch (error) {
+        console.log(error.response);
+    }
+}
+const[titre, setTitre]= useState([]);
+const fetchTitle = async () => {
+  try {
+      const response = await axios.post('http://127.0.0.1:5000/nom_projet', {projet_id: pid});
+      setTitre(response.data.nom);
+      console.log(response.data);
+  } catch (error) {
+      console.log(error.response);
+  }
+}
+useEffect(() => {
+  fetchTitle();
+}, []);
 
+useEffect(() => {
+  setTitle(titre);
+}, [titre]);
 
   return (
     <div className='fixed top-2 left-2 flex flex-row z-10'>
@@ -101,7 +131,7 @@ const Info = ({ boardId , canRedo, canUndo, undo, redo, setCamera, camera }) => 
             </AlertDialogHeader>
             <AlertDialogFooter className="flex flex-row self-center">
               <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction>Continue</AlertDialogAction>
+              <AlertDialogAction onClick={resetTitle}>Continue</AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>

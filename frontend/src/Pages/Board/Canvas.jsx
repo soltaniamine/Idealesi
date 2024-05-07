@@ -973,6 +973,7 @@ const insertCombin= useMutation(({storage}) =>{
           camera={camera}
         />
         <Participants 
+          board_id={boardId}
           triggerVote={triggerVote}
           setTriggerVote={setTriggerVote}
         />

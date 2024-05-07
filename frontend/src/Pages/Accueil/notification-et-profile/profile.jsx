@@ -5,7 +5,7 @@ import axios from "axios";
 const Profile = ({info,uid}) => {
 
     return (
-        <div className="border rounded-xl p-2 bg-gray-50 w-[18%] ">
+        <div className="border rounded-xl p-2 bg-gray-50 w-48">
             <div className="w-12 h-12 rounded-full ml-[37%] overflow-hidden  ">
                 <img 
                 src={info.photo !== null ? info.photo : info.photo = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'}

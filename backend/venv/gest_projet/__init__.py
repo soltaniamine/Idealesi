@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify,Blueprint
 from flask_mysqldb import MySQL
 from datetime import datetime
 import base64
+from flask_mailman import Mail, EmailMessage
 from werkzeug.security import generate_password_hash, check_password_hash
 gest_projet = Blueprint("gest_projet", __name__)
 mysql = MySQL()
@@ -51,7 +52,7 @@ def new_project():
     return jsonify({'message': 'Created new project successfully', 'projet_id': projet_id}), 200
 
 
-@gest_projet.route('/delete_project', methods=['DELETE'])
+@gest_projet.route('/delete_project', methods=['POST'])
 def delete_project():
     data = request.get_json()
     user_id = data.get('user_id')
@@ -65,9 +66,9 @@ def delete_project():
     cur.execute("SELECT access FROM ProjetMembers WHERE projet_id = %s AND user_id = %s",(projet_id,user_id))
     access,=cur.fetchone()
     if access=="Admin":
-        cur.execute("DELETE FROM projet WHERE projet_id = %s", (projet_id,))
-        mysql.connection.commit()
         cur.execute("DELETE FROM ProjetMembers WHERE projet_id = %s", (projet_id,))
+        mysql.connection.commit()
+        cur.execute("DELETE FROM projet WHERE projet_id = %s", (projet_id,))
         mysql.connection.commit()
         return jsonify({'message': 'Project deleted successfully'}), 200
     else:
@@ -101,7 +102,7 @@ def update_project_favori():
 
 
 
-@gest_projet.route('/update_project_name', methods=['PUT'])
+@gest_projet.route('/update_project_name', methods=['POST'])
 def update_project_name():
     data = request.get_json()
     projet_id = data.get('projet_id')
@@ -440,3 +441,257 @@ def update_password():
 
 
     return jsonify({'message': 'Password updated successfully'}), 200
+
+
+@gest_projet.route('/search_club', methods=['GET'])
+def search_club():
+   
+    # Récupérer les données JSON de la requête
+    data = request.get_json()
+   
+    mot_cle = data.get('mot_cle')
+    cur = mysql.connection.cursor()
+    like_pattern = f"%{mot_cle}%"  # Ajoute des jokers avant et après le mot-clé
+    cur.execute("SELECT * FROM Club WHERE Nom LIKE %s", (like_pattern,))
+   
+    clubs= cur.fetchall()
+    result=[]
+    cur.close()
+    for club in clubs:
+        club_ID, nom_club, photo=club
+        result.append({
+            'club_id': club_ID,
+            'nom_club': nom_club,
+            'photo': photo
+        })
+
+    return jsonify({'message': 'List of clubs returned successfully', 'clubs':result}), 200
+
+@gest_projet.route('/search_module', methods=['GET'])
+def search_module():
+    # Récupérer les données JSON de la requête
+    data = request.get_json()
+
+    mot_cle = data.get('mot_cle')
+
+    cur = mysql.connection.cursor()
+    like_pattern = f"%{mot_cle}%"  # Ajoute des jokers avant et après le mot-clé
+
+    # Requête pour chercher les modules et joindre les informations du niveau associé
+    cur.execute("""
+        SELECT Module.Module_ID, Module.Nom,Module.Niveau_ID ,Niveau.Nom , Niveau.Cycle
+        FROM Module
+        JOIN Niveau ON Module.Niveau_ID = Niveau.Niveau_ID
+        WHERE Module.Nom LIKE %s
+    """, (like_pattern,))
+
+    modules = cur.fetchall()
+    result = []
+    cur.close()
+    for module in modules:
+        result.append({
+            'module_id': module[0],
+            'module_name': module[1],
+            'niveau_id': module[2],
+            'niveau_name': module[3],
+            'cycle': module[4]
+        })
+
+    
+    return jsonify({'message': 'List of modules returned successfully', 'modules': result}), 200
+
+
+
+
+@gest_projet.route('/search_project', methods=['POST'])
+def search_project():
+    data = request.get_json()
+    filters = data.get('filters', {})
+    keyword = data.get('keyword')
+    user_id = data.get('user_id')
+    sort_by = data.get('sort_by', 'projet.date_creation DESC')  # Default sort by creation date
+
+    query = """
+    SELECT projet.Projet_ID, projet.nom, ProjetMembers.Favori, ProjetMembers.Access, projet.date_creation, Utilisateur.username AS Admin_Name
+    FROM projet
+    INNER JOIN ProjetMembers ON projet.Projet_ID = ProjetMembers.Projet_ID 
+    INNER JOIN Utilisateur ON ProjetMembers.User_ID = Utilisateur.User_ID
+    LEFT JOIN Club ON projet.Club_ID = Club.Club_ID
+    LEFT JOIN Module ON projet.Module_ID = Module.Module_ID
+    LEFT JOIN Niveau ON projet.Niveau_ID = Niveau.Niveau_ID
+    WHERE ProjetMembers.User_ID = %s
+    """
+    values = [user_id]
+    cur = mysql.connection.cursor()
+    # Add filters based on the project name and admin name if specified in filters
+    if keyword:
+        query += " AND projet.nom LIKE %s"
+        values.append(f"%{keyword}%")
+
+    if 'admin_email' in filters:
+        cur.execute("SELECT user_id FROM Utilisateur WHERE Email = %s", (filters['admin_email'],))
+        admin_id = cur.fetchone()
+        if admin_id:
+            query += " AND Projet.Projet_ID IN (SELECT Projet_ID FROM ProjetMembers WHERE User_ID=%s AND Access = 'Admin')"
+            values.append(admin_id[0])
+        
+
+    if 'club_name' in filters:
+        query += " AND Club.Nom LIKE %s"
+        values.append(f"%{filters['club_name']}%")
+
+    if 'module_name' in filters:
+        query += " AND Module.Nom LIKE %s"
+        values.append(f"%{filters['module_name']}%")
+
+    if 'niveau_name' in filters:
+        query += " AND Niveau.Nom LIKE %s"
+        values.append(f"%{filters['niveau_name']}%")
+
+    if 'favori' in filters:
+        query += " AND ProjetMembers.Favori = %s"
+        values.append(filters['favori'])
+
+    # Sort results if a sort_by field is provided
+    if sort_by:
+        query += f" ORDER BY {sort_by}"
+    print(query)
+    cur.execute(query, tuple(values))
+    projects = cur.fetchall()
+    cur.close()
+
+    formatted_projects = [{
+        'projet_id': project[0],
+        'nom': project[1],
+        'favori': project[2],
+        'access': project[3],
+        'date_creation': project[4],
+        'admin_name': project[5]
+    } for project in projects]
+
+    return jsonify({'message': 'List of projects returned successfully', 'projects': formatted_projects}), 200
+
+@gest_projet.route('/share', methods=['POST'])
+def share():
+    # Récupérer les données JSON de la requête
+    data = request.get_json()
+    projet_id = data.get('projet_id')
+    email = data.get('email')
+    message = data.get('message')
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT user_id FROM utilisateur WHERE email=%s", (email,))
+    existing_member = cur.fetchone()
+   
+    if not existing_member:
+        return jsonify({'message': 'User does not exist'}), 400
+   
+    member_id = existing_member[0]
+   
+    cur.execute("SELECT user_id FROM ProjetMembers WHERE user_id=%s AND projet_id=%s", (member_id, projet_id,))
+    existing_member = cur.fetchone()
+   
+    if existing_member:
+        return jsonify({'message': 'Member already exists'}), 409
+    
+    print(projet_id)
+    cur.execute("INSERT INTO ProjetMembers (projet_id, user_id, favori, access) VALUES (%s, %s, %s, %s)", (projet_id, member_id, False, "mod",))
+    mysql.connection.commit()
+    cur.execute("SELECT nom FROM projet WHERE Projet_ID=%s", (projet_id,))
+    nom = cur.fetchone()
+
+    cur.close()
+    send_mail2(email, nom, message)
+
+    return jsonify({'message': 'Member Added successfully'}), 200
+
+def send_mail2(email,projet, message):
+    msg = EmailMessage(
+        "IdealESI - Nouveau projet partagé avec vous",
+        f"Un nouveau projet nomé: {projet} est partagé avec vous. Merci// {message}",
+        "idealesi@esi.dz",
+        [email]  
+    )
+    msg.send()
+    return jsonify({'message': 'email sent successfully '})
+
+@gest_projet.route('/assistance', methods=['POST'])
+def assitance():
+    # Récupérer les données JSON de la requête
+    data = request.get_json()
+    projet_id = data.get('projet_id')
+    email = data.get('email')
+    module_id = data.get('module_id')
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT user_id FROM utilisateur WHERE email=%s", (email,))
+    existing_member = cur.fetchone()
+   
+    if not existing_member:
+        return jsonify({'message': 'User does not exist'}), 400
+   
+    member_id = existing_member[0]
+   
+    cur.execute("SELECT user_id FROM ProjetMembers WHERE user_id=%s AND projet_id=%s", (member_id, projet_id,))
+    existing_member = cur.fetchone()
+   
+    if existing_member:
+        return jsonify({'message': 'Member already exists'}), 409
+    
+    print(projet_id)
+    cur.execute("INSERT INTO ProjetMembers (projet_id, user_id, favori, access) VALUES (%s, %s, %s, %s)", (projet_id, member_id, False, "mod",))
+    mysql.connection.commit()
+    cur.execute("SELECT nom FROM projet WHERE Projet_ID=%s", (projet_id,))
+    nom = cur.fetchone()
+    cur.execute("SELECT Nom FROM module WHERE Module_ID=%s", (module_id,))
+    module = cur.fetchone()
+
+    cur.close()
+    send_mail3(email, nom,module)
+
+    return jsonify({'message': 'Member Added successfully'}), 200
+
+def send_mail3(email,projet,module):
+    msg = EmailMessage(
+        "IdealESI - Nouvelle demande d'assistance reçue",
+        f"Bonjour cher enseignant, une nouvelle équipe a besoin de votre assistance dans le module {module}. Le projet est intitulé: {projet}, vueillez verifier votre liste des projets. Merci ",
+        "idealesi@esi.dz",
+        [email]  
+    )
+    msg.send()
+    return jsonify({'message': 'email sent successfully '})
+
+
+@gest_projet.route('/projet_members', methods=['POST'])
+def projet_members():
+    # Récupérer les données JSON de la requête
+    data = request.get_json()
+    projet_id = data.get('projet_id')
+
+    if not projet_id:
+        return jsonify({'message': 'Projet ID is required'}), 400
+
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT utilisateur.user_id ,utilisateur.username ,utilisateur.email, utilisateur.Photo, projetmembers.access FROM utilisateur INNER JOIN projetmembers ON projetmembers.user_id=utilisateur.user_id WHERE projet_id=%s", (projet_id,))
+    
+    members = cur.fetchall()
+    cur.close()
+
+    liste_members = [{
+        'member_id': member[0],
+        'nom': member[1],
+        'email': member[2],
+        'photo': member[3],
+        'access': member[4],
+    } for member in members]
+   
+    return jsonify({'message': 'List of members returned successfully', 'liste_members': liste_members}), 200
+
+
+@gest_projet.route('/nom_projet', methods=['POST'])
+def nom_projet():
+    data = request.get_json()
+    projet_id= data.get('projet_id')
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT nom FROM projet WHERE projet_id = %s", (projet_id,))
+    nom, = cur.fetchone()
+    cur.close()
+    return jsonify({'message': 'nom returned successfully','nom':nom}), 200

@@ -3,12 +3,13 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import cp from '../../../assets/Acceuil/choixniveau/cp.svg'
 import './onecp.css';
+import BoardId from "@/Pages/Board/BoardId";
  
 const Onecs = ({uid, technique, niveau_id, nom_niveau, cycle}) => {
    const [modules, setModules] = useState([]);
    const [firstColumnModules, setFirstColumnModules] = useState([]);
    const [secondColumnModules, setSecondColumnModules] = useState([]);
-    
+   const [mod, setMod] = useState([]);
    useEffect(() => {
      const fetchModules = async () => {
        try {
@@ -33,15 +34,50 @@ const Onecs = ({uid, technique, niveau_id, nom_niveau, cycle}) => {
        setSecondColumnModules([]);
      }
    }, [modules]);
+
+   const [roomId, setRoomId] = useState('');
+   const [roomIdUpdated, setRoomIdUpdated] = useState(false);
+
+   const newProject = async () => {
+     try {
+       const response = await axios.post('http://127.0.0.1:5000/new_project', {
+         nom: 'test1', 
+         niveau_id: niveau_id,
+         module_id: mod, 
+         Tech_idiation: technique,
+         user_id: uid
+       });
+       setRoomId(response.data.projet_id);
+       setRoomIdUpdated(true);  // Indique que roomId a été mis à jour
+     } catch (error) {
+       console.error('Failed to create project or retrieve project ID:', error.response || error);
+     }
+   }
+  
  
    const Module = ({ mid, nom_module }) => {
-     return (
-       <Link className="flex items-center font-semibold hover:transform hover:-translate-y-1 hover:scale-80" to={`/Board?uid=${uid}&tech=${technique}&mid=${mid}&nid=${niveau_id}`}>
-         <div className="w-3 h-3 rounded-full bg-blue-500 mr-3"></div>
-         {nom_module}
-       </Link>
-     );
-   };
+  const handleClick = async () => {
+    await newProject();
+    setMod(mid);
+  };
+
+  if (!roomIdUpdated) {
+    return (
+      <div onClick={handleClick} className="flex items-center font-semibold hover:transform hover:-translate-y-1 hover:scale-80">
+        <div className="w-3 h-3 rounded-full bg-blue-500 mr-3"></div>
+        {nom_module}
+      </div>
+    );
+  }
+
+  return (
+    <Link className="flex items-center font-semibold hover:transform hover:-translate-y-1 hover:scale-80" 
+      to={`/Board?uid=${uid}&tech=${technique}&mid=${mid}&nid=${niveau_id}&pid=${roomId}`}>
+      <div className="w-3 h-3 rounded-full bg-blue-500 mr-3"></div>
+      {nom_module}
+    </Link>
+  );
+};
  
    return (
      <div>
