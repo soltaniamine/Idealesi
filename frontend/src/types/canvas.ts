@@ -26,7 +26,10 @@ export enum LayerType {
     RoundedRect,
     IdeasRectCombin,
     PriorityMoscow,
-    IdeasRectMoscow
+    IdeasRectMoscow,
+    BrainwritingColumns,
+    BrainwritingShape,
+    BrainwritingUsers
 };
 
 

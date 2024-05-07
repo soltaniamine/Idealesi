@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Projectcard from './Projectcard.jsx';
 import photo from '../../../assets/Acceuil/Home/Rectangle 4271.svg';
 import photoo from '../../../assets/Acceuil/Home/Group.svg';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 const Allprojects = ({ project, handleToggleClick }) => {
     const [isClicked1, setIsClicked1] = useState(true);
     const [isClicked2, setIsClicked2] = useState(false);
@@ -16,7 +16,9 @@ const Allprojects = ({ project, handleToggleClick }) => {
         if (project && project.length > 0) {
             setItems(project.map((prj) => (
                 <div key={prj.projet_id} className="mt-6 ml-6 w-36 h-44">
-                    <Projectcard projectname={prj.nom} fav={prj.favori} pid={prj.projet_id} uid={uid}/>
+                    <Link to={`/Board?uid=${uid}&mid=${prj.module_id}&pid=${prj.projet_id}`}>
+                        <Projectcard projectname={prj.nom} fav={prj.favori} pid={prj.projet_id} uid={uid} />
+                    </Link>
                 </div>
             )));
         }

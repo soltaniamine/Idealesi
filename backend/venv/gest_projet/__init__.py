@@ -131,7 +131,7 @@ def acceuil():
     user_id = data.get('user_id')
     cur = mysql.connection.cursor()
    # Sélectionner tous les projets associés à l'utilisateur avec leurs détails
-    cur.execute("SELECT projet.projet_id, projet.nom, ProjetMembers.Favori, ProjetMembers.access, projet.date_creation "
+    cur.execute("SELECT projet.projet_id, projet.nom, ProjetMembers.Favori, ProjetMembers.access, projet.date_creation, projet.module_id "
                 "FROM projet "
                 "INNER JOIN ProjetMembers ON projet.projet_id = projetmembers.projet_id "
                 "WHERE ProjetMembers.user_id = %s", (user_id,))
@@ -140,14 +140,14 @@ def acceuil():
     
     projects = []  # Une liste pour stocker les projets
     for projet in listeprojet:
-        projet_id,nom,favori, access, date_creation = projet
+        projet_id,nom,favori, access, date_creation, module_id = projet
         print(nom)
         cur.execute("SELECT utilisateur.username "
                     "FROM utilisateur "
                     "INNER JOIN ProjetMembers ON utilisateur.user_id = projetmembers.user_id "
                     "WHERE ProjetMembers.projet_id = %s", (projet_id,))
         admin_name,=cur.fetchone()
-        projects.append({'projet_id': projet_id,'nom':nom, 'access': access,'favori':favori, 'date_creation': date_creation,'admin_name':admin_name})
+        projects.append({'projet_id': projet_id,'nom':nom, 'access': access,'favori':favori, 'date_creation': date_creation, 'module_id': module_id,'admin_name':admin_name})
     cur.close()
     return jsonify({'message': 'List of projects returned successfully', 'projects': projects}), 200
 

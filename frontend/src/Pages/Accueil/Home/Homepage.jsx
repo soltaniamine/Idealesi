@@ -24,7 +24,9 @@ const Homepage = ({project, handleToggleClick,fetchProject}) => {
         if (project && project.length > 0) {
             setItems(project.map((prj) => (
                 <div key={prj.projet_id} className='w-[15%] h-[90%]'>
-                    <Projectcard projectname={prj.nom} fav={prj.favori} pid={prj.projet_id} uid={uid} fetchProject={fetchProject}/>
+                    <Link to={`/Board?uid=${uid}&mid=${prj.module_id}&pid=${prj.projet_id}`}>
+                        <Projectcard projectname={prj.nom} fav={prj.favori} pid={prj.projet_id} uid={uid} fetchProject={fetchProject}/>
+                    </Link>
                 </div>
             )));
         }
