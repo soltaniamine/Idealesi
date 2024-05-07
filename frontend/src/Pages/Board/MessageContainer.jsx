@@ -18,48 +18,59 @@ const MessageContainer = () => {
     }
 };
 
-  useEffect(() => {
-    if(value && message){
-      setPreviousChats(prevChats => (
-        [...prevChats,
-          {content: value},
-          {content: message}
-        ]
-      ))
-    }
-    console.log(previousChats)
-  }, [message])
+useEffect(() => {
+  if(value && message){
+    setPreviousChats(prevChats => (
+      [...prevChats,
+        {content: {value: value, message: message}}
+      ]
+    ))
+  }
+}, [message])
 
-  return (
-    <div className='flex sm:h-[350px] md:h-[450px] rounded-lg overflow-hidden bg-gray-400 bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-0'>
-    <div className='md:min-w-[400px] flex flex-col'>
-    <div className='px-4 flex-1 overflow-auto'>
+return (
+  <div className='flex sm:h-[350px] md:h-[450px] rounded-lg overflow-hidden bg-gradient-to-bl from-[#191970] to-[#6F8FAF] bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-0'>
+  <div className='md:max-w-[400px] flex flex-col'>
+  <div className='px-4 flex-1 overflow-auto'>
 
-      {previousChats.map((previousChat, index) => (
-      	<div className={`chat`} key={index}>
-          <div key={index} className={`chat-bubble text-black pb-2`}>{previousChat.content}</div>
-          {/* <div key={index} className={`chat-bubble text-white pb-2`}>{previousChat}</div> */}
+    {previousChats.map((previousChat, index) => 
+    <>
+      <div className={`chat chat-start`}>
+        <div className='chat-image avatar'>
+          <div className='w-10 rounded-full'>
+            <img alt='Tailwind CSS chat bubble component' src={prfdf} />
+          </div>
         </div>
-      )
-      )}
+        <div key={index} className={`chat-bubble bg-white bg-opacity-20 backdrop-blur-sm text-white shake pb-2 break-words`}>{previousChat.content.value}</div>
       </div>
-      <div className='px-4 my-3'>
-      <div className='w-full relative'>
-        <input
-					type='text'
-					className='border text-sm rounded-lg block w-full p-2.5  bg-gray-700 border-gray-600 text-white'
-					placeholder='Send a value'
-					value={value}
-					onChange={(e) => setValue(e.target.value)}
-				/>
-				<button type='submit' className='absolute inset-y-0 end-0 flex items-center pe-3' onClick={getMesages}>
-					<img src={map} alt="map" />
-				</button>
+      <div className={`chat chat-start`}>
+        <div className='chat-image avatar'>
+          <div className='w-10 rounded-full'>
+            <img alt='Tailwind CSS chat bubble component' src={chatbot} />
+          </div>
+        </div>
+        <div key={index} className={`chat-bubble bg-white bg-opacity-20 backdrop-blur-sm text-white shake pb-2 break-words`}>{previousChat.content.message}</div>
       </div>
-      </div>
+      </>
+    )}
+    </div>
+    <div className='px-4 my-3'>
+    <div className='w-full relative'>
+      <input
+        type='text'
+        className='border text-sm rounded-lg block w-full p-2.5  bg-white bg-opacity-20 backdrop-blur-sm border-gray-600 text-white'
+        placeholder='Send a value'
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+      />
+      <button type='submit' className='absolute inset-y-0 end-0 flex items-center pe-3' onClick={getMesages}>
+        <img src={map} alt="map" />
+      </button>
     </div>
     </div>
-  )
+  </div>
+  </div>
+)
 }
 
 export default MessageContainer

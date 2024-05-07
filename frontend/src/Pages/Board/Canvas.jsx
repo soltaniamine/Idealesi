@@ -1264,7 +1264,7 @@ insertLayer1(24,{x:currentWidth+currentX-"20", y:160},{height:40,width:130},{r:2
   };
 
   return (
-    <main className='h-full w-full relative bg-neutral-100 touch-none overflow-hidden'>
+<main className={`h-full w-full dark:bg-black bg-white dark:bg-dot-white/[0.2] bg-dot-black/[0.2] relative overflow-hidden`}>
         <Info 
           boardId={boardId}
           canRedo={canRedo}
@@ -1304,7 +1304,7 @@ insertLayer1(24,{x:currentWidth+currentX-"20", y:160},{height:40,width:130},{r:2
           }}
   
           />
-      <Button className='fixed bottom-10 left-[50%] translate-x-[-50%]'
+      <Button className='fixed bottom-10 left-[50%] translate-x-[-50%] text-white bg-blue-950 hover:bg-white hover:text-blue-950'
          onClick={handleNextStep}         
         disabled={isCycleComplete}>
         {buttonTitles[currentStepIndex]}
