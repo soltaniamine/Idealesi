@@ -30,7 +30,7 @@ useEffect(() => {
 
 return (
   <div className='flex sm:h-[350px] md:h-[450px] rounded-lg overflow-hidden bg-gradient-to-bl from-[#191970] to-[#6F8FAF] bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-0'>
-  <div className='md:max-w-[400px] flex flex-col'>
+  <div className='md:max-w-[400px] w-[400px] flex flex-col'>
   <div className='px-4 flex-1 overflow-auto'>
 
     {previousChats.map((previousChat, index) => 
