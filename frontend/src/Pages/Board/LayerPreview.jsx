@@ -17,6 +17,9 @@ import { RoundedRect } from './RoundedRect'
 import { IdeasRectCombin } from './IdeasRectCombin'
 import { PriorityMoscow } from './PriorityMoscow'
 import { IdeasRectMoscow } from './IdeasRectMoscow'
+import {BrainwritingColumns} from './BrainwritingColumns'
+import { BrainwritingShape } from './BrainwritingShape'
+import { BrainwritingUsers } from './BrainwritingUsers'
 
 const LayerPreview = memo(({id, onLayerPointerDown, selectionColor, hide, triggerVote}) => {
   const layer = useStorage((root) => root.layers.get(id))
@@ -147,6 +150,33 @@ const LayerPreview = memo(({id, onLayerPointerDown, selectionColor, hide, trigge
             id={id}
             layer={layer}
             onPointerDown={onLayerPointerDown}
+          />
+        )
+      case LayerType.BrainwritingColumns:
+        return(
+          <BrainwritingColumns
+            id={id}
+            layer={layer}
+            onPointerDown={onLayerPointerDown}
+
+          />
+        )
+      case LayerType.BrainwritingShape:
+        return(
+          <BrainwritingShape
+            id={id}
+            layer={layer}
+            onPointerDown={onLayerPointerDown}
+            selectionColor={selectionColor}
+          />
+        )
+      case LayerType.BrainwritingUsers:
+        return(
+          <BrainwritingUsers
+            id={id}
+            layer={layer}
+            onPointerDown={onLayerPointerDown}
+            selectionColor={selectionColor}
           />
         )
     default:

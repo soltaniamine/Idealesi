@@ -4,10 +4,11 @@ import { RoomProvider } from '../../../liveblocks.config'
 import { ClientSideSuspense } from '@liveblocks/react'
 import { LiveList, LiveMap } from '@liveblocks/client'
 
-const Room = ({children, roomId, fallback}) => {
+const Room = ({children, fallback}) => {
+  const BoardId = '10'
   return (
     <RoomProvider 
-      id={roomId} 
+      id={BoardId} 
       initialPresence={{ 
         cursor: null,
         selection: []

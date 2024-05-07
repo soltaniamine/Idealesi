@@ -4,10 +4,10 @@ import Room from './Room'
 import Loading from './Loading'
 
 const BoardId = (boardId) => {
-  const BoardId = 'J5R9lTtOS0KX6M9WufgAlU0'
+
   
   return (
-    <Room roomId={BoardId} fallback={<Loading />}>
+    <Room fallback={<Loading />}>
         <Canvas boardId={BoardId}/>
     </Room>
   )
