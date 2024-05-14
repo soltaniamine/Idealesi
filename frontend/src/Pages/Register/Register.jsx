@@ -13,9 +13,10 @@ const Register = () => {
     const [red1, setRed1] = useState(false);
     const [red2, setRed2] = useState(false);
     const [red3, setRed3] = useState(false);
-
-    const registerUser = async () => {
+    const [red4, setRed4] = useState(false);
+    const registerUser = async (e) => {
         try {
+            e.preventDefault()
             const response = await axios.post('http://127.0.0.1:5000/register', { email, password, username });
             navigate(`/Verifyemail?email=${email}`);
         } catch (error) {
@@ -37,16 +38,22 @@ const Register = () => {
             } else {
                 setRed3(false);
             }
+            if (error.response.data.message === "not esi email") {
+                setRed4(true);
+            } else {
+                setRed4(false);
+            }
         }
     };
 
     
-    const loginUser = async () => {
+    const loginUser = async (e) => {
         try {
-          const response = await axios.post('http://127.0.0.1:5000/login', { email, password });
-          console.log(response.data);
-          setLoggedIn(true);
-          navigate(`/home?uid=${response.data.user_id}`);
+            e.preventDefault()
+            const response = await axios.post('http://127.0.0.1:5000/login', { email, password });
+            console.log(response.data);
+            setLoggedIn(true);
+            navigate(`/home?uid=${response.data.user_id}`);
         } catch (error) {
             console.log(error.response);
             setLoggedIn(false);
@@ -58,7 +65,7 @@ const Register = () => {
         <body className="bodddy">
             <div className={showSignup ? "container" : "container right-panel-active"}>
                 <div className="form-container sign-up-container">
-                    <form className="forma" onSubmit={loginUser} action="#">
+                    <form className="forma" onSubmit={loginUser} >
                         <div className="border-b-2 mb-16">
                             <h1 className="texto text-4xl ">Log In</h1>
                         </div>
@@ -83,20 +90,11 @@ const Register = () => {
                         <div className=" ml-80 mb-10">
                             <div className=""><Link to="/forgotpassword"><p className=" text-xs text-gray-400">Forgot Password?</p></Link></div>
                         </div>
-                        <button type="submit" className="here hovering">Log In</button>
-                        <div className=" mt-5 flex items-center">
-                            <div className="border-b-2 w-[180px]"></div>
-                            <h3 className="h33 mx-14 text-gray-400">or</h3>
-                            <div className="border-b-2 w-[180px]"></div>
-                        </div>
-                        <div className=" mt-5 flex items-center">
-                            <a href="/home"><img className="w-5" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/2048px-Google_%22G%22_logo.svg.png" alt="" /></a>
-                            <a href="/home"><p className=" text-sm mx-5 text-gray-400">Log in with Google</p></a>
-                        </div>
+                        <button className="here hovering">Log In</button>
                     </form>
                 </div>
                 <div className="form-container sign-in-container">
-                    <form className="forma " onSubmit={(password === passwordd) ? registerUser : ""} action="#">
+                    <form className="forma " onSubmit={(password === passwordd) ? registerUser : ""}>
                         <div className="border-b-2 mb-9">
                             <h1 className="texto text-4xl ">Sign Up</h1>
                         </div>
@@ -111,7 +109,7 @@ const Register = () => {
                         {red2 && <div className=" h-4 w-[100%] flex justify-start items-start">
                             <p className="mb-5 text-red-600 text-xs">wrong name</p>
                         </div>}
-                        <div className={` w-[100%] flex justify-start items-center border-b-2 ${red1 ? " border-red-600" : " mb-5"} `}>
+                        <div className={` w-[100%] flex justify-start items-center border-b-2 ${red1 || red4 ? " border-red-600" : " mb-5"} `}>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
                             </svg>
@@ -119,6 +117,9 @@ const Register = () => {
                         </div>
                         {red1 && <div className=" h-4 w-[100%] flex justify-start items-start">
                             <p className="mb-5 text-red-600 text-xs">wrong email</p>
+                        </div>}
+                        {red4 && <div className=" h-4 w-[100%] flex justify-start items-start">
+                            <p className="mb-5 text-red-600 text-xs">email n'est pas de l'ESI</p>
                         </div>}
                         <div className={` w-[100%] flex justify-start items-center border-b-2 ${red3 ? " border-red-600" : " mb-5"} `}>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -138,16 +139,7 @@ const Register = () => {
                         {(password != passwordd) && <div className="mb-8 h-4 w-[100%] flex justify-start items-start">
                             <p className=" text-red-600 text-xs">wrong password</p>
                         </div>}
-                        <button type="submit" className="here hovering">Sign Up</button>      
-                        <div className=" mt-5 flex items-center">
-                            <div className="border-b-2 w-[180px]"></div>
-                            <h3 className="h33 mx-14 text-gray-400">or</h3>
-                            <div className="border-b-2 w-[180px]"></div>
-                        </div>
-                        <div className=" mt-5 flex items-center">
-                            <a href="/home"><img className="w-5" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/2048px-Google_%22G%22_logo.svg.png" alt="" /></a>
-                            <a href="/home"><p className=" text-sm mx-5 text-gray-400">Sign up with Google</p></a>
-                        </div>
+                        <button type="submit" className="here hovering">Sign Up</button>              
                     </form>
                 </div>
                 <div className="overlay-container">

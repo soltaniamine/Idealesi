@@ -48,19 +48,19 @@ const Description = () => {
           <div className='bg-[#818BE3] border-black border-dashed border-2 flex flex-col rounded-xl border-dashed-custom items-center p-4'style={{ borderSpacing: '16px' }}>
             <img src={Profile} alt="Profile" className='w-[12rem] drop-shadow-md -translate-y-[10%]' />
             <h3 className='text-xl font-semibold -translate-y-[130%]'style={{ fontFamily: 'Product Sans ', fontSize:'27px' }}>Enseignants</h3>
-            <h6 className='text-center tracking-tighter -translate-y-[10%]'style={{ fontFamily: 'Product Sans ', fontSize:'24px' }}>Stimulez la créativité en utilisant des méthodes .Stimulez la créativité en utilisant des méthodes de brainstorming .</h6>
+            <h6 className='text-center tracking-tighter -translate-y-[10%]'style={{ fontFamily: 'Product Sans ', fontSize:'24px' }}>la plateforme conçue spécialement pour les professeurs de l'ESI, offrant un espace dédié à l'enseignement, au partage de connaissances.</h6>
           </div>
           
           <div className='bg-[#818BE3] flex flex-col   border-black border-dashed border-2 rounded-xl items-center p-4'>
             <img src={LogoIdealesi} alt="LogoIdealesi" className='w-[10rem] drop-shadow-md -translate-y-[9%]' />
             <h3 className='text-xl font-semibold pt-3 -translate-y-[90%]'style={{ fontFamily: 'Product Sans ', fontSize:'27px' }}>Commuanité</h3>
-            <h6 className='text-center tracking-tighter -translate-y-[10%]'style={{ fontFamily: 'Product Sans ', fontSize:'24px' }}>Stimulez la créativité en utilisant des méthodes .Stimulez la créativité en utilisant des méthodes de brainstorming .</h6>
+            <h6 className='text-center tracking-tighter -translate-y-[10%]'style={{ fontFamily: 'Product Sans ', fontSize:'24px' }}>communauté dynamique regroupant des esprits brillants de l'ESI, unis par leur passion pour l'apprentissage et l'excellence académique.</h6>
           </div>
 
           <div className='bg-[#818BE3] flex flex-col  border-black border-dashed border-2 rounded-xl items-center p-4'>
             <img src={Student} alt="Student" className='w-[9rem] drop-shadow-lg -translate-y-[0%] mt-2' />
             <h3 className='text-xl font-semibold ml-3 -translate-y-[20%]'style={{ fontFamily: 'Product Sans ', fontSize:'27px' }}>Etudiants</h3>
-            <h6 className='text-center tracking-tighter translate-y-[10%]'style={{ fontFamily: 'Product Sans ', fontSize:'24px' }}>Stimulez la créativité en utilisant des méthodes .Stimulez la créativité en utilisant des méthodes de brainstorming .</h6>
+            <h6 className='text-center tracking-tighter translate-y-[10%]'style={{ fontFamily: 'Product Sans ', fontSize:'24px' }}>votre destination incontournable pour les étudiants de l'ESI, offrant un environnement unique pour l'éducation, l'exploration au sein de la communauté étudiante.</h6>
           </div>
 
         </div>

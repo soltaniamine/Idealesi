@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import cp from '../../../assets/Acceuil/choixniveau/cp.svg'
 import './onecp.css';
 import BoardId from "@/Pages/Board/BoardId";
- 
+import ConfirmationAjoutProject from "../Home/Confirmationajoutprojet";
 const Onecs = ({uid, technique, niveau_id, nom_niveau, cycle}) => {
    const [modules, setModules] = useState([]);
    const [firstColumnModules, setFirstColumnModules] = useState([]);
@@ -54,28 +53,37 @@ const Onecs = ({uid, technique, niveau_id, nom_niveau, cycle}) => {
      }
    }
   
- 
+   const [isModalOpen, setIsModalOpen] = useState(false);
+   const handleDeleteClick = () => {
+       setIsModalOpen(true);
+   };
    const Module = ({ mid, nom_module }) => {
   const handleClick = async () => {
     await newProject();
-    setMod(mid);
+    setMod(mid); 
   };
 
   if (!roomIdUpdated) {
     return (
-      <div onClick={handleClick} className="flex items-center font-semibold hover:transform hover:-translate-y-1 hover:scale-80">
+      <div onClick={()=>{handleClick();handleDeleteClick();}} className=" cursor-pointer flex items-center font-semibold hover:transform hover:-translate-y-1 hover:scale-80">
         <div className="w-3 h-3 rounded-full bg-blue-500 mr-3"></div>
         {nom_module}
       </div>
     );
   }
+  
 
   return (
-    <Link className="flex items-center font-semibold hover:transform hover:-translate-y-1 hover:scale-80" 
-      to={`/Board?uid=${uid}&tech=${technique}&mid=${mid}&nid=${niveau_id}&pid=${roomId}`}>
-      <div className="w-3 h-3 rounded-full bg-blue-500 mr-3"></div>
-      {nom_module}
-    </Link>
+    <ConfirmationAjoutProject
+      isOpen={isModalOpen}
+      onClose={() => setIsModalOpen(false)}
+      uid={uid}
+      tech={technique}
+      mid={mid}
+      nid={niveau_id}
+      pid={roomId}
+    />
+    
   );
 };
  

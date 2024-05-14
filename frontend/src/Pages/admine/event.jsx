@@ -9,36 +9,55 @@ import module from "../../assets/module.svg"
 import club from "../../assets/club.svg";
 import Notification from "../Accueil/notification-et-profile/notification";
 import Profilee from "../Accueil/notification-et-profile/profile";
+import ConfirmationModal from "../Accueil/Home/Confirmationmodel";
 
 const Event = ({ buttonColor }) => {
 
     const [nomclub, setNomClub] = useState('');
     const [nomevent, setNomEvent] = useState('');
     const location = useLocation();
+    const [red1, setRed1] = useState(false);
+    const [red2, setRed2] = useState(false);
     const params = new URLSearchParams(location.search);
     const uid = params.get('uid');
     const ajoutClub = async () => {
         try {
             const response = await axios.post('http://127.0.0.1:5000/add_club', { user_id: uid, nom_club: nomclub, path: imageFile});
             console.log(response.data);
+            if (response.status === 200 ){
+                fetchClub();
+            }
+            
         } catch (error) {
             console.log(error.response);
+            if (error.response.data.message === "Club name not found") {
+                setRed1(true);
+            } else {
+                setRed1(false);
+            }
         }
     }
 //liste clubs
 const [selectedId, setSelectedId] = useState(null);
-
-   
+const [isModalOpen, setIsModalOpen] = useState(false);
+    const handleDeleteClickkk = () => {
+        setIsModalOpen(true);
+    };
+    const [isModalOpenn, setIsModalOpenn] = useState(false);
+    const handleDeleteClickkkk = () => {
+        setIsModalOpenn(true);
+    };
 const [clubs, setClub] = useState([]);
-    useEffect(() => {
-        const fetchClub = async () => {
-          try {
-              const response = await axios.get('http://127.0.0.1:5000/liste_club');
-              setClub(response.data.clubs);
-          } catch (error) {
-              console.log(error.response);
-          }
+    const fetchClub = async () => {
+        try {
+            const response = await axios.get('http://127.0.0.1:5000/liste_club');
+            setClub(response.data.clubs);
+        } catch (error) {
+            console.log(error.response);
         }
+    } 
+    useEffect(() => {
+        
         fetchClub(); 
     }, []);
     const [selected, setSelected] = useState('');
@@ -58,6 +77,9 @@ const [clubs, setClub] = useState([]);
     try {
         const response = await axios.post('http://127.0.0.1:5000/delete_club', {user_id: uid, club_nom: selected});
         console.log(response.data);
+        if(response.status === 200){
+            fetchClub();
+        }
     } catch (error) {
         console.log(error.response);
     }
@@ -65,16 +87,15 @@ const [clubs, setClub] = useState([]);
 
 
   const [event, setEvent] = useState([]);
-   useEffect(() => {
-     const fetchEvent = async () => {
-       try {
-         const response = await axios.get('http://127.0.0.1:5000/liste_event');
-         setEvent(response.data.events);
-       } catch (error) {
-         console.log(error.response);
-       }
-     };
- 
+  const fetchEvent = async () => {
+    try {
+      const response = await axios.get('http://127.0.0.1:5000/liste_event');
+      setEvent(response.data.events);
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
+   useEffect(() => { 
      fetchEvent();
    }, []); 
 
@@ -99,8 +120,16 @@ const [clubs, setClub] = useState([]);
         const response = await axios.post('http://127.0.0.1:5000/add_event', { user_id: uid, nom_evenement: nomevent, club_id: selectedId, photo_path: imageeFile});
         console.log(selectedId);
         console.log(response.data);
+        if (response.status ===200){
+            fetchEvent();
+        }
     } catch (error) {
         console.log(error.response);
+        if (error.response.data.message === "Event name not found") {
+            setRed2(true);
+        } else {
+            setRed2(false);
+        }
     }
 }
 const supEvent = async () => {
@@ -108,6 +137,9 @@ const supEvent = async () => {
         const response = await axios.post('http://127.0.0.1:5000/delete_event', { user_id: uid, event_id: selectedIdClub});
         console.log(selectedId);
         console.log(response.data);
+        if (response.status === 200 ){
+            fetchEvent();
+        }
     } catch (error) {
         console.log(error.response);
     }
@@ -219,17 +251,23 @@ const [showNotification, setShowNotification] = useState(false);
                                     <div className={`${selectedParagraph === "ajouterClub" ? "" : "hidden"}`}>
                                         {/* Contenu pour ajouter un club */}
                                         <div>
-                                            <div className="flex flex-col items-center justify-center mt-[3%]">
-                                                <h1 className="text-2xl font-semibold">Veuillez entrer le nom du club</h1>
+                                            <div className="flex items-center justify-center mt-[3%]">
+                                                <h1 className="text-2xl font-semibold">Veuillez entrer le nom du club</h1><h1 className="ml-2 text-red-500 "><b>*</b></h1>
                                             </div>
                                             <div className="mt-[2%] ml-[34%]">
                                                 <input
                                                     type="text"
                                                     placeholder="Nom du club ..."
-                                                    className="border border-gray-300 rounded-xl px-4 py-2" 
+                                                    className={`border ${red1 ? ' border-red-500 bg-red-200' : 'border-gray-300'} rounded-xl px-4 py-2`}
                                                     value={nomclub} onChange={(e)=>setNomClub(e.target.value)}
                                                 />
                                             </div>
+                                            {
+                                            red1 && 
+                                            <div>
+                                                <p className=" text-red-500  ml-[38%]">Vueillez entrer un club</p>
+                                            </div>
+                                            }
                                             <div className="flex flex-col items-center justify-center mt-[2%] mb-[2%]">
                                                 <h1 className="text-2xl font-semibold">Veuillez importer l'image du club</h1>
                                             </div>
@@ -281,7 +319,10 @@ const [showNotification, setShowNotification] = useState(false);
                                     <div className={`${selectedParagraph === "supprimerClub" ? "" : "hidden"}`}>
                                         {/* Contenu pour supprimer un club */}
                                     <div className="flex flex-col items-center justify-center mt-[3%] ">
-                                                    <h1 className="text-2xl font-semibold">Veuillez sélectionner le club</h1>
+                                                    
+                                                    <div className="flex">
+                                                        <h1 className="text-2xl font-semibold">Veuillez sélectionner le club</h1><h1 className="ml-2 text-red-500 "><b>*</b></h1>
+                                                    </div>
                                                     <div className="elementslist overflow-y-auto h-[200px] w-[100%] rounded-b-3xl mt-5 scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-200">
                                                         {items}
                                                     </div>
@@ -290,9 +331,14 @@ const [showNotification, setShowNotification] = useState(false);
                                                     <img className=" " src={club} />
                                             </div>
                                             <div className="mt-[-23%] ml-[10%]">
-                                                <button onClick={suprimClub} className="bg-[#FA7171] hover:bg-[#FF5050] text-white font-bold py-3 px-14 rounded-xl mt-[7%]">
+                                                <button onClick={handleDeleteClickkk} className="bg-[#FA7171] hover:bg-[#FF5050] text-white font-bold py-3 px-14 rounded-xl mt-[7%]">
                                                     Supprimer
                                                 </button>
+                                                <ConfirmationModal
+                                                    isOpen={isModalOpen}
+                                                    onClose={() => setIsModalOpen(false)}
+                                                    onConfirm={suprimClub}
+                                                />
                                             </div>   
                                     </div>
                                     <div className={`${selectedParagraph === "ajouterEvenement" ? "" : "hidden"}`}>
@@ -301,7 +347,10 @@ const [showNotification, setShowNotification] = useState(false);
                                                 {!selected && (
                                                     <div className="w-[100%] ">
                                                     <div className="flex flex-col items-center justify-center  ">
-                                                        <h1 className="text-2xl font-semibold">Veuillez sélectionner le club</h1>
+                                                        
+                                                        <div className="flex">
+                                                            <h1 className="text-2xl font-semibold">Veuillez sélectionner le club</h1><h1 className="ml-2 text-red-500 "><b>*</b></h1>
+                                                        </div>
                                                         <div className="elementslist overflow-y-auto h-[200px] w-[100%] rounded-b-3xl mt-5 scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-200">
                                                             {items}
                                                         </div>
@@ -314,17 +363,24 @@ const [showNotification, setShowNotification] = useState(false);
 
                                                 {selected && (
                                             <div>
-                                                <div className="flex flex-col items-center justify-center mt-[3%]">
-                                                            <h1 className=" text-2xl font-semibold ">Veuillez entrer le nom de l'évènement </h1>
+                                                <div className="flex items-center justify-center mt-[3%]">
+                                                            <div className="flex">
+                                                                <h1 className="text-2xl font-semibold">Veuillez entrer le nom de l'évènement </h1><h1 className="ml-2 text-red-500 "><b>*</b></h1>
+                                                            </div>
                                                         </div>
                                                         <div className="mt-[2%] ml-[28%]">
                                                             <input
                                                                 type="text"
                                                                 placeholder="Nom de l'évènement  ..."
-                                                                className="border border-gray-300 rounded-xl px-4 py-2"
+                                                                className={`border  ${red2 ? ' border-red-500 bg-red-200' : 'border-gray-300'} rounded-xl px-4 py-2`}
                                                                 value={nomevent} onChange={(e)=>setNomEvent(e.target.value)} />
                                                         </div>
-                                                                
+                                                        {
+                                                        red2 && 
+                                                        <div>
+                                                            <p className=" text-red-500  ml-[29%]">Vueillez entrer un évènement</p>
+                                                        </div>
+                                                        }       
                                                     <div className="flex flex-col items-center justify-center mt-[2%] mb-[2%]">
                                                         <h1 className=" text-2xl font-semibold ">Veuillez importer l'image de l'évènement </h1>
                                                     </div>
@@ -380,7 +436,9 @@ const [showNotification, setShowNotification] = useState(false);
                                     <div className={`${selectedParagraph === "supprimerEvenement" ? "" : "hidden"}`}>
                                         {/* Contenu pour supprimer un événement */}
                                         <div className="flex flex-col items-center justify-center mt-[3%] ">
-                                            <h1 className="text-2xl font-semibold">Veuillez sélectionner l'évènement</h1>
+                                            <div className="flex">
+                                                <h1 className="text-2xl font-semibold">Veuillez sélectionner l'évènement</h1><h1 className="ml-2 text-red-500 "><b>*</b></h1>
+                                            </div>
                                             <div className="elementslist overflow-y-auto h-[200px] w-[100%] rounded-b-3xl mt-5 scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-200">
                                                 {item}
                                             </div>
@@ -389,9 +447,14 @@ const [showNotification, setShowNotification] = useState(false);
                                                 <img className=" " src={club} />
                                            </div>
                                             <div className="mt-[-23%] ml-[10%]">
-                                                <button onClick={supEvent} className="bg-[#FA7171] hover:bg-[#FF5050] text-white font-bold py-3 px-14 rounded-xl mt-[7%]">
+                                                <button onClick={handleDeleteClickkkk} className="bg-[#FA7171] hover:bg-[#FF5050] text-white font-bold py-3 px-14 rounded-xl mt-[7%]">
                                                     Supprimer
                                                 </button>
+                                                <ConfirmationModal
+                                                    isOpen={isModalOpenn}
+                                                    onClose={() => setIsModalOpenn(false)}
+                                                    onConfirm={supEvent}
+                                                />
                                             </div>
                                     </div>
                                 </div>
@@ -405,7 +468,7 @@ const [showNotification, setShowNotification] = useState(false);
                             <img className=" " src={module} /> 
                             </div>
                             <div className="ml-[5%]">
-                            <Link to="/modulee">
+                            <Link to={`/modulee?uid=${uid}`}>
                         <button  className={"next cursor-pointer "}>
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="4" stroke="currentColor" class="w-6 h-6">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
@@ -423,7 +486,7 @@ const [showNotification, setShowNotification] = useState(false);
                                 <img className=" " src={level} /> 
                                 </div>
                                 <div className="ml-[5%]">
-                                <Link to="/niveauu">
+                                <Link to={`/Niveauu?uid=${uid}`}>
                         <button  className={"next cursor-pointer "}>
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="4" stroke="currentColor" class="w-6 h-6">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
@@ -441,7 +504,7 @@ const [showNotification, setShowNotification] = useState(false);
                             <img className=" " src={eventtt} /> 
                             </div>
                             <div className="ml-[5%] mt-[-10%]">
-                            <Link to="/expert">
+                            <Link to={`/expert?uid=${uid}`}>
                         <button  className={"next cursor-pointer "}>
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="4" stroke="currentColor" class="w-6 h-6">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />

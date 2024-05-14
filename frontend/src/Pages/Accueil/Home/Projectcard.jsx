@@ -1,9 +1,11 @@
 import { useState } from "react";
 import imgprojet from "../../../assets/Acceuil/Home/imgpro.png";
 import axios from "axios";
-
-const Projectcard = ({ projectname, fav, pid, uid, fetchProject }) => {
+import { Link} from "react-router-dom";
+import ConfirmationModal from "./Confirmationmodel";
+const Projectcard = ({ projectname, fav, pid, uid, mid, fetchProject }) => {
     const [isFavorited, setIsFavorited] = useState(fav !== 0);
+    
 
     const changeFav = async (n) => {
         try {
@@ -25,20 +27,32 @@ const Projectcard = ({ projectname, fav, pid, uid, fetchProject }) => {
             console.log(error.response);
         }
     }
-
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const handleDeleteClick = () => {
+        setIsModalOpen(true);
+    };
     return (
         <div className='relative h-[100%] bg-mypurple3 rounded-lg cursor-pointer'>
-            <div onClick={deleteProject} className=" absolute top-0 right-0 h-[20%] w-[23%] flex justify-center items-center ">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-                </svg>
+            <div>
+                <div onClick={handleDeleteClick} className="absolute top-0 right-0 h-[20%] w-[23%] flex justify-center items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                    </svg>
+                </div>
+                <ConfirmationModal
+                    isOpen={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
+                    onConfirm={deleteProject}
+                />
             </div>
+            <Link to={`/Board?uid=${uid}&mid=${mid}&pid=${pid}`}>
             <div className='text-white h-[80%] flex justify-center items-center border-b-2'>
                 <img className="size-20" src={imgprojet} alt="" />
             </div>
             <div className='h-[20%] flex justify-center items-center'>
                 <p className='text-xs text-white'>{projectname}</p>
             </div>
+            </Link>
             {isFavorited ?
                 <div onClick={() => changeFav('0')} className="text-red-500 like absolute bottom-1 right-1">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
@@ -52,6 +66,7 @@ const Projectcard = ({ projectname, fav, pid, uid, fetchProject }) => {
                     </svg>
                 </div>
             }
+            
         </div>
     );
 }

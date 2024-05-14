@@ -26,7 +26,7 @@ const Verifyemail = () => {
             const response = await axios.post('http://127.0.0.1:5000/verify_email', { email,verification });
             console.log(verification);
             console.log(response.data);
-            navigate("/home");
+            navigate("/register");
         } catch (error) {
             console.log(error.response);
             setRed1(true);

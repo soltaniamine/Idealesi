@@ -8,7 +8,7 @@ from flask_cors import CORS, cross_origin
 import random
 import ssl
 import smtplib
-from os import getenv
+from os import getenv 
 
 
 auth = Blueprint("auth", __name__)
@@ -26,6 +26,8 @@ def register():
         return jsonify({'message': 'reset username'}), 400
     if not email :
         return jsonify({'message': 'reset email'}), 401
+    if not email.endswith("@esi.dz"):
+        return jsonify({'message': 'not esi email'}), 401
     if not password :
         return jsonify({'message': 'reset password'}), 402
     #verified has a default value of False and changes to true in the verification function
@@ -98,7 +100,7 @@ def verify_email():
     cur = mysql.connection.cursor()
     cur.execute("SELECT verifycode FROM utilisateur WHERE email = %s", (email,))
     verifycode = cur.fetchone()
-    cur.close()
+    cur.close() 
 
 
     if not verifycode:
@@ -144,7 +146,7 @@ def resetPassword():
 
 
     cur= mysql.connection.cursor()
-    cur.execute("UPDATE users SET password = %s WHERE email =%s", (newPassword, email,))
+    cur.execute("UPDATE utilisateur SET password = %s WHERE email =%s", (newPassword, email,))
     cur.connection.commit()
     cur.close()
 

@@ -4,7 +4,7 @@ import Templatescard from '../Home/Templatescard';
 import photo from '../../../assets/Acceuil/Home/Rectangle 4271.svg';
 import photoo from '../../../assets/Acceuil/Home/Group.svg';
 const Alltemplates = () => {
-    const [projectList] = useState([<Templatescard key={0} />,<Templatescard key={0} />,<Templatescard key={0} />]);
+    const [projectList] = useState([<Templatescard text='Brainstorming' step='Brainwriting'/>, <Templatescard text='Brainwriting' step='Brainwriting' />,<Templatescard text='combinaison' step='Combinaison' />,<Templatescard text='Raffinement' step='Raffinement' />,<Templatescard text='Moscow' step='Moscow' />]);
 
     const renderProjectCards = () => {
         return projectList.map((project, index) => (
@@ -18,7 +18,7 @@ const Alltemplates = () => {
         <div className="recent w-[96,5%] h-[90%]">
             <div className='flex justify-between items-end'>
                 <div className="poss flex mb-4 w-96 ml-8">
-                    <h1 className="z-10 text-2xl mt-7 ml-5">All Templates</h1>
+                    <h1 className="z-10 text-2xl mt-7 ml-5">Les modèles</h1>
                     <img className="line w-36" src={photo} alt="" />
                     <img className="sousligne w-24" src={photoo} alt="" />
                 </div>

@@ -9,20 +9,37 @@ import {Link,useLocation} from "react-router-dom";
 import axios from "axios";
 import Notification from "../Accueil/notification-et-profile/notification";
 import Profilee from "../Accueil/notification-et-profile/profile";
+import ConfirmationModal from "../Accueil/Home/Confirmationmodel";
 
 
 const Expert =  ({ buttonColor }) => {
 
   const [email, setEmail] = useState('');
   const location = useLocation();
+  const [red1, setRed1] = useState(false);
+  const [red2, setRed2] = useState(false);
   const params = new URLSearchParams(location.search);
   const uid = params.get('uid');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+    const handleDeleteClickkk = () => {
+        setIsModalOpen(true);
+    };
   const ajoutProf = async () => {
       try {
           const response = await axios.post('http://127.0.0.1:5000/add_prof', { prof_email: email,user_id: uid});
           console.log(response.data);
       } catch (error) {
           console.log(error.response);
+          if (error.response.data.message === "expert email not found") {
+            setRed1(true);
+          } else {
+              setRed1(false);
+          }
+          if (error.response.data.message === "not esi email") {
+            setRed2(true);
+          } else {
+              setRed2(false);
+          }
       }
   }
   const [niveau, setNiveau] = useState([]);
@@ -127,9 +144,9 @@ const Expert =  ({ buttonColor }) => {
       }
    }, [exper, selectedIdModule, experselected]); 
 
-  const supExpert = async (uuid, mid) => {
+  const supExpert = async (uuid, mid,piiid) => {
       try {
-          const response = await axios.post('http://127.0.0.1:5000/delete_expert', { user_id: uuid, module_id: mid});
+          const response = await axios.post('http://127.0.0.1:5000/delete_expert', { user_id: uuid, module_id: mid, prof_id:piiid});
           if (response.status === 200) {
               fetchModulesExpertise();
           }
@@ -221,16 +238,27 @@ const Expert =  ({ buttonColor }) => {
           </div>
          {showajouter ? (
                   <><div>
-                  <div className="flex flex-col items-center justify-center mt-[8%]">
-                      <h1 className=" text-2xl font-semibold ">Veuillez entrer l'email du prof </h1>
+                  <div className="flex items-center justify-center mt-[8%]">
+                      <h1 className=" text-2xl font-semibold ">Veuillez entrer l'email du prof </h1><h1 className="ml-2 text-red-500 "><b>*</b></h1>
                   </div>
                   <div className="mt-[4%] ml-[34%]">
                       <input
                           type="text"
                           placeholder="Email ..."
-                          className="border border-gray-300 rounded-xl px-4 py-2"  value={email} onChange={(e)=>setEmail(e.target.value)} />
+                          className={`border ${red1 || red2 ? ' border-red-500 bg-red-200' : 'border-gray-300'} rounded-xl px-4 py-2`}  value={email} onChange={(e)=>setEmail(e.target.value)} />
                   </div>
-
+                  {
+                    red1 && 
+                    <div>
+                      <p className=" text-red-500  ml-[35%]">Vueillez entrer l'email du prof</p>
+                    </div>
+                  }
+                  {
+                    red2 && 
+                    <div>
+                      <p className=" text-red-500  ml-[31%]">Cet email n'est pas de l'esi '@esi.dz'</p>
+                    </div>
+                  }
                   </div><div className="size-[40%] ml-[66%] mt-[19.3%] ">
                       <img className=" " src={event} />
                   </div><div className="mt-[-23%] ml-[10%]">
@@ -244,8 +272,8 @@ const Expert =  ({ buttonColor }) => {
           <>{selectedIdModule ? (
             // Afficher la liste des experts si un module est sélectionné
             <div>
-                <div className="flex flex-col items-center justify-center mt-[3%]">
-                    <h1 className="text-2xl font-semibold">Veuillez sélectionner un expert</h1>
+                <div className="flex items-center justify-center mt-[3%]">
+                    <h1 className="text-2xl font-semibold">Veuillez sélectionner un expert</h1><h1 className="ml-2 text-red-500 "><b>*</b></h1>
                 </div>
                 <div className="expert-list overflow-y-auto h-[200px] rounded-b-3xl mt-5 scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-200">
                 {itemm}
@@ -254,16 +282,22 @@ const Expert =  ({ buttonColor }) => {
                 <div className="size-[40%] ml-[66%] mt-[1%] ">
                       <img className=" " src={event} />
                   </div><div className="mt-[-13%] ml-[10%]">
-                      <button onClick={() => supExpert(experselected, selectedIdModule)} className="bg-[#FFC700] hover:bg-[#EFBB04] text-white font-bold py-3 px-14 rounded-xl mt-[%]">
+                      <button onClick={handleDeleteClickkk} className="bg-[#FFC700] hover:bg-[#EFBB04] text-white font-bold py-3 px-14 rounded-xl mt-[%]">
                           Supprimer
                       </button>
+                      <ConfirmationModal
+                          isOpen={isModalOpen}
+                          onClose={() => setIsModalOpen(false)}
+                          onConfirm={() => {supExpert(uid, selectedIdModule,experselected-1);setIsModalOpen(false);}}
+                          
+                      />
                   </div>
             </div>
         ) : selectedId ? (
             // Afficher la liste des modules si un niveau est sélectionné
             <div>
-                <div className="flex flex-col items-center justify-center mt-[3%]">
-                    <h1 className="text-2xl font-semibold">Sélectionner un module</h1>
+                <div className="flex   items-center justify-center mt-[3%]">
+                    <h1 className="text-2xl font-semibold">Sélectionner un module</h1><h1 className="ml-2 text-red-500 "><b>*</b></h1>
                 </div>
                 <div className="modules-list overflow-y-auto h-[200px] rounded-b-3xl mt-5 scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-200">
                     {item}
@@ -275,8 +309,8 @@ const Expert =  ({ buttonColor }) => {
         ) : (
             // Afficher la liste des niveaux par défaut
             <div>
-                <div className="flex flex-col items-center justify-center mt-[3%]">
-                    <h1 className="text-2xl font-semibold">Veuillez sélectionner un niveau</h1>
+                <div className="flex  items-center justify-center mt-[3%]">
+                    <h1 className="text-2xl font-semibold">Veuillez sélectionner un niveau</h1><h1 className="ml-2 text-red-500 "><b>*</b></h1>
                 </div>
                 <div className="elementslist overflow-y-auto h-[200px] rounded-b-3xl mt-5 scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-200">
                     {items}
@@ -307,7 +341,7 @@ const Expert =  ({ buttonColor }) => {
               <img className=" " src={level} /> 
             </div>
             <div className="ml-[5%]">
-            <Link to="/niveauu">
+            <Link to={`/Niveauu?uid=${uid}`}>
            <button  className={"next cursor-pointer "}>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="4" stroke="currentColor" class="w-6 h-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
@@ -325,7 +359,7 @@ const Expert =  ({ buttonColor }) => {
               <img className=" " src={club} /> 
             </div>
             <div className="ml-[5%]">
-            <Link to="/event">
+            <Link to={`/event?uid=${uid}`}> 
            <button  className={"next cursor-pointer "}>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="4" stroke="currentColor" class="w-6 h-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
@@ -343,7 +377,7 @@ const Expert =  ({ buttonColor }) => {
               <img className=" " src={modu} /> 
             </div>
             <div className="ml-[5%]">
-            <Link to="/modulee">
+            <Link to={`/modulee?uid=${uid}`}>
            <button  className={"next cursor-pointer "}>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="4" stroke="currentColor" class="w-6 h-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />

@@ -443,7 +443,7 @@ const Toolbar = ({ canvasState, setCanvasState, focus }) => {
                 <img src={expert} alt="expert" className='w-[25px] h-[25px]'/>
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className=" w-80" side={"right"} sideOffset={12}>
+            <DropdownMenuContent className=" w-80 bg-white" side={"right"} sideOffset={12}>
               <DropdownMenuGroup  className="flex flex-col">
               {experts}
               </DropdownMenuGroup>

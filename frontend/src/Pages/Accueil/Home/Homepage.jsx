@@ -24,9 +24,7 @@ const Homepage = ({project, handleToggleClick,fetchProject}) => {
         if (project && project.length > 0) {
             setItems(project.map((prj) => (
                 <div key={prj.projet_id} className='w-[15%] h-[90%]'>
-                    <Link to={`/Board?uid=${uid}&mid=${prj.module_id}&pid=${prj.projet_id}`}>
-                        <Projectcard projectname={prj.nom} fav={prj.favori} pid={prj.projet_id} uid={uid} fetchProject={fetchProject}/>
-                    </Link>
+                    <Projectcard projectname={prj.nom} fav={prj.favori} pid={prj.projet_id} uid={uid} mid={prj.module_id} fetchProject={fetchProject}/>
                 </div>
             )));
         }
@@ -36,22 +34,22 @@ const Homepage = ({project, handleToggleClick,fetchProject}) => {
     return ( 
         <div className=" recent w-[96,5%] h-[90%] ml-8">
             <div className="poss flex mb-4 w-96">
-                <h1 className="z-10 text-2xl mt-7">Recent Projects</h1>
+                <h1 className="z-10 text-2xl mt-7">Projets récents</h1>
                 <img className="line w-36" src={photo} alt="" />
                 <img className="sousligne w-24" src={photoo} alt="" />
             </div>
             <div className=" bg-mygrey w-[90%] h-[38%] ml-8 rounded-2xl">
                 <div className='h-[88%] flex items-end justify-around '>
-                    <div className='w-[15%] h-[90%] bg-mypurple2 rounded-lg  cursor-pointer'>
+                    <Link to={`/choixtechnique?uid=${uid}`} className='w-[15%] h-[90%] bg-mypurple2 rounded-lg  cursor-pointer'>
                         <div className=' text-white h-[80%] flex justify-center items-center'>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-12 h-12 mt-4">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                             </svg>
                         </div>
                         <div className='h-[20%] flex justify-center items-center'>
-                            <p className=' text-xs text-white'>New project</p>
+                            <p className=' text-xs text-white'>Nouveau projet</p>
                         </div>
-                    </div>
+                    </Link>
                     {items.slice(-3).map((itm) => (
                         itm
                     ))}
@@ -59,42 +57,43 @@ const Homepage = ({project, handleToggleClick,fetchProject}) => {
                 <div className=' h-[12%] flex justify-end mr-4'>
                     <button onClick={handleToggleClick} className='flex items-center text-xs'>
                         <img className="size-4" src={photooo} alt="" />
-                        <p className='ml-1'>All projects</p>
+                        <p className='ml-1'>Tous projets</p>
                     </button>
                 </div>
             </div>
             <div className="pos flex mb-4 w-96">
-                <h1 className="z-10 text-2xl mt-7">Recommended templates</h1>
+                <h1 className="z-10 text-2xl mt-7">Modèles recommandés</h1>
                 <img className="line1 w-60" src={photoooo} alt="" />
                 <img className="sousligne1 w-24" src={photooooo} alt="" />
             </div>
             <div className=" bg-mygrey w-[90%] h-[32%] ml-8 rounded-2xl">
                 <div className='h-[88%] flex items-end justify-around '>
                     <div className='w-[13%] h-[90%]'>
-                        <Templatescard/>
+                        <Templatescard text='Brainstorming' step='Brainwriting'/>
                     </div>
                     <div className='w-[13%] h-[90%]'>
-                        <Templatescard/>
+                        <Templatescard text='Brainwriting' step='Brainwriting' />
                     </div>
                     <div className='w-[13%] h-[90%]'>
-                        <Templatescard/>
+                        <Templatescard text='combinaison' step='Combinaison' />
                     </div>
                     <div className='w-[13%] h-[90%]'>
-                        <Templatescard/>
+                        <Templatescard text='Raffinement' step='Raffinement' />
                     </div>
                     <div className='w-[13%] h-[90%]'>
-                        <Templatescard/>
+                        <Templatescard text='Moscow' step='Moscow' />
                     </div>
                 </div>
                 <div className=' h-[12%] flex justify-end mr-4'>
                     <button className='flex items-center text-xs'>
-                        <Link className='flex' to="/templates">
+                        <Link className='flex' to={`/templates?uid=${uid}`}>
                             <img className="size-4" src={photoooooo} alt="" />
-                            <p className='ml-1'>View more</p>
+                            <p className='ml-1'>Voir plus</p>
                         </Link>
                     </button>
                 </div>
             </div>
+            
         </div>
      );
 }

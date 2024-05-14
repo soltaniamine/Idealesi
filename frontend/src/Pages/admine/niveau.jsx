@@ -9,12 +9,15 @@ import { Link,useLocation } from 'react-router-dom';
 import axios from "axios";
 import Notification from "../Accueil/notification-et-profile/notification";
 import Profilee from "../Accueil/notification-et-profile/profile";
-
+import ConfirmationModal from "../Accueil/Home/Confirmationmodel";
 
 
 const Niveau =  ({ buttonColor }) => {
     const [nomniveau, setNomNiveau] = useState('');
     const [nomcycle, setNomCycle] = useState('');
+    const [red1, setRed1] = useState(false);
+    const [red2, setRed2] = useState(false);
+    const [red3, setRed3] = useState(false);
     const location = useLocation();
     const params = new URLSearchParams(location.search);
     const uid = params.get('uid');
@@ -37,6 +40,22 @@ const Niveau =  ({ buttonColor }) => {
             console.log(response.data);
         } catch (error) {
             console.log(error.response);
+            if (error.response.data.message === "Invalid cycle value") {
+                setRed1(true);
+            } else {
+                setRed1(false);
+            }
+
+            if (error.response.data.message === "Niveau already exists") {
+                setRed2(true);
+            } else {
+                setRed2(false);
+            }
+            if (error.response.data.message === "Niveau doesnt exist") {
+              setRed3(true);
+            } else {
+                setRed3(false);
+            }
         }
     }
     const suprimNiveau = async () => {
@@ -69,14 +88,14 @@ const Niveau =  ({ buttonColor }) => {
     const handleDeleteClick = () => {
         setShowajouter(!showajouter);
     };
-    const [showprepa, setShowprepa] = useState(true);
+    const [showprepa, setShowprepa] = useState(false);
 
 
     const handleDeleteClickk = () => {
         setShowprepa(!showprepa);
     };
 
-    const [showNotification, setShowNotification] = useState(false);
+  const [showNotification, setShowNotification] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
 
 
@@ -86,6 +105,11 @@ const Niveau =  ({ buttonColor }) => {
   const handleProfileClick = () => {
     setShowProfile(prevState => !prevState);
   };
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+    const handleDeleteClickkk = () => {
+        setIsModalOpen(true);
+    };
 
     return ( 
 
@@ -148,8 +172,8 @@ const Niveau =  ({ buttonColor }) => {
           </div>
          {showajouter ? (
           <><div>
-                                        <div className="flex flex-col items-center justify-center mt-[3%]">
-                                            <h1 className=" text-2xl font-semibold ">Veuillez choisir le cycle</h1>
+                                        <div className="flex items-center justify-center mt-[3%]">
+                                            <h1 className=" text-2xl font-semibold ">Veuillez choisir le cycle</h1> <h1 className="ml-2 text-red-500 "><b>*</b></h1>
                                         </div>
                                         <div className="flex ml-[9%] mt-[7%]">
                                             <div className="w-1/2">
@@ -170,19 +194,43 @@ const Niveau =  ({ buttonColor }) => {
                                             </div>
                                         </div>
 
+                                        {
+                                          red1 && <div>
+                                            <p className=" text-red-500  ml-[38%]">Vueillez choisir le cyle</p>
+                                          </div>
+                                        }
+                                        
 
-                                        <div className="flex flex-col items-center justify-center mt-[8%]">
-                                            <h1 className=" text-2xl font-semibold ">Veuillez fournir le niveau </h1>
+
+                                        <div className="flex items-center justify-center mt-[8%]">
+                                            <h1 className=" text-2xl font-semibold">Veuillez fournir le niveau </h1> <h1 className="ml-2 text-red-500 "><b>*</b></h1>
                                         </div>
                                         <div className="mt-[4%] ml-[34%]">
                                             <input
                                                 type="text"
                                                 placeholder="Entrer le niveau ..."
-                                                className="border border-gray-300 rounded-xl px-4 py-2" value={nomniveau} onChange={(e)=>setNomNiveau(e.target.value)} />
+                                                className={`border ${red3 ? ' border-red-500 bg-red-200' : 'border-gray-300'} rounded-xl px-4 py-2`} value={nomniveau} onChange={(e)=>setNomNiveau(e.target.value)} />
                                         </div>
-                                    </div><div className="size-[40%] ml-[66%] mt-[1%]">
+                                      </div>
+                                        {
+                                          red3 && 
+                                          <div>
+                                            <p className=" text-red-500  ml-[38%]">Vueillez enter le niveau</p>
+                                          </div>
+                                        }
+                                        {
+                                          red2 && 
+                                          <div>
+                                            <p className=" text-red-500  ml-[38%]">Ce niveau existe déjà!</p>
+                                          </div>
+                                        }
+                                        <div className="size-[40%] ml-[66%] mt-[1%]">
                                             <img className=" " src={level} />
-                                        </div><div className="mt-[-23%] ml-[10%]">
+                                        </div>
+                                        
+                                        
+                                        <div className="mt-[-23%] ml-[10%]">
+                                        
                                             <button onClick={ajoutNiveau} className="bg-[#757DCD] hover:bg-[#4E58B2] text-white font-bold py-3 px-14 rounded-xl">
                                                 Ajouter
                                             </button>
@@ -192,8 +240,8 @@ const Niveau =  ({ buttonColor }) => {
 {!showajouter ? (
           <><div>
                                        
-                                        <div className="flex flex-col items-center justify-center mt-[3%]">
-                                            <h1 className=" text-2xl font-semibold ">Veuillez sélectionner le niveau </h1>
+                                        <div className="flex items-center justify-center mt-[3%]">
+                                            <h1 className=" text-2xl font-semibold ">Veuillez sélectionner le niveau </h1> <h1 className="ml-2 text-red-500 "><b>*</b></h1>
                                         </div>
                                                                   <div className="elementslist overflow-y-auto h-[200px] rounded-b-3xl mt-5 scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-200">
                                                                         {items}
@@ -201,9 +249,14 @@ const Niveau =  ({ buttonColor }) => {
                                     </div><div className="size-[40%] ml-[66%] mt-[4%]">
                                             <img className=" " src={level} />
                                         </div><div className="mt-[-23%] ml-[10%]">
-                                            <button onClick={suprimNiveau} className="bg-[#757DCD] hover:bg-[#4E58B2] text-white font-bold py-3 px-14 rounded-xl">
+                                            <button onClick={handleDeleteClickkk} className="bg-[#757DCD] hover:bg-[#4E58B2] text-white font-bold py-3 px-14 rounded-xl">
                                                 Supprimer
                                             </button>
+                                            <ConfirmationModal
+                                                isOpen={isModalOpen}
+                                                onClose={() => setIsModalOpen(false)}
+                                                onConfirm={suprimNiveau}
+                                            />
                                         </div></>
          ) : null}
         </div>

@@ -45,13 +45,13 @@ const Allprojects = ({ project, handleToggleClick }) => {
         <div className="recent w-[96,5%] h-[90%]">
             <div className='flex justify-between items-end'>
                 <div className="poss flex mb-4 w-96 ml-8">
-                    <h1 className="z-10 text-2xl mt-7 ml-5">All Projects</h1>
+                    <h1 className="z-10 text-2xl mt-7 ml-5">Tous les projets</h1>
                     <img className="line w-36" src={photo} alt="" />
                     <img className="sousligne w-24" src={photoo} alt="" />
                 </div>
                 <div>
                     <div className='flex justify-between items-center w-44 mb-4 mr-10'>
-                        <button onClick={() => handleNewProjectClick()} className='text-xs bg-mypurple text-white px-3 py-1.5 rounded-lg'>New project +</button>
+                        <Link to={`/choixtechnique?uid=${uid}`}><button onClick={() => handleNewProjectClick()} className='text-xs bg-mypurple text-white px-3 py-1.5 rounded-lg'>Nouveau projet</button></Link>
                         <svg onClick={()=>{setIsClicked1(false); setIsClicked2(true)}} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class={`w-6 h-6 cursor-pointer ${isClicked2 ? ' text-mypurple' : ''}`}>
                         <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0ZM3.75 12h.007v.008H3.75V12Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm-.375 5.25h.007v.008H3.75v-.008Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
                         </svg>
@@ -67,7 +67,7 @@ const Allprojects = ({ project, handleToggleClick }) => {
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                         </svg>
-                        <p className=' ml-1'>Hide all</p>
+                        <p className=' ml-1'>Cacher tout</p>
                     </button>
                 </div>
                 {isClicked1 ? 
@@ -78,9 +78,9 @@ const Allprojects = ({ project, handleToggleClick }) => {
                     <div className='flex justify-center'>
                         <div className='w-[93%] mt-10'>
                             <div className='grid grid-cols-3 space-x-24 h-[40%] border-b-2 border-gray-300 font-bold '>
-                                <p className='ml-10'>Name</p>
-                                <p className=''>Owner</p>
-                                <p className='mr-10'>Creation date</p>
+                                <p className='ml-10'>Nom</p>
+                                <p className=''>Propriétaire</p>
+                                <p className='mr-10'>Date de création</p>
                             </div>
                             {item}
                         </div>

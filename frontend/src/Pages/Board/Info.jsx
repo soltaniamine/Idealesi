@@ -124,7 +124,7 @@ useEffect(() => {
               <Button variant="board" className="p-2 text-xl font-semibold">{title}</Button>
             </Hint>
           </AlertDialogTrigger>
-          <AlertDialogContent className="flex flex-col w-[100%]">
+          <AlertDialogContent className="flex flex-col bg-white w-[100%]">
             <AlertDialogHeader className="flex flex-row gap-5 items-center">
               <label>Title:</label>
               <Input variant="board" value={title} onChange={(e) => setTitle(e.target.value)} type="email" placeholder="Title" className="border-none outline-none"/>
@@ -161,9 +161,6 @@ useEffect(() => {
                 </DropdownMenuGroup>
             </DropdownMenuContent>
           </DropdownMenu>
-          <Button variant="board" className="p-2" >
-            <img src={exportIc} alt="exportIc" className='w-[23px] h-[23px]'/>   
-          </Button>  
         </div>
       </div>
       <div className='bg-white rounded-md px-1.5 h-10 translate-y-[.5rem] flex gap-3 justify-around items-center shadow-md'>

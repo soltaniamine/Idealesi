@@ -1,6 +1,7 @@
 import './Newpass.css';
 import { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const Newpassword = () => {
@@ -9,13 +10,14 @@ const Newpassword = () => {
     const email = queryParams.get('email');
     const [password, setPassword] = useState('');
     const [passwordd, setPasswordd] = useState('');
-    const [red1, setRed1] = useState(false);
-
+    const [red1, setRed1] = useState(false); 
+    const navigate = useNavigate();
     const resetPassword = async (e) => {
         e.preventDefault(); 
         try {
-            const response = await axios.post('http://127.0.0.1:5000/forgot_password', { email, password });
-            navigate("/home");
+            const response = await axios.post('http://127.0.0.1:5000/forgot_password', { email:email, new_password:password });
+            console.log(response.data);
+            navigate("/register");
         } catch (error) {
             console.log(error.response);
             setRed1(true);

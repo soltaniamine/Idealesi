@@ -328,28 +328,35 @@ def get_user_type():
     return jsonify({'message': 'Type returned successfully', 'type': user_type[0]}), 200
 
 
-@gest_projet.route('/upload_photo', methods=['POST'])
-def upload_photo():
-    # Vérifier si le fichier a été envoyé dans la requête
-    data=request.get_json()
-    
-    
-    file_name= data.get('photo')
-    print(file_name)
-    
-    # Vérifier si le fichier est une image
-    # if not file_name.endswith('.png') or not file_name.endswith('.jpg'):
-    #     return jsonify({'message': 'Uploaded file is not an image'}), 400
-    with open(file_name, 'rb') as photo:
-        photo_data = photo.read()
-
-# Insérer les données de l'image dans la base de données
+@gest_projet.route('/changer_photo', methods=['POST'])
+def changer_photo():
+    # Récupérer les données JSON de la requête
+    data = request.get_json()
+    user_id = data.get('user_id')
+    new_photo = data.get('new_photo')
+   
+    # Vérifier si les champs obligatoires sont présents
+    if not user_id :
+        return jsonify({'message': 'Missing required fields'}), 400
+   
+    if not new_photo:
+        new_photo=None
+   
+    # Création d'un curseur pour exécuter les requêtes SQL
     cur = mysql.connection.cursor()
-    cur.execute("INSERT INTO photos (Photo) VALUES (%s)", (photo_data,))
+    # Mettre à jour la photo de l'utilisateur
+    cur.execute("UPDATE Utilisateur SET Photo = %s WHERE User_ID = %s", (new_photo, user_id,))
+
+
+    # Commit des changements dans la base de données
     mysql.connection.commit()
+
+
+    # Fermeture du curseur
     cur.close()
 
-    return jsonify({'message': 'Photo uploaded successfully'}), 200
+
+    return jsonify({'message': 'Photo updated successfully'}), 200
 
 @gest_projet.route('/info', methods=['POST'])
 def get_user_info():
@@ -443,7 +450,7 @@ def update_password():
     return jsonify({'message': 'Password updated successfully'}), 200
 
 
-@gest_projet.route('/search_club', methods=['GET'])
+@gest_projet.route('/search_club', methods=['POST'])
 def search_club():
    
     # Récupérer les données JSON de la requête
@@ -467,7 +474,7 @@ def search_club():
 
     return jsonify({'message': 'List of clubs returned successfully', 'clubs':result}), 200
 
-@gest_projet.route('/search_module', methods=['GET'])
+@gest_projet.route('/search_module', methods=['POST'])
 def search_module():
     # Récupérer les données JSON de la requête
     data = request.get_json()
@@ -509,8 +516,7 @@ def search_project():
     filters = data.get('filters', {})
     keyword = data.get('keyword')
     user_id = data.get('user_id')
-    sort_by = data.get('sort_by', 'projet.date_creation DESC')  # Default sort by creation date
-
+    
     query = """
     SELECT projet.Projet_ID, projet.nom, ProjetMembers.Favori, ProjetMembers.Access, projet.date_creation, Utilisateur.username AS Admin_Name
     FROM projet
@@ -524,38 +530,41 @@ def search_project():
     values = [user_id]
     cur = mysql.connection.cursor()
     # Add filters based on the project name and admin name if specified in filters
-    if keyword:
+    print('filters',filters)
+    if filters['admin_email']:
+        cur.execute("SELECT user_id FROM Utilisateur WHERE Email = %s", (keyword,))
+        admin_id = cur.fetchone()
+        
+        if admin_id:
+
+            query += " AND Projet.Projet_ID IN (SELECT Projet_ID FROM ProjetMembers WHERE User_ID=%s AND Access = 'Admin')"
+            values.append(admin_id[0])
+        else:
+            return jsonify({'message': 'List of projects returned successfully', 'projects': []}), 200
+        
+            
+    
+    elif filters['club_name']:
+        query += " AND Club.Nom LIKE %s"
+        values.append(f"%{keyword}%")
+
+    elif filters['module_name']:
+        query += " AND Module.Nom LIKE %s"
+        values.append(f"%{keyword}%")
+
+    elif filters['niveau_name']:
+        query += " AND Niveau.Nom LIKE %s"
+        values.append(f"%{keyword}%")
+
+    # if filters['favori']:
+    #     query += " AND ProjetMembers.Favori = %s"
+    #     values.append()
+    elif keyword:
         query += " AND projet.nom LIKE %s"
         values.append(f"%{keyword}%")
 
-    if 'admin_email' in filters:
-        cur.execute("SELECT user_id FROM Utilisateur WHERE Email = %s", (filters['admin_email'],))
-        admin_id = cur.fetchone()
-        if admin_id:
-            query += " AND Projet.Projet_ID IN (SELECT Projet_ID FROM ProjetMembers WHERE User_ID=%s AND Access = 'Admin')"
-            values.append(admin_id[0])
-        
-
-    if 'club_name' in filters:
-        query += " AND Club.Nom LIKE %s"
-        values.append(f"%{filters['club_name']}%")
-
-    if 'module_name' in filters:
-        query += " AND Module.Nom LIKE %s"
-        values.append(f"%{filters['module_name']}%")
-
-    if 'niveau_name' in filters:
-        query += " AND Niveau.Nom LIKE %s"
-        values.append(f"%{filters['niveau_name']}%")
-
-    if 'favori' in filters:
-        query += " AND ProjetMembers.Favori = %s"
-        values.append(filters['favori'])
-
-    # Sort results if a sort_by field is provided
-    if sort_by:
-        query += f" ORDER BY {sort_by}"
-    print(query)
+    
+    # 
     cur.execute(query, tuple(values))
     projects = cur.fetchall()
     cur.close()
@@ -568,7 +577,7 @@ def search_project():
         'date_creation': project[4],
         'admin_name': project[5]
     } for project in projects]
-
+    print(formatted_projects)
     return jsonify({'message': 'List of projects returned successfully', 'projects': formatted_projects}), 200
 
 @gest_projet.route('/share', methods=['POST'])
@@ -695,3 +704,20 @@ def nom_projet():
     nom, = cur.fetchone()
     cur.close()
     return jsonify({'message': 'nom returned successfully','nom':nom}), 200
+
+@gest_projet.route('/get_club_name', methods=['POST'])
+def get_club_name():
+    data = request.get_json()
+    club_id = data.get('club_id')
+    if club_id is None:
+        return jsonify({'error': 'Missing Club_ID parameter'}), 400
+
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT Nom FROM Club WHERE Club_ID = %s", (club_id,))
+    result = cur.fetchone()
+    cur.close()
+
+    if result:
+        return jsonify({'Club_ID': club_id, 'Nom': result[0]})
+    else:
+        return jsonify({'error': 'Club not found'}), 404

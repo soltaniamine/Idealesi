@@ -97,7 +97,7 @@ const Admine = ({ buttonColor }) => {
                                     </div>
                                 </div>
                             </Link>
-                            <Link to={`/event?uid=${uid}`}>
+                            <Link to={`/event?uid=${uid}`}> 
                                 <div className="bg-gray-100 p-4 w-[85%] h-[70%] rounded-3xl mt-[-17%] hover:bg-[#F9CFCF] hover:scale-110 transition-transform duration-500">
                                     <div className="ml-[4%] mt-[4%]">
                                         <h1 className="text-2xl font-bold">Modifier les clubs et évènements</h1>

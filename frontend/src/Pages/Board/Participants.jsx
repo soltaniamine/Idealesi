@@ -109,24 +109,11 @@ const Participants = ({ triggerVote, setTriggerVote, boardId }) => {
   return (
     <div className='fixed h-12 top-2 z-10 right-2 bg-white rounded-md p-3 flex gap-10 justify-around items-center shadow-md'>
       <div className='flex flex-row gap-3 items-center justify-around'>
-      <Button variant="board" className="p-2" onClick={() => triggeredVote()}>
-        <img src={vote} alt="vote" className='w-[23px] h-[23px]'/>
-        </Button>
-        <Button variant="board" className="p-2" >
-        <img src={timer} alt="timer" className='w-[23px] h-[23px]'/>  
-        </Button>   
-      </div>
-      <div className='flex flex-row gap-3 items-center justify-around'>
-        <NewThread>
-          <Button className="relative w-5 h-5 object-contain">
-            <img src={chat} alt="chat" className='w-[23px] h-[23px]'/>
-          </Button>
-        </NewThread>
         <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <img src={participants} alt="participants" className='w-[23px] h-[23px] hover:cursor-pointer'/>  
         </DropdownMenuTrigger>
-        <DropdownMenuContent sideOffset={8}>
+        <DropdownMenuContent sideOffset={8} className="bg-white">
           <DropdownMenuGroup  className="flex flex-col">
              {Object.entries(projectmembers).map(([key, value]) => (
               <DropdownMenuGroup className="flex flex-row justify-between items-center" key={key}>
@@ -143,9 +130,6 @@ const Participants = ({ triggerVote, setTriggerVote, boardId }) => {
       </DropdownMenu>
       </div>
       <div className='flex flex-row gap-3 items-center justify-around'>
-      <Button variant="board" className="p-2" >
-        <img src={presentation} alt="presentation" className='w-[23px] h-[23px]'/>
-        </Button>
         <AlertDialog >
           <AlertDialogTrigger>
             <Hint label="Link">
@@ -155,7 +139,7 @@ const Participants = ({ triggerVote, setTriggerVote, boardId }) => {
               </Button>   
             </Hint>
           </AlertDialogTrigger>
-          <AlertDialogContent className="flex flex-col w-[100%]">
+          <AlertDialogContent className="flex flex-col w-[100%] bg-white">
             <AlertDialogHeader className="flex flex-row justify-around items-center">
               <div className='flex flex-row items-center gap-2'>
                 <img src={presentation} alt='share' className='w-[20px] h-[20px]'/>

@@ -41,6 +41,17 @@ const Settings = () => {
             console.log(error.response);
         }
     }
+    const upploadPhoto = async () => {
+        try {
+            const response = await axios.post('http://127.0.0.1:5000/changer_photo', {user_id: uid, new_photo: imageFile});
+            console.log(response.data);
+            if (response.status === 200) {
+                fetchInfo();
+            }
+        } catch (error) {
+            console.log(error.response);
+        }
+    }
     const updatePassword = async (oldpass,newpass) => {
         try {
             const response = await axios.post('http://127.0.0.1:5000/update_password', {user_id: uid, old_password: oldpass, new_password: newpass});
@@ -82,12 +93,13 @@ const Settings = () => {
         };
 
         //pdf juste pour tester
-        const [imageUrl, setImageUrl] = useState(info.photo);
+        const [imageFile, setImageFile] = useState(null);
 
-        const handlePdfChange = (e) => {
-            const selectedFile = e.target.files[0];
-            const url = URL.createObjectURL(selectedFile);
-            setUser({ ...info, pdf: url });
+        const handleImageUpload = (event) => {
+        const file = event.target.files[0];
+        
+        const filePath = URL.createObjectURL(file);
+        setImageFile(filePath);
         };
         const supprimerPhotoProfil = () => {
             setUser({ ...info, pdf: 'https://t4.ftcdn.net/jpg/04/10/43/77/360_F_410437733_hdq4Q3QOH9uwh0mcqAhRFzOKfrCR24Ta.jpg' });
@@ -131,10 +143,10 @@ const Settings = () => {
                                    <p className="text-sm text-gray-800 hover:text-black">Modifier la photo de profil</p>
                               </label>
                             <input
-                                id="pdfInput"
+                                id="pdfInput" 
                                 type="file"
                                 accept="image/*"
-                                onChange={handlePdfChange}
+                                onChange={handleImageUpload}
                                 style={{ display: 'none' }} // Masqué visuellement
                             />
 
@@ -263,7 +275,7 @@ const Settings = () => {
                                 
             </div>
                         <div className=" py-4 ml-[80%] mt-[4%]">
-                            <button className="w-[100%] py-3 bg-[#646FD4] text-white rounded-md font-semibold hover:bg-[#525BAA]" style={{ fontFamily: 'Product Sans' }}>
+                            <button onClick={upploadPhoto} className="w-[100%] py-3 bg-[#646FD4] text-white rounded-md font-semibold hover:bg-[#525BAA]" style={{ fontFamily: 'Product Sans' }}>
                                 Enregistrer les modifications
                             </button>
                         </div>

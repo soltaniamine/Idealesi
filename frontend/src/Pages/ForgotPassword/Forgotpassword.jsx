@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import { useState } from 'react';
 const Forgotpassword = () => {
     const [email, setEmail] = useState('');
-    return ( 
+    return (  
         <body className='boddy'>
             <div className="form-containerr border rounded-xl overflow-hidden">
                 <form className='for' action="#">

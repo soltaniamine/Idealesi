@@ -31,15 +31,13 @@ import Propos from './Pages/FirstPage/propos.jsx'
 
 function App() {
   return (
-    <div>
+    <div> 
       <Router>
         <Routes>
-        <Route element={<LayoutWithNavbar />}>
+          <Route element={<LayoutWithNavbar />}>
             <Route path="/" element={<Firstpage />} />
             <Route path="/guide" element={<Guide />} />
             <Route path="/propos" element={<Propos />} />
-
-            // Add other routes that require Navbar under this layout
           </Route>
           <Route path="/home" element={<Home buttonColor="white1" />} />
           <Route path="/typeprojet" element={<TypeProjet buttonColor="white2" />} />

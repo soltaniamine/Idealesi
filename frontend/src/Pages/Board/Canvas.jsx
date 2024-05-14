@@ -1288,9 +1288,6 @@ insertLayer1(24,{x:currentWidth+currentX-"20", y:160},{height:40,width:130},{r:2
         {triggerVote ? <Button className="fixed bottom-0 left-1/2" onClick={()=>handleVote()}>{startVote ? "Stop Vote" : "Start Vote"}</Button> : <></>}
       <Quest step={steps[currentStepIndex == 0 ? 0 : currentStepIndex-1]} />
 
-
-
-
         {layerIds.map((layerId) => (
           triggerVote ?(<VoteDisplay key={layerId} id={layerId} camera={camera} triggerVote={triggerVote} startVote={startVote}/>) : <></>
         ))}

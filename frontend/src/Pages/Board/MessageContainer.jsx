@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import map from '../../assets/Acceuil/Home/boutonplus.svg'
+import prfdf from '../../assets/prfdf.svg'
+import chatbot from '../../assets/chatbot.svg'
 import axios from 'axios';
 
 

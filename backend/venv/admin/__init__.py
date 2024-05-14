@@ -15,10 +15,15 @@ mysql = MySQL()
 
 @admin.route('/add_module', methods=['POST'])
 def add_module():
-    data = request.get_json()
+    data = request.get_json() 
     user_id = data.get('user_id')
     nom_module = data.get('nom_module')
     niveau_module = data.get('niveau_module')
+    if not nom_module:
+        return jsonify({'message': 'Module not found'}), 400
+    if not niveau_module:
+        return jsonify({'message': 'Niveau not found'}), 400
+    
 
     # Check if the user is an administrator
     cur = mysql.connection.cursor()
@@ -64,7 +69,8 @@ def add_club():
     nom_club = data.get('nom_club')
     file_path=data.get('path')
     
-   
+    if not nom_club:
+        return jsonify({'message': 'Club name not found'}), 401
 
     # Vérifier si l'utilisateur est un administrateur
     cur = mysql.connection.cursor()
@@ -115,6 +121,8 @@ def add_niveau():
     if access and access[0] != "Utilisateur":
         return jsonify({'message': 'Unauthorized access'}), 401
     
+    if not nom_niveau:
+        return jsonify({'message': 'Niveau doesnt exist'}), 404
 
     # Vérifier si le cycle est une valeur valide
     if cycle not in ['Cycle preparatoire', 'Cycle superieur']:
@@ -258,9 +266,12 @@ def add_prof():
     prof_email = data.get('prof_email')
     user_id = data.get('user_id')
 
+    if not prof_email:
+        return jsonify({'message': 'expert email not found'}), 401
+
     if not prof_email.endswith("@esi.dz"):
         return jsonify({'message': 'not esi email'}), 401
-
+    
     # Vérifier si l'utilisateur est un administrateur
     cur = mysql.connection.cursor()
     cur.execute("SELECT Type FROM Utilisateur WHERE User_ID = %s", (user_id,))
@@ -399,18 +410,30 @@ def delete_expert():
 
     user_id = data.get('user_id')
     module_id = data.get('module_id')
+    prof_id=data.get('prof_id')
 
     cur = mysql.connection.cursor()
-    cur.execute("SELECT Utilisateur.Type,Utilisateur.email,prof.prof_id FROM Utilisateur INNER JOIN Prof ON Utilisateur.email= Prof.email WHERE Utilisateur.user_id=%s", (user_id,))
+
+    cur.execute("SELECT Type FROM Utilisateur WHERE User_ID = %s", (user_id,))
+    access = cur.fetchone()
+
+    if access  == "Utilisateur":
+        return jsonify({'message': 'Unauthorized access'}), 406
+
+    # cur.execute("SELECT Utilisateur.Type,Utilisateur.email,prof.prof_id FROM Utilisateur INNER JOIN Prof ON Utilisateur.email= Prof.email WHERE Utilisateur.user_id=%s", (user_id,))
+    cur.execute("SELECT Utilisateur.Type,Utilisateur.email,prof.prof_id FROM Utilisateur INNER JOIN Prof ON Utilisateur.email= Prof.email WHERE Utilisateur.user_id=%s", (prof_id,))
+    
     prof_info=cur.fetchone()
     if not prof_info:
          return jsonify({'message': 'prof does not exists'}), 400
     
     access,email,prof_id,=prof_info
-    if access!="Utilisateur":
+    if access!="Prof":
         return jsonify({'message': 'user is not a prof'}), 401
     
-    cur.execute("SELECT prof_ID FROM ListeProf WHERE prof_ID = %s and module_id=%s", (prof_id,module_id,))
+    cur.execute("SELECT Prof_ID FROM listeprof WHERE Prof_ID = %s and module_id=%s", (prof_id,module_id,))
+    print(prof_id)
+    print(module_id)
     existing_prof=cur.fetchone()
     if not existing_prof:
         return jsonify({'message': 'Expert does not exist'}), 402
@@ -434,15 +457,11 @@ def add_event():
     nom_evenement = data.get('nom_evenement')
     club_id = data.get('club_id')
     file_path = data.get('photo_path')
-
+    if not nom_evenement:
+        return jsonify({'message': 'Event name not found'}), 401
     # Vérifier si l'utilisateur est un administrateur
     cursor = mysql.connection.cursor()
-    cursor.execute("SELECT Type FROM Utilisateur WHERE User_ID = %s", (user_id,))
-    access = cursor.fetchone()
-    cursor.close()
-    print(club_id)
-    if access and access[0] != "Utilisateur":
-        return jsonify({'message': 'Unauthorized access'}), 401
+    
 
     # Vérifier si le club existe
     cursor = mysql.connection.cursor()

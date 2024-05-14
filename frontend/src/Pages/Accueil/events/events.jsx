@@ -14,7 +14,7 @@ import './events.css'
 import { Link, useLocation } from 'react-router-dom';
 import Notification from "../notification-et-profile/notification";
 import Profilee from "../notification-et-profile/profile";
-
+import ConfirmationAjoutProject2 from "../Home/ConfirrmationAjoutProjet2"
 const Events = ({ buttonColor }) => {
 
     const location = useLocation();
@@ -35,6 +35,10 @@ const Events = ({ buttonColor }) => {
     const [events, setEvents] = useState([]);
     const [clubs, setClubs] = useState([]);
     const [items, setItems] = useState([]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const handleDeleteClick = () => {
+        setIsModalOpen(true);
+    };
     useEffect(() => {
         const getEvents = async () => {
           try {
@@ -83,18 +87,22 @@ const Events = ({ buttonColor }) => {
                 eve.Club_ID == club_id ? (
                   !roomIdUpdated ?
                     
-                      <div  >
-                        <EventsElement onClick={handleClick} photo={eve.photo} nom={eve.nom} />
+                      <div onClick={()=>{handleClick();handleDeleteClick();}} className=' cursor-pointer'  >
+                        <EventsElement   photo={eve.photo} nom={eve.nom} />
                       </div>
                     :
-                  
-                    <Link key={eve.evenement_ID} to={`/Board?uid=${user_id}&tech=${Tech_idiation}&cid=${eve.Club_ID}&pid=${roomId}`}>
-                        <EventsElement photo={eve.photo} nom={eve.nom} />
-                    </Link>
+                    <ConfirmationAjoutProject2
+                    isOpen={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
+                    uid={user_id}
+                    tech={Tech_idiation}
+                    pid={roomId}
+                    cid={eve.Club_ID}
+                  />
                 ) : null 
             )));
         }
-      }, [events]);
+      }, [roomIdUpdated,isModalOpen,events]);
       
     const [pic, setPic] = useState('https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png');
 
@@ -115,8 +123,19 @@ const Events = ({ buttonColor }) => {
             </div>
         )
     }
-
-
+    const [nom, setNom] = useState()
+    const getClubName = async () => {
+      try {
+        const response = await axios.post('http://127.0.0.1:5000/get_club_name', {club_id:club_id});
+        setNom(response.data.Nom);
+        console.log(response.data.Nom);
+      } catch (error) {
+        console.log(error.response);
+      }
+    };
+    useEffect(() => {
+      getClubName();
+  }, []);
     return (
         <div className="grid grid-cols-6 bg-mypurple mt-[1,1%] ">
             <Sidebar className="col-span-1" buttonColor={buttonColor}></Sidebar>
@@ -127,9 +146,7 @@ const Events = ({ buttonColor }) => {
                     <div className="relative w-full h-[9%] border-b-2 text-black  flex justify-end  items-center ">
                         <div className=" w-32 flex  mt-2 items-center justify-around mr-5 mb-3 ">
 
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z" />
-              </svg>
+                        
               <button onClick={handleButtonClick}>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
@@ -164,7 +181,7 @@ const Events = ({ buttonColor }) => {
                                 <img src={iconevents} className="absolute top-1/2 right-0 transform -translate-y-1/2 mt-2 h-[60%] mr-7 " alt="Icon" />
 
                                 <div className="title flex flex-col items-start absolute left-16 top-1/4 bottom-0 mb-2 ml-2">
-                                    <h1 className="z-10 text-3xl font-semibold" style={{ fontFamily: 'Product Sans' }}>Club Project</h1>
+                                    <h1 className="z-10 text-3xl font-semibold" style={{ fontFamily: 'Product Sans' }}>Projet Club</h1>
                                 </div>
 
                                 <img src={cercle1} className="absolute top-20 ml-28 mt-0 left-96 w-10 h-10" alt="smallcircle1" />
@@ -177,12 +194,12 @@ const Events = ({ buttonColor }) => {
                         <div className=" relative  pl-10 pt-2  ml-12 mt-7 mr-12 h-[70%] w-[90%] bg-gray-100 rounded-[37px] drop-shadow-md">
                             <div className="topbar absolute top-0 left-0 w-full h-[15%] rounded-t-[37px] drop-shadow-md ">
                                 <img src={pic} className="w-full h-full object-cover rounded-t-[37px]" alt="gdgtopbar" />
-                                <h1 className="absolute inset-0 flex justify-center items-center text-[25px]   text-black " style={{ fontFamily: 'Product Sans' }}>Google Developer Groups Events</h1>
+                                <h1 className="absolute inset-0 flex justify-center items-center text-[25px]   text-black " style={{ fontFamily: 'Product Sans' }}>Evènements de {nom}</h1>
                             </div>
 
                             <div className=" eventlist bg-red absolute left-0  right-0 mt-14 h-[84%] rounded-b-3xl">
                                 <div className="selected relative  hover:drop-shadow-md">
-                                    <h1 className="text-left ml-12 mt-2 " style={{ fontFamily: 'Product Sans' }} >Events List</h1>
+                                    <h1 className="text-left ml-7 mt-2 " style={{ fontFamily: 'Product Sans' }} >Liste évènements</h1>
                                     <img className='ml-8 ' src={line} alt="blueline " />
 
                                 </div>
