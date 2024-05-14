@@ -14,7 +14,7 @@ const BoardId = (boardId) => {
   const roomId = params.get('pid');
   return (
     <Room user_id={user_id} module_id={module_id} niveau_id={niveau_id} club_id={club_id} Tech_idiation={Tech_idiation} roomId={roomId}  fallback={<Loading />}>
-        <Canvas boardId={roomId}/>
+        <Canvas boardId={roomId} techIdeation={Tech_idiation}/>
     </Room>
   )
 }
