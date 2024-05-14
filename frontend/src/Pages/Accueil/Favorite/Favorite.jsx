@@ -115,7 +115,7 @@ const Favorite = ({ buttonColor }) => {
                                             }}
                                             className={`border-gray-700 px-2 py-1 text-sm border-2 rounded-lg ${ownerClicked ? 'bg-gray-700 text-gray-100' : 'text-gray-700'}`}
                                         >
-                                            Owner
+                                            propriétaire
                                         </button>
 
                                         <button
@@ -129,7 +129,7 @@ const Favorite = ({ buttonColor }) => {
                                             }}
                                             className={`border-gray-700 px-2 py-1 text-sm border-2 rounded-lg ${creationDateClicked ? 'bg-gray-700 text-gray-100' : 'text-gray-700'}`}
                                         >
-                                            Creation Date
+                                            Date de Creation 
                                         </button>
 
                                         <button
@@ -171,7 +171,7 @@ const Favorite = ({ buttonColor }) => {
                                             }}
                                             className={`border-gray-700 px-2 py-1 text-sm border-2 rounded-lg ${levelClicked ? 'bg-gray-700 text-gray-100' : 'text-gray-700'}`}
                                         >
-                                            Level
+                                            niveau
                                         </button>
                                     </div>
                                     <div className="mb-10">

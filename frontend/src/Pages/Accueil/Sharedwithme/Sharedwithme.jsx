@@ -81,7 +81,7 @@ const Shared = ({ buttonColor }) => {
                                             }}
                                             className={`border-gray-700 px-2 py-1 text-sm border-2 rounded-lg ${ownerClicked ? 'bg-gray-700 text-gray-100' : 'text-gray-700'}`}
                                         >
-                                            Owner
+                                            propriétaire
                                         </button>
 
                                         <button
@@ -94,7 +94,7 @@ const Shared = ({ buttonColor }) => {
                                             }}
                                             className={`border-gray-700 px-2 py-1 text-sm border-2 rounded-lg ${creationDateClicked ? 'bg-gray-700 text-gray-100' : 'text-gray-700'}`}
                                         >
-                                            Creation Date
+                                            Date de creation 
                                         </button>
 
                                         <button
@@ -137,7 +137,7 @@ const Shared = ({ buttonColor }) => {
                                         </button>
                                     </div>
                                     <div className="mb-10">
-                                        <p className="text-black my-3">Recent searches</p>
+                                        <p className="text-black my-3">Recherches récentes</p>
                                         <div className="w-[50%] flex justify-between">
                                             <div className="flex justify-start">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
