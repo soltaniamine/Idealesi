@@ -175,11 +175,59 @@ INSERT INTO `mydb`.`Niveau` (`Nom`, `Cycle`) VALUES
 
 -- Insérer des modules
 INSERT INTO `mydb`.`Module` (`Nom`, `Niveau_ID`) VALUES 
-('Mathématiques', 1),
-('Physique', 1),
-('Informatique', 2),
-('Chimie', 2),
-('Biologie', 3);
+('Algèbre 1', 1),
+('Algèbre 2', 1),
+('Algorithmique et Structure de données dynamique', 1),
+('Algorithmique et Structures de Données Statiques', 1),
+('Analyse mathématique 1', 1),
+('Analyse 2', 1),
+('Anglais 1', 1),
+('Architectures des ordinateurs 1', 1),
+('Bureautique et Web', 1),
+('Électricité', 1),
+('Electronique fondamentale 1', 1),
+('Mécanique du point', 1),
+('Introduction au Système d exploitation 1', 1),
+('Introduction aux systèmes d exploitation 2', 1),
+('Technique d expression écrite', 1),
+('Techniques d expression orale', 1),
+
+('Algèbre 3', 2),
+('Analyse 3', 2),
+('Analyse 4', 2),
+('Anglais 2', 2),
+('Anglais 3', 2),
+('Architecture des ordinateurs 2', 2),
+('Economie', 2),
+('Electronique fondamentale 2', 2),
+('Logique Mathématique', 2),
+('Optique et Ondes électromagnétiques', 2),
+('Programmation Orientée Objet', 2),
+('Projet Pluridisciplinaire', 2),
+('Probabilités et statistiques', 2),
+('Probabilités et Statistiques 2', 2),
+('Structure Fichiers et Structures de Données', 2),
+('Introduction aux systèmes d information', 2),
+
+('Analyse Numérique', 3),
+('Architecture', 3),
+('Bases de données', 3),
+('Conduite de projets', 3),
+('Introduction au génie logiciel', 3),
+('Langue anglaise 1', 3),
+('Langue anglaise 2', 3),
+('Méthodologies d analyse et conception de systèmes', 3),
+('Analyse des organisations', 3),
+('Projet', 3),
+('Réseaux 1', 3),
+('Réseaux 2', 3),
+('Recherche Opérationnelle: graphes et algorithmes', 3),
+('Introduction à la sécurité informatique', 3),
+('Systèmes d exploitation 1', 3),
+('Systèmes d exploitation 2', 3),
+('Théorie des langages de programmation et applications', 3);
+
+
 
 -- Insert User 1 (Utilisateur)
 INSERT INTO Utilisateur (username, email, Password, Type)
