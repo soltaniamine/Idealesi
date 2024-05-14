@@ -52,7 +52,7 @@ import Brainwriting from './Brainwriting';
 
 const MAX_LAYERS = 100
 
-const Canvas = ({boardId}) => {
+const Canvas = ({boardId, techIdeation}) => {
 
   const layerIds = useStorage((root) => root.layerIds)//we use layers to know where and what to display in our canvas
 
@@ -735,6 +735,7 @@ insertLayer1(24,{x:currentWidth+currentX-"20", y:160},{height:40,width:130},{r:2
   }
 
   function Brainwriting(){
+    console.log(techIdeation)
     insertLayer(22,{x:200,y:180},{height:500,width:700})
     insertLayer1(23,{x:220,y:210},{height:100,width:660},{r:233, g:233, b:233})
     insertLayer1(23,{x:220,y:330},{height:100,width:660},{r:233, g:233, b:233})
@@ -1208,29 +1209,74 @@ insertLayer1(24,{x:currentWidth+currentX-"20", y:160},{height:40,width:130},{r:2
   
   },[])
 
+  function Brainstorming(){}
 
-  const steps = ['Brainwriting','Combinaison', 'Raffinement', 'Moscow'];
-  const stepFunctions = {
-    Brainwriting: Brainwriting,
-    Combinaison: Combinaison,
-    Raffinement: Raffinement,
-    Moscow: insertMoscow,
+  const getConfig = (techIdeation) => {
+    const isBrainstorming = techIdeation === 'Brainstorming';
+    console.log(isBrainstorming)
+  
+    return {
+      steps: isBrainstorming
+        ? ['Brainstorming', 'Combinaison', 'Raffinement', 'Moscow']
+        : ['Brainwriting', 'Combinaison', 'Raffinement', 'Moscow'],
+      stepFunctions: {
+        Brainwriting: Brainwriting,
+        Brainstorming: Brainstorming,
+        Combinaison: Combinaison,
+        Raffinement: Raffinement,
+        Moscow: insertMoscow,
+      },
+      stepImages: {
+        Brainwriting: FirstSVG,
+        Brainstorming: FirstSVG,
+        Combinaison: BrainwritingSVG,
+        Raffinement: ManipulationSVG,
+        Moscow: ManipulationSVG,
+      },
+      buttonTitles: isBrainstorming
+        ? [
+            "Commencer Brainstorming",
+            "Commencer la Combinaison",
+            "Commencer le Raffinement",
+            "Commencer la Priorisation",
+            "End"
+          ]
+        : [
+            "Commencer Brainwriting",
+            "Commencer la Combinaison",
+            "Commencer le Raffinement",
+            "Commencer la Priorisation",
+            "End"
+          ],
+    };
   };
 
-  const stepImages = {
-    Brainwriting: FirstSVG,
-    Combinaison: BrainwritingSVG,
-    Raffinement: ManipulationSVG,
-    Moscow: ManipulationSVG,
-  };
 
-  const buttonTitles = [
-    "Commencer Brainwriting",
-    "Commencer la Combinaison",
-    "Commencer le Raffinement",
-    "Commencer la Priorisation",
-    "End"
-  ];
+  // const steps = ['Brainwriting','Combinaison', 'Raffinement', 'Moscow'];
+  // const stepFunctions = {
+  //   Brainwriting: Brainwriting,
+  //   Combinaison: Combinaison,
+  //   Raffinement: Raffinement,
+  //   Moscow: insertMoscow,
+  // };
+
+  // const stepImages = {
+  //   Brainwriting: FirstSVG,
+  //   Combinaison: BrainwritingSVG,
+  //   Raffinement: ManipulationSVG,
+  //   Moscow: ManipulationSVG,
+  // };
+
+  // const buttonTitles = [
+  //   "Commencer Brainwriting",
+  //   "Commencer la Combinaison",
+  //   "Commencer le Raffinement",
+  //   "Commencer la Priorisation",
+  //   "End"
+  // ];
+
+  const { steps, stepFunctions, stepImages, buttonTitles } = getConfig(techIdeation);
+
 
   // State to keep track of the current step index
   const [currentStepIndex, setCurrentStepIndex] = useState(0);

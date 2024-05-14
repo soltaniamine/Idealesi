@@ -6,6 +6,7 @@ import brainwriting from './../../assets/brainwriting.svg';
 import combinaison from './../../assets/combinaison.svg';
 import raffinement from './../../assets/raffinnement.svg';
 import moscow from './../../assets/moscow.svg';
+import brainstorming from './../../assets/brainstorming.svg';
 
 const Quest = ({ step }) => {
   const [showModal, setShowModal] = useState(false);
@@ -14,6 +15,12 @@ const Quest = ({ step }) => {
         title: "Brain-Writing Help",
         image: brainwriting,
         description: " Ce modèle organise une session de brainwriting où les participants, restant anonymes, ajoutent et développent des idées sur des cartes colorées. Chaque colonne représente un participant, facilitant le suivi des contributions individuelles, et encourageant ainsi une collaboration efficace et créative."
+    },
+    Brainstorming:{
+      title: "Brainstorming Help",
+      image: brainstorming,
+      description: "Ce modèle de brainstorming favorise la collaboration en permettant aux participants de noter et organiser leurs idées avec des notes adhésives sur un tableau virtuel. Il aide à visualiser et relier les idées pour développer des solutions innovantes"
+
     },
     Combinaison: {
         title: "Combinaison des idées",
@@ -41,7 +48,7 @@ const Quest = ({ step }) => {
 
       <Modal isOpen={showModal} close={() => setShowModal(false)}>
         <h1>{stepDetails[step].title}</h1>
-        <img src={stepDetails[step].image} alt={stepDetails[step].title} style={{ width: '100%', maxWidth: '900px' }} />
+        <img src={stepDetails[step].image} alt={stepDetails[step].title} style={{ width: '100%', maxWidth: '900px', maxHeight:'300px', height:'100%' }} />
         <p>{stepDetails[step].description}</p>
       </Modal>
     </>

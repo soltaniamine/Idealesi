@@ -24,8 +24,13 @@ app.config["MAIL_USE_SSL"] = False
 mail.init_app(app)
 # MySQL Configuration
 app.config['MYSQL_HOST'] = 'localhost'
+<<<<<<< Updated upstream
 app.config['MYSQL_USER'] = 'USER'
 app.config['MYSQL_PASSWORD'] = 'PASSWORD'
+=======
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWORD'] = 'mahdi2004@'
+>>>>>>> Stashed changes
 app.config['MYSQL_DB'] = 'mydb'
 
 mysql = MySQL(app)
