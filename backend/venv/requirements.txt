@@ -1,0 +1,5 @@
+FLASK==3.0.3
+flask_mysqldb
+flask_cors
+flask_mailman
+google.generativeai

@@ -6,6 +6,9 @@ import postcssNesting from 'postcss-nesting';
 import tailwindcss from 'tailwindcss';
 // https://vitejs.dev/config/
 export default defineConfig({
+  server: {
+    host: '0.0.0.0' // Permet au serveur de développement de Vite d'écouter sur toutes les interfaces réseau
+  },
   plugins: [
     react(),
     reactRefresh(),

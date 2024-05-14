@@ -27,9 +27,9 @@ app.config["MAIL_USE_SSL"] = False
 
 mail.init_app(app)
 # MySQL Configuration
-app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_HOST'] = 'db'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'PASSWORD'
+app.config['MYSQL_PASSWORD'] = 'khalil'
 app.config['MYSQL_DB'] = 'mydb'
 
 mysql = MySQL(app)
@@ -42,4 +42,4 @@ app.register_blueprint(admin)
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True,host='0.0.0.0')
