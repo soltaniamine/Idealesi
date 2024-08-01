@@ -1,4 +1,4 @@
-![Project Image](https://drive.google.com/file/d/1cA990GQjbyIXQ0PBUYwJatdIpIpwM_jF/view?usp=sharing)
+<p align="center"> <img src="frontend/src/assets/LogoIdealesi.svg" /> </p
                                                                      
 # IdeaESI: Interactive Software for Collecting and Developing Ideas for Educational Projects of Students and Teachers at ESI
 
