@@ -1,5 +1,6 @@
-<p align="center"> <img src="frontend/src/assets/LogoIdealesi.svg" /> </p
-                                                                     
+<p align="center"> <img src="frontend/src/assets/LogoIdealesi.svg" /> </p>
+
+                                                            
 # IdeaESI: Interactive Software for Collecting and Developing Ideas for Educational Projects of Students and Teachers at ESI
 
 It aims to create an interactive software application that supports idea generation and development processes, such as brainstorming and brain-writing. This tool will be specifically designed for the ESI community, including both students and teachers, to facilitate their academic and extracurricular activities. The software will allow users to create, manage, and visualize ideation projects, enhancing collaboration and innovation within the school. Key features include project creation, idea collection, idea manipulation, and various visualization tools.
