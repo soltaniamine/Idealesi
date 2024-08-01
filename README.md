@@ -1,5 +1,4 @@
-<p align="center"> <img src="https://drive.google.com/file/d/1cA990GQjbyIXQ0PBUYwJatdIpIpwM_jF/view?usp=sharing" /> </p
-
+![Project Image](https://drive.google.com/file/d/1cA990GQjbyIXQ0PBUYwJatdIpIpwM_jF/view?usp=sharing)
                                                                      
 # IdeaESI: Interactive Software for Collecting and Developing Ideas for Educational Projects of Students and Teachers at ESI
 
